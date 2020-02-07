@@ -6,17 +6,18 @@
     <data>
 
         <variable
-            name="dog"
-            type="fr.thomas.lefebvre.toutougo.database.model.Dog" />
+            name="place"
+            type="fr.thomas.lefebvre.toutougo.database.model.Place" />
 
         <variable
             name="clickListener"
-            type="fr.thomas.lefebvre.toutougo.ui.dashboard.DogListener" />
+            type="fr.thomas.lefebvre.toutougo.ui.place.PlaceListener" />
+
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
@@ -34,39 +35,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{dog.photoUrl}" />
+                app:imageUrl="@{place.name}" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/textViewNameDog"
+            android:id="@+id/textViewNamePlace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
             android:maxLength="20"
             android:maxLines="1"
-            android:text="@{dog.name}"
+            android:text="@{place.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:layout_constraintEnd_toEndOf="@+id/materialCardView4"
-            app:layout_constraintStart_toStartOf="@+id/materialCardView4"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView4" />
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonDelete"
+            app:layout_constraintStart_toEndOf="@+id/materialCardView4"
+            app:layout_constraintTop_toTopOf="@+id/materialCardView4" />
 
         <TextView
-            android:id="@+id/textViewRaceDog"
+            android:id="@+id/textViewDescriptionPlace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:maxLength="20"
             android:gravity="center"
             android:maxLines="1"
-            android:text="@{dog.race}"
+            android:text="@{place.description}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintEnd_toEndOf="@+id/textViewNameDog"
-            app:layout_constraintStart_toStartOf="@+id/textViewNameDog"
-            app:layout_constraintTop_toBottomOf="@+id/textViewNameDog" />
+            app:layout_constraintEnd_toEndOf="@+id/textViewNamePlace"
+            app:layout_constraintStart_toStartOf="@+id/textViewNamePlace"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNamePlace" />
 
         <TextView
-            android:id="@+id/textViewHeightDog"
+            android:id="@+id/textViewPlaceDistance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+
+            app:layout_constraintEnd_toEndOf="@+id/textViewDescriptionPlace"
+            app:layout_constraintStart_toStartOf="@+id/textViewDescriptionPlace"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionPlace" />
+
+        <TextView
+            android:id="@+id/textViewNotePlace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -74,37 +90,22 @@
             android:gravity="center"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:ageDog="@{dog.age}"
-            app:layout_constraintEnd_toEndOf="@+id/textViewRaceDog"
-            app:layout_constraintStart_toStartOf="@+id/textViewRaceDog"
-            app:layout_constraintTop_toBottomOf="@+id/textViewRaceDog" />
-
-        <TextView
-            android:id="@+id/textViewAgeDog"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:maxLength="20"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintEnd_toEndOf="@+id/textViewHeightDog"
-            app:layout_constraintStart_toStartOf="@+id/textViewHeightDog"
-            app:layout_constraintTop_toBottomOf="@+id/textViewHeightDog"
-            app:poids="@{dog.height}" />
+            app:layout_constraintEnd_toEndOf="@+id/textViewPlaceDistance"
+            app:layout_constraintStart_toStartOf="@+id/textViewPlaceDistance"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPlaceDistance"
+            />
 
         <ImageButton
             android:id="@+id/imageButtonDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/fui_transparent"
-            android:onClick="@{() -> clickListener.onClick(dog)}"
+            android:onClick="@{() -> clickListener.onClick(place)}"
             android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/materialCardView4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/materialCardView4"
             app:layout_constraintTop_toTopOf="@+id/materialCardView4"
-            app:srcCompat="@drawable/ic_edit_black_36dp" />
+            app:srcCompat="@drawable/ic_info_black_24dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

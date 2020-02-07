@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 
 import fr.thomas.lefebvre.toutougo.R
@@ -18,13 +19,15 @@ class PlaceFragment : Fragment() {
 
     private lateinit var viewModel: PlaceViewModel
 
+    private lateinit var adapter:  PlaceAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_place,container,false)
 
-
+        binding.lifecycleOwner=this
 
         onClickAddPlace()
 
@@ -35,7 +38,18 @@ class PlaceFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(PlaceViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        adapter= PlaceAdapter(PlaceListener {
+            //TODO CLICK ON INFOS PLACE
+        })
+
+        viewModel.listPlace.observe(this, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
+
+        binding.recyclerViewProxCoin.adapter=adapter
     }
 
 

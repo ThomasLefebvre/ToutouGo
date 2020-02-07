@@ -1,10 +1,12 @@
 package fr.thomas.lefebvre.toutougo.ui.place
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import fr.thomas.lefebvre.toutougo.database.helper.PlaceHelper
 import fr.thomas.lefebvre.toutougo.database.model.Dog
+import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
 import fr.thomas.lefebvre.toutougo.database.model.Place
 import kotlinx.coroutines.*
 
@@ -30,6 +32,13 @@ class PlaceViewModel : ViewModel() {
 
     private val placeHelper=PlaceHelper()
     private val currentUser = FirebaseAuth.getInstance().currentUser
+
+    val listPlace = MutableLiveData<ArrayList<Place>>()
+
+
+    init {
+        getPlace()
+    }
 
 
     //CREATE PLACE
@@ -67,6 +76,35 @@ class PlaceViewModel : ViewModel() {
                 && latPlace.value != null
                 && lngPlace.value != null
                )
+    }
+
+    // -------------------- GET PLACE FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
+    fun getPlace() {
+        uiScope.launch {
+            getPlaceFromFireStore()
+
+
+        }
+    }
+
+    private suspend fun getPlaceFromFireStore() {
+        withContext(Dispatchers.IO) {
+            placeHelper.getAllPlace().addOnSuccessListener { documents ->
+                if (documents.documents.isEmpty()) {
+                    Log.d("DEBUG", "No places")
+                } else {
+                    val list = ArrayList<Place>()
+                    for (document in documents) {
+                        val place = document.toObject(Place::class.java)
+                        list.add(place)
+
+                    }
+                    listPlace.value = list
+                    Log.d("DEBUG", "YES places")
+                }
+
+            }
+        }
     }
 
 

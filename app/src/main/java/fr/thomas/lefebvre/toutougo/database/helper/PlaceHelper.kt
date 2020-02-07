@@ -36,8 +36,8 @@ class PlaceHelper {
 
 
     // ---- GET ALL PLACES ----
-    fun getAllPlace(uidUser:String):Task<QuerySnapshot>{
-        return getPlacesCollection().get()
+    fun getAllPlace():Task<QuerySnapshot>{
+        return getPlacesCollection().whereEqualTo("onLine",true).get()
     }
 
 
