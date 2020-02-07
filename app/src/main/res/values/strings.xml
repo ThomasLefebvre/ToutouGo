@@ -1,0 +1,167 @@
+<resources>
+
+    <string name="app_name">ToutouGo</string>
+    <string name="map_api_key">AIzaSyBaXxIxeVoudlZB_Lz1LZhmpVC3_G4U_YI</string>
+
+    //bottom title
+    <string name="bottom_map">Carte</string>
+    <string name="bottom_accueil">Accueil</string>
+    <string name="bottom_chemin">Lieux</string>
+    <string name="bottom_evenement">Evenements</string>
+    <string name="bottom_promeneurs">Promeneurs</string>
+    //mapview
+    <string name="cardview_appui_long">Indiquer un lieu</string>
+    <string name="cardview_appui_court">Créer un évenement</string>
+
+    <string name="welcome_text">Salut à toi "</string>
+    <string name="kg">kg</string>
+    <string name="welcome_text_two">", bienvenue sur ToutouGo. Avant de commencer l\'aventure, nous avons besoin de quelques informations."</string>
+    <string name="valid_text">Nous voila fin prêts pour l\'aventure.</string>
+    <string name="valid_text_suite"> va pouvoir faire de superbes ballades avec plein d\'autres amis.</string>
+    <string name="your_dog">Ton chien</string>
+    <string name="name_toutou">Quel est son nom?</string>
+    <string name="dog_height">Quel est son poids?</string>
+    <string name="dog_old">Quel est son age?</string>
+    <string name="dog_type">Mâle ou Femelle?</string>
+    <string name="description">Desciption</string>
+    <string name="name">Nom</string>
+    <string name="description_text">Parle nous de lui, son caractère, ce qu\il aime, etc…</string>
+    <string name="radio_male">Mâle</string>
+    <string name="radio_femelle">Femelle</string>
+    <string name="add_photo">Ajouter</string>
+    <string name="my_profil">Mon profil</string>
+    <string name="mon_chien">Mon chien</string>
+    <string name="add_chien">Ajoute un chien</string>
+    <string name="mes_chiens">Mes chiens</string>
+    <string name="chien">chien</string>
+    <string name="chiens">chiens</string>
+    <string name="ans">ans</string>
+    <string name="nochien">Ajoute un chien</string>
+    <string name="coins_sympas">Les coins sympas</string>
+    <string name="proximite">A proximité</string>
+    <string name="add_place">Ajoute un lieu</string>
+    <string name="search_place">Recherche un lieu</string>
+    <string name="add_address">Selectionne une adresse</string>
+    <string name="pick_address">Indique la sur la carte</string>
+    <string name="or">Où</string>
+    <string name="photos">Ajoute des photos</string>
+
+
+    //ALERT MESSAGES
+    <string name="complete_infos">Merci de renseigner les informations</string>
+
+
+    //ARRAY STRING
+    <string-array name="dog_sex">
+        <item>Femelle</item>
+        <item>Mâle</item>
+    </string-array>
+
+    <string-array name="sex_type">
+        <item>Femme</item>
+        <item>Homme</item>
+    </string-array>
+
+    <string-array name="race_array">
+        <item>Croisé</item>
+        <item>Affenpinscher</item>
+        <item>Akita</item>
+        <item>American Staffordshire Terrier</item>
+        <item>Amstaff</item>
+        <item>Barzoï</item>
+        <item>Basset des Alpes</item>
+        <item>Beagle</item>
+        <item>Beauceron</item>
+        <item>Berger allemand</item>
+        <item>Berger Australien</item>
+        <item>Berger belge malinois</item>
+        <item>Berger de Beauce</item>
+        <item>Bernhardiner</item>
+        <item>Bichon havanais</item>
+        <item>Bichon maltais</item>
+        <item>Bouledogue Anglais</item>
+        <item>Billy</item>
+        <item>Bouledogue français</item>
+        <item>Bouvier bernois</item>
+        <item>Border collie</item>
+        <item>Boxer</item>
+        <item>Bulldog anglais</item>
+        <item>Bullmastiff</item>
+        <item>Cane corso</item>
+        <item>Caniche</item>
+        <item>Carlin</item>
+        <item>Cavalier King Charles</item>
+        <item>Cavalier King Charles Spaniel</item>
+        <item>Chihuahua</item>
+        <item>Cocker américain</item>
+        <item>Cocker anglais</item>
+        <item>Colley</item>
+        <item>Dalmatien</item>
+        <item>Danois</item>
+        <item>Dobermann</item>
+        <item>Dogue allemand</item>
+        <item>Épagneul breton</item>
+        <item>Épagneul tibétain</item>
+        <item>Eurasier</item>
+        <item>Fox terrier</item>
+        <item>Golden Retriever</item>
+        <item>Hokkaïdo</item>
+        <item>Husky sibérien</item>
+        <item>Irish setter</item>
+        <item>Irish terrier</item>
+        <item>Irish wolfhound</item>
+        <item>Italian greyhound</item>
+        <item>Jack Russell terrier</item>
+        <item>Jagdterrier allemand</item>
+        <item>Komondor</item>
+        <item>Labrador retriever</item>
+        <item>Landseer</item>
+        <item>Lévrier</item>
+        <item>Loulou nain</item>
+        <item>Lhassa apso</item>
+        <item>Malinois</item>
+        <item>Maltais</item>
+        <item>Manchester terrier</item>
+        <item>Mastiff</item>
+        <item>Mastiff tibétain</item>
+        <item>Mâtin de navarre</item>
+        <item>Mâtin des pyrénées</item>
+        <item>Mâtin espagnol</item>
+        <item>Mâtin napolitain</item>
+        <item>Montagne des pyrénées</item>
+        <item>Mops</item>
+        <item>Newfoundland</item>
+        <item>Norfolk-terrier</item>
+        <item>Norwich terrier</item>
+        <item>Otterhound</item>
+        <item>Pinscher allemand</item>
+        <item>Pékinois</item>
+        <item>Retriever</item>
+        <item>Riezenschnauzer</item>
+        <item>Rottweiler</item>
+        <item>Russian toy</item>
+        <item>Russkaya psovaya borzaya</item>
+        <item>Russkiy toy</item>
+        <item>Saint bernard</item>
+        <item>Schipperke</item>
+        <item>Sharpei</item>
+        <item>Sheltie</item>
+        <item>Shetland sheepdog</item>
+        <item>Shiba</item>
+        <item>Shichon</item>
+        <item>Shih tzu</item>
+        <item>Spitz allemand</item>
+        <item>Staffordshire bull terrier</item>
+        <item>Teckel</item>
+        <item>Terre-neuve</item>
+        <item>Terrier Jack Russell</item>
+        <item>Terrier tibétain</item>
+        <item>Yorkshire terrier</item>
+
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

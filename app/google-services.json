@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "141087493283",
+    "firebase_url": "https://toutougo.firebaseio.com",
+    "project_id": "toutougo",
+    "storage_bucket": "toutougo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141087493283:android:bd4efc5b4e2c6300e5c316",
+        "android_client_info": {
+          "package_name": "fr.thomas.lefebvre.toutougo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141087493283-025majedicdu05vabnfc9p9pgbr4blot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.thomas.lefebvre.toutougo",
+            "certificate_hash": "79ab1adb932805dc14746e2c27cd1ad8c64800b7"
+          }
+        },
+        {
+          "client_id": "141087493283-28t4m1u5s8vknve77febe3pu1hh8l7md.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaXxIxeVoudlZB_Lz1LZhmpVC3_G4U_YI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141087493283-28t4m1u5s8vknve77febe3pu1hh8l7md.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
