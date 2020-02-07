@@ -23,9 +23,9 @@
 
     <fragment
         android:id="@+id/evenementFragment"
-        android:name="fr.thomas.lefebvre.toutougo.ui.evenement.EvenementFragment"
+        android:name="fr.thomas.lefebvre.toutougo.ui.evenement.EventFragment"
         android:label="@string/bottom_evenement"
-        tools:layout="@layout/fragment_evenements" />
+        tools:layout="@layout/fragment_event" />
 
     <fragment
         android:id="@+id/welcomeFragment"
