@@ -12,7 +12,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".ui.presentation.WelcomeActivity">
+        <activity android:name=".ui.presentation.WelcomeActivity"
+            android:windowSoftInputMode="adjustPan">
 
 
         </activity>
@@ -30,7 +31,8 @@
 
         </activity>
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
 
