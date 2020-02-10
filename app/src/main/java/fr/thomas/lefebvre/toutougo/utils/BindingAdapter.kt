@@ -1,7 +1,6 @@
 package fr.thomas.lefebvre.toutougo.utils
 
 
-
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
@@ -22,7 +21,7 @@ fun loadImage(view: ImageView, url: String?, error: Drawable) {
 fun TextView.setTextPresentation(nameUser: String?) {
     val stringBuilder = StringBuilder()
     stringBuilder.append(context.getString(R.string.welcome_text))
-    if(nameUser!=null){
+    if (nameUser != null) {
         stringBuilder.append(nameUser)
     }
 
@@ -31,7 +30,7 @@ fun TextView.setTextPresentation(nameUser: String?) {
 }
 
 @BindingAdapter("ageUser")
-fun TextView.setAge(ageUser:String?){
+fun TextView.setAge(ageUser: String?) {
     val stringBuilder = StringBuilder()
     stringBuilder.append(ageUser)
     stringBuilder.append(" ")
@@ -41,7 +40,7 @@ fun TextView.setAge(ageUser:String?){
 }
 
 @BindingAdapter("ageDog")
-fun TextView.setAgeDog(ageUser:Int?){
+fun TextView.setAgeDog(ageUser: Int?) {
     val stringBuilder = StringBuilder()
     stringBuilder.append(ageUser.toString())
     stringBuilder.append(" ")
@@ -51,37 +50,34 @@ fun TextView.setAgeDog(ageUser:Int?){
 }
 
 
-
 @BindingAdapter("numberChien")
-fun TextView.setNumberChienUser(numberChien:Int){
-    val stringBuilder=StringBuilder()
+fun TextView.setNumberChienUser(numberChien: Int) {
+    val stringBuilder = StringBuilder()
     stringBuilder.append(numberChien.toString())
     stringBuilder.append(" ")
-    if(numberChien<2){
+    if (numberChien < 2) {
         stringBuilder.append(context.getString(R.string.chien))
-    }
-    else{
+    } else {
         stringBuilder.append(context.getString(R.string.chiens))
     }
-    text=stringBuilder.toString()
+    text = stringBuilder.toString()
 
 }
 
 @BindingAdapter("numberChienTitle")
-fun TextView.setNumberChienTitleUser(numberChien:Int){
-    val stringBuilder=StringBuilder()
-    if(numberChien==1){
+fun TextView.setNumberChienTitleUser(numberChien: Int) {
+    val stringBuilder = StringBuilder()
+    if (numberChien == 1) {
         stringBuilder.append(context.getString(R.string.mon_chien))
-    }
-    else{
+    } else {
         stringBuilder.append(context.getString(R.string.mes_chiens))
     }
-    text=stringBuilder.toString()
+    text = stringBuilder.toString()
 
 }
 
 @BindingAdapter("poids")
-fun TextView.setHeight(height:Int?){
+fun TextView.setHeight(height: Int?) {
     val stringBuilder = StringBuilder()
     stringBuilder.append(height.toString())
     stringBuilder.append(" ")
@@ -91,15 +87,27 @@ fun TextView.setHeight(height:Int?){
 }
 
 @BindingAdapter("activity")
-fun FloatingActionButton.setVisibility(activity:Boolean){
-    if(activity){
-        visibility= View.VISIBLE
-    }
-    else{
-        visibility=View.GONE
+fun FloatingActionButton.setVisibility(activity: Boolean) {
+    if (activity) {
+        visibility = View.VISIBLE
+    } else {
+        visibility = View.GONE
     }
 
 }
+
+
+@BindingAdapter("distance")
+fun TextView.setDoubleToString(distance: Double) {
+    val distanceInt = distance.toInt()
+    if (distanceInt < 9999) {
+        text = distanceInt.toString() + "m"
+    } else {
+        text = (distanceInt / 1000).toString() + "km"
+    }
+}
+
+
 
 
 

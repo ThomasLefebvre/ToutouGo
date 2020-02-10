@@ -6,8 +6,10 @@ data class Place (
     val description:String="",
     val adress:String="",
     val lat:Double=0.0,
-    val long:Double=0.0,
-    val onLine:Boolean=false
+    val lng:Double=0.0,
+    val distance:Long=0,
+    val onLine:Boolean=false,
+    val photoUrlMain:String=""
 
 ){
 }

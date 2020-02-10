@@ -13,6 +13,13 @@
             name="clickListener"
             type="fr.thomas.lefebvre.toutougo.ui.place.PlaceListener" />
 
+        <variable
+            name="latitude"
+            type="Double" />
+        <variable
+            name="longitude"
+            type="Double" />
+
 
     </data>
 
@@ -26,16 +33,18 @@
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                error="@{@drawable/dog}"
+                error="@{@drawable/chemin}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{place.name}" />
+                app:imageUrl="@{place.photoUrlMain}" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -43,9 +52,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:gravity="center"
+            android:gravity="start"
             android:maxLength="20"
             android:maxLines="1"
             android:text="@{place.name}"
@@ -59,41 +67,31 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:maxLength="20"
-            android:gravity="center"
+            android:gravity="start"
             android:maxLines="1"
-            android:text="@{place.description}"
+            android:text="@string/distance"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintEnd_toEndOf="@+id/textViewNamePlace"
             app:layout_constraintStart_toStartOf="@+id/textViewNamePlace"
             app:layout_constraintTop_toBottomOf="@+id/textViewNamePlace" />
 
         <TextView
-            android:id="@+id/textViewPlaceDistance"
+            android:id="@+id/textViewPlaceAddress"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:maxLength="20"
-            android:maxLines="1"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="start"
+            android:maxLines="3"
+            android:textSize="@dimen/smallText"
+            android:text="@{place.adress}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-
-            app:layout_constraintEnd_toEndOf="@+id/textViewDescriptionPlace"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewNamePlace"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textViewDescriptionPlace"
             app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionPlace" />
 
-        <TextView
-            android:id="@+id/textViewNotePlace"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:maxLength="20"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintEnd_toEndOf="@+id/textViewPlaceDistance"
-            app:layout_constraintStart_toStartOf="@+id/textViewPlaceDistance"
-            app:layout_constraintTop_toBottomOf="@+id/textViewPlaceDistance"
-            />
+
 
         <ImageButton
             android:id="@+id/imageButtonDelete"
@@ -106,6 +104,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/materialCardView4"
             app:srcCompat="@drawable/ic_info_black_24dp" />
+
+        <TextView
+            android:id="@+id/textViewDistance"
+            android:layout_width="0dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:distance="@{place.distance}"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonDelete"
+            app:layout_constraintStart_toEndOf="@+id/textViewDescriptionPlace"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNamePlace" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

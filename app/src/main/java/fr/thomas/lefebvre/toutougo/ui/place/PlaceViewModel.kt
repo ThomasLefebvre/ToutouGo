@@ -8,6 +8,7 @@ import fr.thomas.lefebvre.toutougo.database.helper.PlaceHelper
 import fr.thomas.lefebvre.toutougo.database.model.Dog
 import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
 import fr.thomas.lefebvre.toutougo.database.model.Place
+import fr.thomas.lefebvre.toutougo.utils.computeDistance
 import kotlinx.coroutines.*
 
 class PlaceViewModel : ViewModel() {
@@ -37,7 +38,7 @@ class PlaceViewModel : ViewModel() {
 
 
     init {
-        getPlace()
+
     }
 
 
@@ -79,15 +80,15 @@ class PlaceViewModel : ViewModel() {
     }
 
     // -------------------- GET PLACE FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
-    fun getPlace() {
+    fun getPlace(userLat:Double,userLng:Double) {
         uiScope.launch {
-            getPlaceFromFireStore()
+            getPlaceFromFireStore(userLat,userLng)
 
 
         }
     }
 
-    private suspend fun getPlaceFromFireStore() {
+    private suspend fun getPlaceFromFireStore(userLat:Double,userLng:Double) {
         withContext(Dispatchers.IO) {
             placeHelper.getAllPlace().addOnSuccessListener { documents ->
                 if (documents.documents.isEmpty()) {
@@ -95,10 +96,21 @@ class PlaceViewModel : ViewModel() {
                 } else {
                     val list = ArrayList<Place>()
                     for (document in documents) {
-                        val place = document.toObject(Place::class.java)
+
+                        var place = document.toObject(Place::class.java)
+                        place=Place(place.uid,place.name,place.description,place.adress,place.lat,place.lng,
+                            computeDistance(userLat,userLng,place.lat,place.lng),place.onLine,place.photoUrlMain)
+
                         list.add(place)
 
                     }
+                    list.sortWith(Comparator<Place> { p1, p2 ->
+                        when{
+                            p1!!.distance > p2!!.distance -> 1
+                            p1.distance == p2.distance -> 0
+                            else -> -1
+                        }
+                    })
                     listPlace.value = list
                     Log.d("DEBUG", "YES places")
                 }

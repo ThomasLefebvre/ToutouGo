@@ -12,12 +12,15 @@ import androidx.navigation.findNavController
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentPlaceBinding
+import fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardViewModel
 
 class PlaceFragment : Fragment() {
 
     private lateinit var binding:FragmentPlaceBinding
 
     private lateinit var viewModel: PlaceViewModel
+
+    private lateinit var viewModelLocation: DashBoardViewModel
 
     private lateinit var adapter:  PlaceAdapter
 
@@ -39,7 +42,11 @@ class PlaceFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(PlaceViewModel::class.java)
 
-        adapter= PlaceAdapter(PlaceListener {
+        viewModelLocation= ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
+
+        viewModel.getPlace(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!)
+
+        adapter= PlaceAdapter(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!,PlaceListener {
             //TODO CLICK ON INFOS PLACE
         })
 

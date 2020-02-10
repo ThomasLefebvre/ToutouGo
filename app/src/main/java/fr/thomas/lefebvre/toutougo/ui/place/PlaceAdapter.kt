@@ -12,11 +12,11 @@ import fr.thomas.lefebvre.toutougo.databinding.ListItemDogBinding
 import fr.thomas.lefebvre.toutougo.databinding.ListItemPhotoPlaceBinding
 import fr.thomas.lefebvre.toutougo.databinding.ListItemPlaceBinding
 
-class PlaceAdapter(val clickListener: PlaceListener) : ListAdapter<Place, PlaceAdapter.ViewHolder>(PlaceDiffCallback()) {
+class PlaceAdapter(val lat:Double,val long:Double,val clickListener: PlaceListener) : ListAdapter<Place, PlaceAdapter.ViewHolder>(PlaceDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(getItem(position),clickListener)
+        holder.bind(getItem(position),lat,long,clickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,9 +25,11 @@ class PlaceAdapter(val clickListener: PlaceListener) : ListAdapter<Place, PlaceA
 
     class ViewHolder private constructor(val binding: ListItemPlaceBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: Place,clickListener: PlaceListener) {
+        fun bind(item: Place,lat: Double,long: Double,clickListener: PlaceListener) {
             binding.place = item
             binding.clickListener = clickListener
+            binding.latitude=lat
+            binding.longitude=long
             binding.executePendingBindings()
         }
 

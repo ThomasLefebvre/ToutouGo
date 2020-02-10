@@ -26,6 +26,11 @@ import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentMapBinding
 import fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardViewModel
 import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
+import android.location.Geocoder
+import android.location.Address
+import com.google.android.material.snackbar.Snackbar
+import java.util.*
+
 
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener,
      GoogleMap.OnMapClickListener {
@@ -145,9 +150,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
 
     override fun onInfoWindowClick(p0: Marker?) {
-        view!!.findNavController().navigate(R.id.action_mapFragment_to_createPlaceFragment)
-        Log.d("MAP","click on infos windows")
-
+        if(placeViewModel.adressPlace.value!=null){
+            view!!.findNavController().navigate(R.id.action_mapFragment_to_createPlaceFragment)
+            Log.d("MAP","click on infos windows")
+        }
+        else{
+            Snackbar.make(requireView(),getString(R.string.complete_address), Snackbar.LENGTH_SHORT)
+                .show()
+        }
     }
 
 
@@ -155,10 +165,33 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         if (markerClick != null) {
             markerClick!!.remove()
         }
+
         createMarker(latLng, getString(R.string.cardview_appui_long))
-        placeViewModel.latPlace.value=latLng!!.latitude
-        placeViewModel.lngPlace.value=latLng!!.longitude
-        placeViewModel.adressPlace.value="Adresse choisie sur la carte"
+
+
+        val geocoder: Geocoder
+        val addresses: List<Address>
+        geocoder = Geocoder(requireContext(), Locale.getDefault())
+
+        addresses = geocoder.getFromLocation(
+            latLng!!.latitude,
+            latLng!!.longitude,
+            1
+        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        if(addresses.size!=0){
+            val address =
+                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            Log.d("MAP",address.toString())
+            placeViewModel.adressPlace.value=address.toString()
+            placeViewModel.latPlace.value=latLng!!.latitude
+            placeViewModel.lngPlace.value=latLng!!.longitude
+        }
+        else{
+            placeViewModel.adressPlace.value=null
+        }
+
+
+
     }
 
 

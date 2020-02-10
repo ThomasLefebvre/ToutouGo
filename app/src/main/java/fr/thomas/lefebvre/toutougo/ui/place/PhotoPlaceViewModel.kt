@@ -27,26 +27,28 @@ class PhotoPlaceViewModel : ViewModel() {
 
     //------------- VARIABLE FOR GET PHOTO ---------------
 
-    private val placeHelper=PlaceHelper()
-    private val photoPlaceHelper=PhotoPlaceHelper()
+    private val photoPlaceHelper = PhotoPlaceHelper()
     private val currentUser = FirebaseAuth.getInstance().currentUser
 
     val listPhotoPlace = MutableLiveData<ArrayList<PhotoPlace>>()
 
-    val uidPlace=MutableLiveData<String>()
+    val uidPlace = MutableLiveData<String>()
     val uidPhotoPlace = MutableLiveData<String>()
     val urlPhotoPlace = MutableLiveData<String>()
+
+    //------------- VARIABLE FOR UPDATE PHOTO ---------------
+
+    private val placeHelper = PlaceHelper()
 
 
     // -------------------- CREATE PHOTO PLACE         ------------------------
 
-    //UPDATE DOG
     fun createPhotoPlace() {
-        uidPhotoPlace.value=uidPlace.value+System.currentTimeMillis().toString()
+        uidPhotoPlace.value = uidPlace.value + System.currentTimeMillis().toString()
         val photoPlace = PhotoPlace(
-                uidPhotoPlace.value!!,
-                urlPhotoPlace.value!!,
-                uidPlace.value!!
+            uidPhotoPlace.value!!,
+            urlPhotoPlace.value!!,
+            uidPlace.value!!
 
         )
         uiScope.launch {
@@ -56,10 +58,26 @@ class PhotoPlaceViewModel : ViewModel() {
 
     private suspend fun createPhotoPlaceInFirestore(photoPlace: PhotoPlace) {
         withContext(Dispatchers.IO) {
-           photoPlaceHelper.createPhotoPlace(photoPlace)
+            photoPlaceHelper.createPhotoPlace(photoPlace)
         }
     }
 
+    // -------------------- DELETE PHOTO PLACE         ------------------------
+
+    fun deletePhotoPlace(uidPhoto: String) {
+        uiScope.launch {
+            deletePhotoPlaceInFirestore(uidPhoto)
+
+        }
+    }
+
+    private suspend fun deletePhotoPlaceInFirestore(uidPhoto: String) {
+        withContext(Dispatchers.IO) {
+            photoPlaceHelper.deletePhotoPlace(uidPhoto).addOnSuccessListener {
+                getPhoto()
+            }
+        }
+    }
 
 
     // -------------------- GET PHOTO PLACE FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
@@ -75,6 +93,7 @@ class PhotoPlaceViewModel : ViewModel() {
         withContext(Dispatchers.IO) {
             photoPlaceHelper.getAllPhotoPlace(uidPlace.value!!).addOnSuccessListener { documents ->
                 if (documents.documents.isEmpty()) {
+                    listPhotoPlace.value=null
                     Log.d("DEBUG", "No photos")
                 } else {
                     val list = ArrayList<PhotoPlace>()
@@ -91,8 +110,24 @@ class PhotoPlaceViewModel : ViewModel() {
         }
     }
 
+    // -------------------- UPDATE PHOTO MAIN FROM FIRESTORE   ------------------------
 
+    fun updatePhotoMainPlace() {
+        uiScope.launch {
+            updatePhotoMainPlaceFromFirestore()
+            Log.d("DEBUG", uidPlace.value.toString())
 
+        }
+    }
+
+    private suspend fun updatePhotoMainPlaceFromFirestore() {
+        withContext(Dispatchers.IO) {
+            placeHelper.updatePhotoPlaceIcone(uidPlace.value!!, urlPhotoPlace.value!!)
+                .addOnSuccessListener {
+                    Log.d("DEBUG", "Photo main update")
+                }
+        }
+    }
 
 
 }

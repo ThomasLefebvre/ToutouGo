@@ -45,6 +45,8 @@
     <string name="pick_address">Indique la sur la carte</string>
     <string name="or">Où</string>
     <string name="photos">Ajoute des photos</string>
+    <string name="complete_address">Sélectionne une adresse valide.</string>
+    <string name="distance">Distance:</string>
 
 
     //ALERT MESSAGES

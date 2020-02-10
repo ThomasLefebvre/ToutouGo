@@ -11,10 +11,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
@@ -79,7 +81,7 @@ class PhotoPlaceFragment : Fragment() {
         binding.viewModel = viewModelPhoto
 
         adapter = PhotoPlaceAdapter(PhotoPlaceListener { photo ->
-            deletePhoto()
+            deletePhoto(photo.uidPhoto)
 
         })
 
@@ -87,9 +89,10 @@ class PhotoPlaceFragment : Fragment() {
 
 
         viewModelPhoto.listPhotoPlace.observe(this, Observer {
-            it?.let {
+
                 adapter.submitList(it)
-            }
+
+
         })
         val layoutManger = GridLayoutManager(requireContext(), 2)
 
@@ -99,8 +102,8 @@ class PhotoPlaceFragment : Fragment() {
 
 
         onClickAddPhoto()
+        onClickSave()
 
-        // TODO: Use the ViewModel
     }
 
     override fun onResume() {
@@ -118,8 +121,21 @@ class PhotoPlaceFragment : Fragment() {
         }
     }
 
-    private fun deletePhoto() {
+    private fun deletePhoto(uidPhoto:String) {
 
+        viewModelPhoto.deletePhotoPlace(uidPhoto)
+
+
+    }
+
+    private fun onClickSave(){
+        binding.floatingActionButtonSavePlace.setOnClickListener {
+            if (viewModelPhoto.listPhotoPlace.value!=null){
+                viewModelPhoto.updatePhotoMainPlace()
+
+            }
+            view!!.findNavController().navigate(R.id.action_photoPlaceFragment_to_placeFragment)
+        }
     }
 
 
@@ -160,7 +176,6 @@ class PhotoPlaceFragment : Fragment() {
                     viewModelPhoto.createPhotoPlace()
                     viewModelPhoto.getPhoto()
 
-
                 } else {
                     Snackbar.make(requireView(), "Erreur", Snackbar.LENGTH_LONG).show()
                 }
@@ -184,6 +199,8 @@ class PhotoPlaceFragment : Fragment() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+
 
 
 }
