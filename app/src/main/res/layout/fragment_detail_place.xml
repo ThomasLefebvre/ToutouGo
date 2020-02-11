@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel" />
+
+
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.detailPlace.DetailPlaceFragment">
+
+        <!-- TODO: Update blank fragment layout -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/small"
+            android:layout_marginTop="@dimen/small"
+            android:layout_marginEnd="@dimen/small"
+            android:layout_marginBottom="@dimen/small"
+            android:text="@string/hello_blank_fragment"
+            app:cardCornerRadius="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageViewDetailPlacePhoto"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/chemin"
+                    android:scaleType="centerCrop"
+                    app:listPhotoPlace="@{viewModel.listPhotoPlace}"
+                    app:error="@{@drawable/chemin}"
+                    app:index="@{viewModel.indexPhoto}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageViewMarge"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.07"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewDetailPlacePhoto"
+                    app:srcCompat="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:id="@+id/textViewNameDetailPlace"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginEnd="@dimen/small"
+                    android:text="@{viewModel.detailPlace.name}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageViewMarge"
+                    app:layout_constraintEnd_toStartOf="@+id/imageButtonNavigationMap"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewDetailPlacePhoto" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonNavigationMap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/small"
+                    android:background="@color/fui_transparent"
+                    android:tint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageViewDetailPlacePhoto"
+                    app:layout_constraintEnd_toEndOf="@+id/imageViewMarge"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewDetailPlacePhoto"
+                    app:srcCompat="@drawable/ic_itineraire" />
+
+                <TextView
+                    android:id="@+id/textViewDescriptionDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:text="@string/description"
+
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewMarge" />
+
+                <TextView
+                    android:id="@+id/textViewDescriptionAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:text="@string/address"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginEnd="@dimen/small"
+                    android:text="@{viewModel.detailPlace.description}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionDetail" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginEnd="@dimen/small"
+                    android:layout_marginBottom="@dimen/small"
+                    android:text="@{viewModel.detailPlace.adress}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionAddress" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   android:padding="@dimen/small"
+                    app:listPhotoPlace="@{viewModel.listPhotoPlace}"
+                    app:index="@{viewModel.indexPhoto}"
+                    android:layout_marginEnd="@dimen/small"
+                    android:layout_marginBottom="@dimen/small"
+                    android:tint="@color/white"
+                    android:onClick="@{()->viewModel.clickNextPhoto()}"
+                    android:background="@color/fui_transparent"
+                    app:layout_constraintBottom_toTopOf="@+id/imageButtonNavigationMap"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_navigate_next_black_24dp" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonPrevious"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small"
+                    android:layout_marginBottom="@dimen/small"
+                    android:background="@color/fui_transparent"
+                    android:onClick="@{()-> viewModel.clickPreviousPhoto()}"
+                    android:padding="@dimen/small"
+                    android:tint="@color/white"
+                    app:indexPrevious="@{viewModel.indexPhoto}"
+                    app:layout_constraintBottom_toTopOf="@+id/imageButtonNavigationMap"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:listPhotoPlacePrevious="@{viewModel.listPhotoPlace}"
+                    app:srcCompat="@drawable/ic_chevron_left_black_24dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

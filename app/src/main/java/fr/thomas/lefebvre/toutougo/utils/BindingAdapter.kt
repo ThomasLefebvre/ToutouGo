@@ -3,18 +3,62 @@ package fr.thomas.lefebvre.toutougo.utils
 
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import fr.thomas.lefebvre.toutougo.R
+import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
 
 
 @BindingAdapter("imageUrl", "error")
 fun loadImage(view: ImageView, url: String?, error: Drawable) {
     Picasso.get().load(url).error(error).into(view)
 }
+
+@BindingAdapter("listPhotoPlace", "error","index")
+fun loadImageFromListPhotoPlace(view: ImageView, listPhotoPlace: ArrayList<PhotoPlace>?, error: Drawable,index:Int) {
+    if (listPhotoPlace!=null){
+        Picasso.get().load(listPhotoPlace[index].photoUrl).error(error).into(view)
+    }
+
+}
+
+@BindingAdapter("listPhotoPlace","index")
+fun setVisibilityButtonNext(view: ImageButton, listPhotoPlace: ArrayList<PhotoPlace>?, index:Int) {
+    if (listPhotoPlace!=null){
+        if(listPhotoPlace.size-1==index){
+            view.visibility=View.GONE
+        }
+        else{
+            view.visibility=View.VISIBLE
+        }
+    }
+    else{
+        view.visibility=View.GONE
+    }
+
+}
+
+
+@BindingAdapter("listPhotoPlacePrevious","indexPrevious")
+fun setVisibilityButtonPrevious(view: ImageButton, listPhotoPlacePrev: ArrayList<PhotoPlace>?, indexPrev:Int) {
+    if (listPhotoPlacePrev!=null){
+        if(indexPrev>0){
+            view.visibility=View.VISIBLE
+        }
+        else{
+            view.visibility=View.GONE
+        }
+    }
+    else{
+        view.visibility=View.GONE
+    }
+
+}
+
 
 
 @BindingAdapter("nameUser")

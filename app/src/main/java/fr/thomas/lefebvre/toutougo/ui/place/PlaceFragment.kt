@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import com.google.android.libraries.places.api.model.Place
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentPlaceBinding
@@ -30,7 +31,7 @@ class PlaceFragment : Fragment() {
     ): View? {
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_place,container,false)
 
-        binding.lifecycleOwner=this
+        binding.lifecycleOwner=activity
 
         onClickAddPlace()
 
@@ -40,14 +41,14 @@ class PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(PlaceViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
 
         viewModelLocation= ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 
         viewModel.getPlace(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!)
 
         adapter= PlaceAdapter(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!,PlaceListener {
-            //TODO CLICK ON INFOS PLACE
+     onClickDetailsPlace(it)
         })
 
         viewModel.listPlace.observe(this, Observer {
@@ -66,6 +67,11 @@ class PlaceFragment : Fragment() {
         binding.buttonAddPlace.setOnClickListener {
             view!!.findNavController().navigate(R.id.actionCreatePlace)
         }
+    }
+
+    private fun onClickDetailsPlace(place:fr.thomas.lefebvre.toutougo.database.model.Place){
+        viewModel.clickDetailPlace(place)
+        view!!.findNavController().navigate(R.id.action_placeFragment_to_detailPlaceFragment)
     }
 
 }

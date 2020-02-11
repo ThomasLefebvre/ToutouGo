@@ -23,7 +23,7 @@
     <string name="dog_height">Quel est son poids?</string>
     <string name="dog_old">Quel est son age?</string>
     <string name="dog_type">Mâle ou Femelle?</string>
-    <string name="description">Desciption</string>
+    <string name="description">Description</string>
     <string name="name">Nom</string>
     <string name="description_text">Parle nous de lui, son caractère, ce qu\il aime, etc…</string>
     <string name="radio_male">Mâle</string>
@@ -47,6 +47,8 @@
     <string name="photos">Ajoute des photos</string>
     <string name="complete_address">Sélectionne une adresse valide.</string>
     <string name="distance">Distance:</string>
+    <string name="address">Adresse</string>
+    <string name="place_delais">Le lieu sera en ligne aprés un délais de vérification</string>
 
 
     //ALERT MESSAGES

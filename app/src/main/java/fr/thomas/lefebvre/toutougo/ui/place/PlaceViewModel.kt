@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import fr.thomas.lefebvre.toutougo.database.helper.PhotoPlaceHelper
 import fr.thomas.lefebvre.toutougo.database.helper.PlaceHelper
 import fr.thomas.lefebvre.toutougo.database.model.Dog
 import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
@@ -20,21 +21,26 @@ class PlaceViewModel : ViewModel() {
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
 
-
     //------------- VARIABLE FOR CREATE PLACE ---------------
 
-    val uidPlace=MutableLiveData<String>()
-    val namePlace=MutableLiveData<String>()
-    val descriptionPlace=MutableLiveData<String>()
-    val latPlace=MutableLiveData<Double>()
-    val lngPlace=MutableLiveData<Double>()
-    val adressPlace=MutableLiveData<String>().apply { value="" }
+    val uidPlace = MutableLiveData<String>()
+    val namePlace = MutableLiveData<String>()
+    val descriptionPlace = MutableLiveData<String>()
+    val latPlace = MutableLiveData<Double>()
+    val lngPlace = MutableLiveData<Double>()
+    val adressPlace = MutableLiveData<String>().apply { value = "" }
 
 
-    private val placeHelper=PlaceHelper()
+    private val placeHelper = PlaceHelper()
     private val currentUser = FirebaseAuth.getInstance().currentUser
 
     val listPlace = MutableLiveData<ArrayList<Place>>()
+
+    //------------- VARIABLE FOR DETAILS PLACE ---------------
+    val detailPlace = MutableLiveData<Place>()
+    val listPhotoPlace = MutableLiveData<ArrayList<PhotoPlace>>()
+    val indexPhoto = MutableLiveData<Int>()
+    val photoPlaceHelper = PhotoPlaceHelper()
 
 
     init {
@@ -42,18 +48,18 @@ class PlaceViewModel : ViewModel() {
     }
 
 
-    //CREATE PLACE
+    // -------------------- CREATE PLACE  ------------------------
     fun createPlace() {
-        if(uidPlace.value==null){
-            uidPlace.value=currentUser!!.uid+System.currentTimeMillis().toString()
+        if (uidPlace.value == null) {
+            uidPlace.value = currentUser!!.uid + System.currentTimeMillis().toString()
         }
         val place = Place(
-                uidPlace.value!!,
-                namePlace.value!!,
-                descriptionPlace.value!!,
-                adressPlace.value!!,
-                latPlace.value!!,
-                lngPlace.value!!
+            uidPlace.value!!,
+            namePlace.value!!,
+            descriptionPlace.value!!,
+            adressPlace.value!!,
+            latPlace.value!!,
+            lngPlace.value!!
 
 
         )
@@ -70,25 +76,35 @@ class PlaceViewModel : ViewModel() {
     }
 
 
-
     fun checkAllInfosPlace(): Boolean {
-        return (namePlace.value!= null
+        return (namePlace.value != null
                 && descriptionPlace.value != null
                 && latPlace.value != null
                 && lngPlace.value != null
-               )
+                )
+    }
+
+    // -------------------- CLEAR PLACE AFTER SAVE  ------------------------
+
+    fun clearPlaceAfterSave() {
+        uidPlace.value = null
+        namePlace.value = null
+        descriptionPlace.value = null
+        adressPlace.value = null
+        latPlace.value = null
+        lngPlace.value = null
     }
 
     // -------------------- GET PLACE FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
-    fun getPlace(userLat:Double,userLng:Double) {
+    fun getPlace(userLat: Double, userLng: Double) {
         uiScope.launch {
-            getPlaceFromFireStore(userLat,userLng)
+            getPlaceFromFireStore(userLat, userLng)
 
 
         }
     }
 
-    private suspend fun getPlaceFromFireStore(userLat:Double,userLng:Double) {
+    private suspend fun getPlaceFromFireStore(userLat: Double, userLng: Double) {
         withContext(Dispatchers.IO) {
             placeHelper.getAllPlace().addOnSuccessListener { documents ->
                 if (documents.documents.isEmpty()) {
@@ -98,19 +114,29 @@ class PlaceViewModel : ViewModel() {
                     for (document in documents) {
 
                         var place = document.toObject(Place::class.java)
-                        place=Place(place.uid,place.name,place.description,place.adress,place.lat,place.lng,
-                            computeDistance(userLat,userLng,place.lat,place.lng),place.onLine,place.photoUrlMain)
+                        place = Place(
+                            place.uid,
+                            place.name,
+                            place.description,
+                            place.adress,
+                            place.lat,
+                            place.lng,
+                            computeDistance(userLat, userLng, place.lat, place.lng),
+                            place.onLine,
+                            place.photoUrlMain
+                        )
 
                         list.add(place)
 
                     }
                     list.sortWith(Comparator<Place> { p1, p2 ->
-                        when{
+                        when {
                             p1!!.distance > p2!!.distance -> 1
                             p1.distance == p2.distance -> 0
                             else -> -1
                         }
                     })
+
                     listPlace.value = list
                     Log.d("DEBUG", "YES places")
                 }
@@ -119,6 +145,60 @@ class PlaceViewModel : ViewModel() {
         }
     }
 
+    // -------------------- CLICK ON DETAIL PLACE  ------------------------
+
+    fun clickDetailPlace(place: Place) {
+        detailPlace.value = place
+
+    }
+
+    // -------------------- GET PHOTO PLACE FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
+    fun getPhoto() {
+        uiScope.launch {
+            getPhotoPlaceFromFireStore()
+            Log.d("DEBUG", uidPlace.value.toString())
+
+        }
+    }
+
+    private suspend fun getPhotoPlaceFromFireStore() {
+        withContext(Dispatchers.IO) {
+            photoPlaceHelper.getAllPhotoPlace(detailPlace.value!!.uid)
+                .addOnSuccessListener { documents ->
+                    if (documents.documents.isEmpty()) {
+                        listPhotoPlace.value = null
+                        Log.d("DEBUG", "No photos")
+                    } else {
+                        val list = ArrayList<PhotoPlace>()
+                        for (document in documents) {
+                            val photPlace = document.toObject(PhotoPlace::class.java)
+                            list.add(photPlace)
+
+                        }
+                        listPhotoPlace.value = list
+                        indexPhoto.value = 0
+                        Log.d("DEBUG", "YES photos")
+                    }
+
+                }
+        }
+    }
+
+    fun clickNextPhoto() {
+        if (indexPhoto.value != null) {
+            if (indexPhoto.value!! < listPhotoPlace.value!!.size - 1) {
+                indexPhoto.value = indexPhoto.value!! + 1
+            }
+        }
+    }
+
+    fun clickPreviousPhoto() {
+        if (indexPhoto.value != null) {
+            if (indexPhoto.value!! > 0) {
+                indexPhoto.value = indexPhoto.value!! - 1
+            }
+        }
+    }
 
 }
 

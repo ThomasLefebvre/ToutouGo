@@ -132,8 +132,10 @@ class PhotoPlaceFragment : Fragment() {
         binding.floatingActionButtonSavePlace.setOnClickListener {
             if (viewModelPhoto.listPhotoPlace.value!=null){
                 viewModelPhoto.updatePhotoMainPlace()
+                viewModel.clearPlaceAfterSave()
 
             }
+            Snackbar.make(requireView(), getString(R.string.place_delais), Snackbar.LENGTH_LONG).show()
             view!!.findNavController().navigate(R.id.action_photoPlaceFragment_to_placeFragment)
         }
     }
@@ -158,7 +160,7 @@ class PhotoPlaceFragment : Fragment() {
 
             val bitmap = binding.imageViewPhotoPlace.setBitmapFromView()
             val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data = baos.toByteArray()
 
             var uploadTask = ref.putBytes(data)

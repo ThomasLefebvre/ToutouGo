@@ -63,33 +63,34 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="@string/add_photo"
                     app:icon="@drawable/ic_add_circle_outline_black_24dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/materialCardView6"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/materialCardView6"
-                    app:layout_constraintTop_toTopOf="@+id/materialCardView6"
-                    app:layout_constraintVertical_bias="0.402" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView6" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_photo_place"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/small"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/small"
                     android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/button_select_photo_place" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/materialCardView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/small"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_percent="0.3"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="@dimen/small"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -99,8 +100,9 @@
 
                         <ImageView
                             android:id="@+id/imageViewPhotoPlace"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
                             android:scaleType="centerCrop"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

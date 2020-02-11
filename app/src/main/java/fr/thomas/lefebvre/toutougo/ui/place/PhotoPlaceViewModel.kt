@@ -36,6 +36,8 @@ class PhotoPlaceViewModel : ViewModel() {
     val uidPhotoPlace = MutableLiveData<String>()
     val urlPhotoPlace = MutableLiveData<String>()
 
+
+
     //------------- VARIABLE FOR UPDATE PHOTO ---------------
 
     private val placeHelper = PlaceHelper()
@@ -109,6 +111,7 @@ class PhotoPlaceViewModel : ViewModel() {
             }
         }
     }
+
 
     // -------------------- UPDATE PHOTO MAIN FROM FIRESTORE   ------------------------
 

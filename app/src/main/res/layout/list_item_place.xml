@@ -54,11 +54,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:gravity="start"
-            android:maxLength="20"
             android:maxLines="1"
             android:text="@{place.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            app:layout_constraintEnd_toStartOf="@+id/imageButtonDelete"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/materialCardView4"
             app:layout_constraintTop_toTopOf="@+id/materialCardView4" />
 
@@ -82,11 +81,11 @@
             android:layout_marginBottom="8dp"
             android:gravity="start"
             android:maxLines="3"
-            android:textSize="@dimen/smallText"
             android:text="@{place.adress}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="@dimen/smallText"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textViewNamePlace"
+            app:layout_constraintEnd_toEndOf="@+id/textViewDistance"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textViewDescriptionPlace"
             app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionPlace" />
