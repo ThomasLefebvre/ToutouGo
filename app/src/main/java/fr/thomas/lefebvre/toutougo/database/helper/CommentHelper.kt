@@ -31,8 +31,8 @@ class CommentHelper {
 
 
     // ---- GET ALL COMMENT ----
-    fun getAllComment(uidComment:String):Task<QuerySnapshot>{
-        return getCollection().whereEqualTo("uid",uidComment).get()
+    fun getAllComment(uidPlace:String):Task<QuerySnapshot>{
+        return getCollection().whereEqualTo("uidPlace",uidPlace).get()
     }
 
 

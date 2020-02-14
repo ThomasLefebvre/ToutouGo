@@ -55,11 +55,6 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/promeneurFragment"
-        android:name="fr.thomas.lefebvre.toutougo.ui.promeneur.PromeneurFragment"
-        android:label="@string/bottom_promeneurs"
-        tools:layout="@layout/fragment_promeneur" />
-    <fragment
         android:id="@+id/placeFragment"
         android:name="fr.thomas.lefebvre.toutougo.ui.place.PlaceFragment"
         android:label="@string/bottom_chemin"

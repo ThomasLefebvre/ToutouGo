@@ -109,6 +109,7 @@ class DashBoardFragment : Fragment() {
     }
 
     private fun setUpLocation() {
+        mViewModel.setLocation(48.8,2.33)
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),//check the permission location
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -127,9 +128,7 @@ class DashBoardFragment : Fragment() {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
 
             }
-            else{
-                mViewModel.setLocation(48.8,2.33)
-            }
+
 
         }
 

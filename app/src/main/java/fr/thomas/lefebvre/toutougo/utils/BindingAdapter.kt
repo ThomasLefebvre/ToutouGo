@@ -11,6 +11,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 @BindingAdapter("imageUrl", "error")
@@ -26,37 +29,21 @@ fun loadImageFromListPhotoPlace(view: ImageView, listPhotoPlace: ArrayList<Photo
 
 }
 
-@BindingAdapter("listPhotoPlace","index")
-fun setVisibilityButtonNext(view: ImageButton, listPhotoPlace: ArrayList<PhotoPlace>?, index:Int) {
-    if (listPhotoPlace!=null){
-        if(listPhotoPlace.size-1==index){
-            view.visibility=View.GONE
-        }
-        else{
-            view.visibility=View.VISIBLE
-        }
-    }
-    else{
-        view.visibility=View.GONE
-    }
-
+@BindingAdapter("date")
+fun TextView.setDateSting(date:Long){
+    val dateLong= Date(date)
+    val sdf=SimpleDateFormat("dd/MM/yyyy")
+    text = sdf.format(dateLong)
 }
 
-
-@BindingAdapter("listPhotoPlacePrevious","indexPrevious")
-fun setVisibilityButtonPrevious(view: ImageButton, listPhotoPlacePrev: ArrayList<PhotoPlace>?, indexPrev:Int) {
-    if (listPhotoPlacePrev!=null){
-        if(indexPrev>0){
-            view.visibility=View.VISIBLE
-        }
-        else{
-            view.visibility=View.GONE
-        }
+@BindingAdapter("likeOrNot")
+fun ImageView.setLike(likeOrNot:Boolean){
+    if(likeOrNot){
+        setImageDrawable(context.getDrawable(R.drawable.ic_like))
     }
     else{
-        view.visibility=View.GONE
+        setImageDrawable(context.getDrawable(R.drawable.ic_dislike))
     }
-
 }
 
 

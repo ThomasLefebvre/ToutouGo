@@ -170,6 +170,7 @@
                             android:id="@+id/textInputEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="@={viewModel.descriptionComment}"
 
                             />
 
@@ -180,7 +181,7 @@
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/very_small"
                         android:layout_marginTop="@dimen/small"
                         android:text="@string/add_photo"
                         app:icon="@drawable/ic_add_circle_outline_black_24dp"
@@ -193,7 +194,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/small"
-
+                        android:layout_marginBottom="@dimen/very_small"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

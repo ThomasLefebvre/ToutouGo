@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import fr.thomas.lefebvre.toutougo.database.helper.CommentHelper
 import fr.thomas.lefebvre.toutougo.database.helper.PhotoPlaceHelper
 import fr.thomas.lefebvre.toutougo.database.helper.PlaceHelper
+import fr.thomas.lefebvre.toutougo.database.model.Comment
 import fr.thomas.lefebvre.toutougo.database.model.Dog
 import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
 import fr.thomas.lefebvre.toutougo.database.model.Place
@@ -42,9 +44,78 @@ class PlaceViewModel : ViewModel() {
     val indexPhoto = MutableLiveData<Int>()
     val photoPlaceHelper = PhotoPlaceHelper()
 
+    //------------- VARIABLE FOR COMMENT ---------------
 
-    init {
+    private val commentHelper = CommentHelper()
+    val uidComment = MutableLiveData<String>()
+    val descriptionComment = MutableLiveData<String>()
 
+    val listComment = MutableLiveData<ArrayList<Comment>>()
+
+
+
+    // -------------------- CREATE COMMENT  ------------------------
+    fun createComment(likeOrNot: Boolean) {
+        uidComment.value = detailPlace.value!!.uid + System.currentTimeMillis().toString()
+
+        val comment = Comment(
+            uidComment.value!!,
+            System.currentTimeMillis(),
+            descriptionComment.value!!,
+            likeOrNot,
+            currentUser!!.displayName!!,
+            detailPlace.value!!.uid
+
+        )
+        uiScope.launch {
+            createCommentInDatabase(comment)
+        }
+    }
+
+
+    private suspend fun createCommentInDatabase(comment: Comment) {
+        withContext(Dispatchers.IO) {
+            commentHelper.createComment(comment)
+        }
+    }
+
+
+    fun checkAllInfosComment(): Boolean {
+        return (descriptionComment.value != null
+                )
+    }
+
+    // -------------------- GET COMMENT FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
+    fun getComment() {
+        listComment.value=null
+        uiScope.launch {
+            getCommentFromFireStore()
+
+        }
+    }
+
+    private suspend fun getCommentFromFireStore() {
+        withContext(Dispatchers.IO) {
+
+            commentHelper.getAllComment(detailPlace.value!!.uid)
+                .addOnSuccessListener { documents ->
+                    if (documents.documents.isEmpty()) {
+                        Log.d("DEBUG", "No comment")
+                    } else {
+                        val list = ArrayList<Comment>()
+                        for (document in documents) {
+
+                            var comment = document.toObject(Comment::class.java)
+                            list.add(comment)
+
+                        }
+
+                        listComment.value = list
+                        Log.d("DEBUG", "YES comment")
+                    }
+
+                }
+        }
     }
 
 

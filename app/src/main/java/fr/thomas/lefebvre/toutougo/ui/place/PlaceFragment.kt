@@ -34,6 +34,8 @@ class PlaceFragment : Fragment() {
 
         binding.lifecycleOwner=activity
 
+
+
         onClickAddPlace()
 
 

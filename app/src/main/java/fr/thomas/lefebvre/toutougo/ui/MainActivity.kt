@@ -9,6 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import android.content.Intent
 import android.content.DialogInterface
 import android.location.LocationManager
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import fr.thomas.lefebvre.toutougo.R
 
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
 
         navView.setupWithNavController(navController)
+
+        Log.d("DEBUG","Main activity on create")
 
     }
 

@@ -43,6 +43,8 @@ class PhotoPlaceViewModel : ViewModel() {
     private val placeHelper = PlaceHelper()
 
 
+
+
     // -------------------- CREATE PHOTO PLACE         ------------------------
 
     fun createPhotoPlace() {

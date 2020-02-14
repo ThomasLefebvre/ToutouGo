@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/mapFragment"
-        android:icon="@drawable/ic_map"
-        android:title="@string/bottom_map" />
-
-    <item
-        android:id="@+id/evenementFragment"
-        android:icon="@drawable/ic_event"
-        android:title="@string/bottom_evenement" />
 
     <item
         android:id="@+id/welcomeFragment"
@@ -22,10 +13,20 @@
         android:icon="@drawable/ic_road"
         android:title="@string/bottom_chemin" />
 
+
+
     <item
-        android:id="@+id/promeneurFragment"
-        android:icon="@drawable/ic_users"
-        android:title="@string/bottom_promeneurs" />
+        android:id="@+id/evenementFragment"
+        android:icon="@drawable/ic_event"
+        android:title="@string/bottom_evenement" />
+
+    <item
+        android:id="@+id/mapFragment"
+        android:icon="@drawable/ic_map"
+        android:title="@string/bottom_map" />
+
+
+
 
 
 </menu>
