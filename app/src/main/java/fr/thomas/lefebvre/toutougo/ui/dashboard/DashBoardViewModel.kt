@@ -148,9 +148,9 @@ class DashBoardViewModel : ViewModel() {
 
     // -------------------- SET LOCATION USER  ------------------------
 
-    fun setLocation(location: Location) {
-        _lastLatitude.value = location.latitude
-        _lastLongitude.value = location.longitude
+    fun setLocation(latitude: Double,longitude:Double) {
+        _lastLatitude.value = latitude
+        _lastLongitude.value = longitude
         Log.d("LOCATION", lastLatitute.value.toString() + " " + lastLongitude.value.toString())
     }
 

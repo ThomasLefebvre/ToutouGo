@@ -57,6 +57,8 @@ dependencies {
     //coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+    //carousel
+    implementation 'com.synnapps:carouselview:0.1.4'
 
 }
 apply plugin: 'com.google.gms.google-services'

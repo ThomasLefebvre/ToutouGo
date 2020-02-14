@@ -1,7 +1,10 @@
 package fr.thomas.lefebvre.toutougo.ui.dashboard
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
@@ -119,11 +123,16 @@ class DashBoardFragment : Fragment() {
         mFusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
             //call location provider
             if (location != null) {
-                mViewModel.setLocation(location)
+                mViewModel.setLocation(location.latitude,location.longitude)
                 val currentLatLng = LatLng(location.latitude, location.longitude)
 
             }
+            else{
+                mViewModel.setLocation(48.8,2.33)
+            }
+
         }
+
     }
 
 

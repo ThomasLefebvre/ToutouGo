@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.material.snackbar.Snackbar
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentPlaceBinding
@@ -45,7 +46,11 @@ class PlaceFragment : Fragment() {
 
         viewModelLocation= ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 
-        viewModel.getPlace(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!)
+
+            viewModel.getPlace(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!)
+
+
+
 
         adapter= PlaceAdapter(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!,PlaceListener {
      onClickDetailsPlace(it)
