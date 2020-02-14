@@ -133,11 +133,15 @@ class PhotoPlaceFragment : Fragment() {
             if (viewModelPhoto.listPhotoPlace.value!=null){
                 viewModelPhoto.updatePhotoMainPlace()
                 viewModel.clearPlaceAfterSave()
+                Snackbar.make(requireView(), getString(R.string.place_delais), Snackbar.LENGTH_LONG).show()
+                view!!.findNavController().navigate(R.id.action_photoPlaceFragment_to_placeFragment)
 
             }
-            Snackbar.make(requireView(), getString(R.string.place_delais), Snackbar.LENGTH_LONG).show()
-            view!!.findNavController().navigate(R.id.action_photoPlaceFragment_to_placeFragment)
+            else{
+                Snackbar.make(requireView(), getString(R.string.alert_photo_place_create), Snackbar.LENGTH_LONG).show()
+            }
         }
+
     }
 
 

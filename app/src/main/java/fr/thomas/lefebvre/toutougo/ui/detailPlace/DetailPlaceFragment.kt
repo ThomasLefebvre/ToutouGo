@@ -15,6 +15,11 @@ import fr.thomas.lefebvre.toutougo.databinding.FragmentDetailPlaceBinding
 import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
 import android.content.Intent
 import android.net.Uri
+import android.widget.ImageView
+import androidx.lifecycle.Observer
+import com.squareup.picasso.Picasso
+import com.synnapps.carouselview.CarouselView
+import com.synnapps.carouselview.ImageListener
 import fr.thomas.lefebvre.toutougo.ui.place.PhotoPlaceViewModel
 
 
@@ -42,11 +47,31 @@ class DetailPlaceFragment : Fragment() {
         Log.d("DETAIL PLACE",viewModel.detailPlace.value!!.name)
         viewModel.getPhoto()
 
+        viewModel.listPhotoPlace.observe(this, Observer {listPhoto->
+            if(listPhoto!=null){
+                val carouselView=binding.carouselViewDetailPlacePhoto as CarouselView
+                carouselView.setImageListener(imageListener)
+                carouselView.pageCount=viewModel.listPhotoPlace.value!!.size
+
+            }
+
+        })
+
+
         onButtonMap()
 
 
         return binding.root
     }
+    //-------------IMAGE LISTENER FOR CAROUSEL VIEW----------
+
+    var imageListener:ImageListener=object :ImageListener{
+        override fun setImageForPosition(position: Int, imageView: ImageView?) {
+            Picasso.get().load(viewModel.listPhotoPlace.value?.get(position)?.photoUrl).into(imageView)
+        }
+
+    }
+
 
     //-------------BUTTON CLICK----------
 

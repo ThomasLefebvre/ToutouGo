@@ -137,22 +137,7 @@ class CreatePlaceFragment : Fragment() {
         }
     }
 
-    private fun alertDialogQuery() {
 
-        val mDialog = LayoutInflater.from(requireContext())
-                .inflate(R.layout.alert_dialog_confirm, null)//Inflate dialog with custom layout
-        val mBuilder = AlertDialog.Builder(requireContext())//build the dialog with custom view
-                .setView(mDialog)//custom view (layout)
-        val mAlertDialog = mBuilder.show()//show dialog
-
-
-
-
-
-            mAlertDialog.dismiss()//dismiss dialog filter
-
-
-    }
 
 
 }

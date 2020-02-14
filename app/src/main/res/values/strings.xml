@@ -43,12 +43,16 @@
     <string name="search_place">Recherche un lieu</string>
     <string name="add_address">Selectionne une adresse</string>
     <string name="pick_address">Indique la sur la carte</string>
-    <string name="or">Où</string>
+    <string name="or">Ou</string>
     <string name="photos">Ajoute des photos</string>
     <string name="complete_address">Sélectionne une adresse valide.</string>
     <string name="distance">Distance:</string>
     <string name="address">Adresse</string>
     <string name="place_delais">Le lieu sera en ligne aprés un délais de vérification</string>
+    <string name="alert_photo_place_create">Merci d\'ajouter au moins une photo</string>
+    <string name="comment">Commentaires</string>
+    <string name="add_comment">Ajoute un commentaire…</string>
+
 
 
     //ALERT MESSAGES
