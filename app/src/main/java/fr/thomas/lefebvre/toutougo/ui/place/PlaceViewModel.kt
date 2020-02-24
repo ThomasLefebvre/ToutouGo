@@ -32,11 +32,12 @@ class PlaceViewModel : ViewModel() {
     val lngPlace = MutableLiveData<Double>()
     val adressPlace = MutableLiveData<String>().apply { value = "" }
 
-
+    //------------- VARIABLE FOR LIST PLACE ---------------
     private val placeHelper = PlaceHelper()
     private val currentUser = FirebaseAuth.getInstance().currentUser
 
     val listPlace = MutableLiveData<ArrayList<Place>>()
+
 
     //------------- VARIABLE FOR DETAILS PLACE ---------------
     val detailPlace = MutableLiveData<Place>()
@@ -216,6 +217,8 @@ class PlaceViewModel : ViewModel() {
         }
     }
 
+
+
     // -------------------- CLICK ON DETAIL PLACE  ------------------------
 
     fun clickDetailPlace(place: Place) {
@@ -254,22 +257,5 @@ class PlaceViewModel : ViewModel() {
                 }
         }
     }
-
-    fun clickNextPhoto() {
-        if (indexPhoto.value != null) {
-            if (indexPhoto.value!! < listPhotoPlace.value!!.size - 1) {
-                indexPhoto.value = indexPhoto.value!! + 1
-            }
-        }
-    }
-
-    fun clickPreviousPhoto() {
-        if (indexPhoto.value != null) {
-            if (indexPhoto.value!! > 0) {
-                indexPhoto.value = indexPhoto.value!! - 1
-            }
-        }
-    }
-
 }
 

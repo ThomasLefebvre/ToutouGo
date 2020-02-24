@@ -33,28 +33,27 @@ import java.util.*
 
 
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener,
-     GoogleMap.OnMapClickListener {
+    GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
+
 
     // -----                          VARIABLES                            --------
     private lateinit var locationViewModel: DashBoardViewModel
 
-    private lateinit var placeViewModel:PlaceViewModel
+    private lateinit var placeViewModel: PlaceViewModel
 
     //google map
     private lateinit var mMapView: MapView
     private lateinit var mGoogleMap: GoogleMap
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var lastLocation: Location
+
     //marker on long click
     private var markerClick: Marker? = null
-
 
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
 
     }
-
 
 
     // -----                          LIFE CYCLE                            --------
@@ -68,7 +67,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
             ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 
         placeViewModel =//init location view model
-                ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+            ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
         //init view with data binding
         val binding: FragmentMapBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
@@ -83,13 +82,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
 
 
-        binding.lifecycleOwner=activity
+
+
+
+        binding.lifecycleOwner = activity
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getPlaceAndCreateMarker()
         Log.d("MAP", "On view created")
     }
 
@@ -122,8 +125,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     // -----                          MAP                            --------
 
 
-
-
     override fun onMapReady(googleMap: GoogleMap?) {
 
         MapsInitializer.initialize(context)
@@ -131,33 +132,75 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         setUpMap()
         mGoogleMap.setOnMapClickListener(this)
         mGoogleMap.setOnInfoWindowClickListener(this)
+        mGoogleMap.setOnMarkerClickListener(this)
+
+
+        placeViewModel.listPlace.observe(this, Observer { listPlace ->
+            var index:Int=0
+            for (place in listPlace) {
+                val latLng = LatLng(place.lat, place.lng)
+                createMarkerRoad(latLng, place.name, place.uid,index)
+                index += 1
+            }
+        })
 
 
     }
 
 
     private fun setUpMap() {
-            if (locationViewModel.lastLatitute.value != null) {
-                mGoogleMap.uiSettings.isMyLocationButtonEnabled = true//enable button location
-                mGoogleMap.isMyLocationEnabled = true//enable location service
-                Log.d("MAP",locationViewModel.lastLatitute.value.toString())
-                val currentLatLng = LatLng(locationViewModel.lastLatitute.value!!, locationViewModel.lastLongitude.value!!)
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16f))
-            }
-        Log.d("MAP",locationViewModel.lastLatitute.value.toString())
+        if (locationViewModel.lastLatitute.value != null) {
+            mGoogleMap.uiSettings.isMyLocationButtonEnabled = true//enable button location
+            mGoogleMap.isMyLocationEnabled = true//enable location service
+            Log.d("MAP", locationViewModel.lastLatitute.value.toString())
+            val currentLatLng = LatLng(
+                locationViewModel.lastLatitute.value!!,
+                locationViewModel.lastLongitude.value!!
+            )
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16f))
+        }
+        Log.d("MAP", locationViewModel.lastLatitute.value.toString())
 
     }
 
+    private fun getPlaceAndCreateMarker() {
+        placeViewModel.getPlace(
+            locationViewModel.lastLatitute.value!!,
+            locationViewModel.lastLongitude.value!!
+        )
+    }
 
-    override fun onInfoWindowClick(p0: Marker?) {
-        if(placeViewModel.adressPlace.value!=null){
-            view!!.findNavController().navigate(R.id.action_mapFragment_to_createPlaceFragment)
-            Log.d("MAP","click on infos windows")
+
+    override fun onInfoWindowClick(marker: Marker?) {
+        Log.d("DEBUG", markerClick.toString())
+        if (markerClick != null) {
+            if (placeViewModel.adressPlace.value != null) {
+                view!!.findNavController().navigate(R.id.action_mapFragment_to_createPlaceFragment)
+                Log.d("MAP", "click on infos windows")
+            } else {
+                Snackbar.make(
+                    requireView(),
+                    getString(R.string.complete_address),
+                    Snackbar.LENGTH_SHORT
+                )
+                    .show()
+            }
         }
-        else{
-            Snackbar.make(requireView(),getString(R.string.complete_address), Snackbar.LENGTH_SHORT)
-                .show()
+
+        if(marker!!.snippet=="Chemin"){
+            placeViewModel.detailPlace.value= placeViewModel.listPlace.value?.get(marker.zIndex.toInt())
+            view!!.findNavController().navigate(R.id.action_mapFragment_to_detailPlaceFragment)
         }
+    }
+
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        if (markerClick != null) {
+            markerClick!!.remove()
+            markerClick = null
+        }
+        Log.d("DEBUG", markerClick.toString())
+
+        return false
     }
 
 
@@ -169,43 +212,67 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         createMarker(latLng, getString(R.string.cardview_appui_long))
 
 
-        val geocoder: Geocoder
+        val geocoder: Geocoder = Geocoder(requireContext(), Locale.getDefault())
         val addresses: List<Address>
-        geocoder = Geocoder(requireContext(), Locale.getDefault())
 
         addresses = geocoder.getFromLocation(
             latLng!!.latitude,
             latLng!!.longitude,
             1
         ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-        if(addresses.size!=0){
+        if (addresses.isNotEmpty()) {
             val address =
                 addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            Log.d("MAP",address.toString())
-            placeViewModel.adressPlace.value=address.toString()
-            placeViewModel.latPlace.value=latLng!!.latitude
-            placeViewModel.lngPlace.value=latLng!!.longitude
+            Log.d("MAP", address.toString())
+            placeViewModel.adressPlace.value = address.toString()
+            placeViewModel.latPlace.value = latLng!!.latitude
+            placeViewModel.lngPlace.value = latLng!!.longitude
+        } else {
+            placeViewModel.adressPlace.value = null
         }
-        else{
-            placeViewModel.adressPlace.value=null
-        }
-
 
 
     }
 
+    // ----------------------- MARKERS --------------------------------------
 
     private fun createMarker(latLng: LatLng?, titleMarker: String) {
         markerClick = mGoogleMap.addMarker(
             MarkerOptions().position(latLng!!).title(
                 titleMarker
             )
+
+
         )
         markerClick!!.showInfoWindow()
     }
 
 
+    private fun createMarkerRoad(latLng: LatLng?, titleMarker: String, idPlace: String,index:Int) {
+        mGoogleMap.addMarker(
+            MarkerOptions()
+                .position(latLng!!)
+                .title(titleMarker)
+                .snippet("Chemin")
+                .zIndex(index.toFloat())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.parc))
 
+        )
+    }
+
+
+
+    private fun createMarkerEvent(latLng: LatLng?, titleMarker: String, idPlace: String,index:Int) {
+        mGoogleMap.addMarker(
+            MarkerOptions()
+                .position(latLng!!)
+                .title(titleMarker)
+                .snippet("Evenement")
+                .zIndex(index.toFloat())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.eventmap))
+
+        )
+    }
 
 
 }

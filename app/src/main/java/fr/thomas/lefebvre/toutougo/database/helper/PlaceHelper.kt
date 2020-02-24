@@ -40,6 +40,7 @@ class PlaceHelper {
         return getPlacesCollection().whereEqualTo("onLine",true).get()
     }
 
+
     // ---- UPDATE USER ----
     fun updatePhotoPlaceIcone(uid: String,photoUrlMain:String): Task<Void> {
         return getPlacesCollection().document(uid).update("photoUrlMain",photoUrlMain)

@@ -77,8 +77,6 @@ class DetailPlaceFragment : Fragment() {
         })
 
 
-
-
         clickOnButtonMap()
 
         clickOnAddComment()

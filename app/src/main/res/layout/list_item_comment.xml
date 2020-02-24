@@ -26,9 +26,9 @@
 
         <ImageView
             android:id="@+id/imageViewLikeComment"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="@dimen/small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,15 +62,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewBodyComment" />
 
-        <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewNameComment"
-            app:srcCompat="@drawable/ic_dog" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

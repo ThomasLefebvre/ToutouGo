@@ -1,5 +1,6 @@
 package fr.thomas.lefebvre.toutougo.ui.place
 
+
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,12 +10,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.material.snackbar.Snackbar
-
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentPlaceBinding
 import fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardViewModel
+
 
 class PlaceFragment : Fragment() {
 
@@ -37,6 +36,7 @@ class PlaceFragment : Fragment() {
 
 
         onClickAddPlace()
+
 
 
         return binding.root
@@ -80,5 +80,15 @@ class PlaceFragment : Fragment() {
         viewModel.clickDetailPlace(place)
         view!!.findNavController().navigate(R.id.action_placeFragment_to_detailPlaceFragment)
     }
+
+
+
+
+
+
+
+
+
+
 
 }
