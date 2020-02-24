@@ -28,7 +28,10 @@ import fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardViewModel
 import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
 import android.location.Geocoder
 import android.location.Address
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
+import fr.thomas.lefebvre.toutougo.ui.detailPlace.DetailPlaceFragment
 import java.util.*
 
 
@@ -45,6 +48,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     private lateinit var mMapView: MapView
     private lateinit var mGoogleMap: GoogleMap
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+    private val firstMap:Boolean=true
 
     //marker on long click
     private var markerClick: Marker? = null
@@ -71,10 +75,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         //init view with data binding
         val binding: FragmentMapBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
-
-        //init the service map
         mMapView = binding.mapView
         mMapView.onCreate(savedInstanceState)
+        mMapView.onResume()
+
         mMapView.getMapAsync(this)
         //init fused location client service
         mFusedLocationProviderClient =//init location provider
@@ -92,13 +96,18 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //init the service map
+
+        //get place for create marker
         getPlaceAndCreateMarker()
         Log.d("MAP", "On view created")
     }
 
     override fun onPause() {
-        super.onPause()
         mMapView.onPause()
+        super.onPause()
+
         Log.d("MAP", "On pause")
     }
 
@@ -109,8 +118,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
     override fun onResume() {
-        super.onResume()
         mMapView.onResume()
+        super.onResume()
+
 
         Log.d("MAP", "On resume")
     }
@@ -121,11 +131,25 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         Log.d("MAP", "On start")
     }
 
+    override fun onStop() {
+        Log.d("MAP", "On stop")
+        super.onStop()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        mMapView.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
+
+
 
     // -----                          MAP                            --------
 
 
     override fun onMapReady(googleMap: GoogleMap?) {
+
+        Log.d("MAP", "onMapReady")
 
         MapsInitializer.initialize(context)
         mGoogleMap = googleMap!!
@@ -157,7 +181,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                 locationViewModel.lastLatitute.value!!,
                 locationViewModel.lastLongitude.value!!
             )
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16f))
+            if(firstMap){
+
+            }
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 14f))
         }
         Log.d("MAP", locationViewModel.lastLatitute.value.toString())
 
@@ -189,7 +216,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
         if(marker!!.snippet=="Chemin"){
             placeViewModel.detailPlace.value= placeViewModel.listPlace.value?.get(marker.zIndex.toInt())
-            view!!.findNavController().navigate(R.id.action_mapFragment_to_detailPlaceFragment)
+//            view!!.findNavController().navigate(R.id.action_mapFragment_to_detailPlaceFragment)
+            fragmentDetailPlace()
         }
     }
 
@@ -272,6 +300,19 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.eventmap))
 
         )
+    }
+
+
+    private fun fragmentDetailPlace(){
+
+        val detailFragment=DetailPlaceFragment()
+        val fragmentManager=getFragmentManager()
+        val fragmentTransaction=fragmentManager!!.beginTransaction()
+
+        fragmentTransaction.add(R.id.nav_host_fragment,detailFragment).addToBackStack("map")
+        fragmentTransaction.commit()
+
+
     }
 
 
