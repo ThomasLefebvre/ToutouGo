@@ -31,9 +31,31 @@ fun loadImageFromListPhotoPlace(view: ImageView, listPhotoPlace: ArrayList<Photo
 
 @BindingAdapter("date")
 fun TextView.setDateSting(date:Long){
-    val dateLong= Date(date)
-    val sdf=SimpleDateFormat("dd/MM/yyyy")
-    text = sdf.format(dateLong)
+    if(date>0){
+        val dateLong= Date(date)
+        val sdf=SimpleDateFormat("dd/MM/yyyy")
+        text = sdf.format(dateLong)
+    }
+
+}
+
+@BindingAdapter("hour","minute")
+fun  TextView.setTime(hour:Int?,minute:Int?){
+    if(hour!=null){
+        val sb=java.lang.StringBuilder()
+        sb.append(hour.toString())
+        sb.append(context.getString(R.string.hour))
+        if (minute != null) {
+            if(minute<10){
+                sb.append("0$minute")
+            }else{
+                sb.append(minute.toString())
+            }
+        }
+        text=sb.toString()
+
+
+    }
 }
 
 @BindingAdapter("likeOrNot")

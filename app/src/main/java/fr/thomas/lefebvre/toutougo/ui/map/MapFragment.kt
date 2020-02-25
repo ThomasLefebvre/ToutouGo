@@ -32,6 +32,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
 import fr.thomas.lefebvre.toutougo.ui.detailPlace.DetailPlaceFragment
+import kotlinx.android.synthetic.main.fragment_map.*
 import java.util.*
 
 
@@ -44,11 +45,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
     private lateinit var placeViewModel: PlaceViewModel
 
+    private lateinit var binding: FragmentMapBinding
+
     //google map
     private lateinit var mMapView: MapView
     private lateinit var mGoogleMap: GoogleMap
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-    private val firstMap:Boolean=true
+    private val firstMap: Boolean = true
 
     //marker on long click
     private var markerClick: Marker? = null
@@ -73,7 +76,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         placeViewModel =//init location view model
             ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
         //init view with data binding
-        val binding: FragmentMapBinding =
+        binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
         mMapView = binding.mapView
         mMapView.onCreate(savedInstanceState)
@@ -83,13 +86,22 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         //init fused location client service
         mFusedLocationProviderClient =//init location provider
             LocationServices.getFusedLocationProviderClient(requireContext())
+        binding.viewModel = placeViewModel
 
 
 
 
-
+        when (placeViewModel.isPlaceOrEvent.value) {
+            getString(R.string.event) -> placeViewModel.messageMapFragment.value =
+                "Clic sur le lieu ou tu veux créer ton événement"
+            getString(R.string.place) -> placeViewModel.messageMapFragment.value =
+                "Clic sur la carte pour indiquer l'emplacement du lieu à créer."
+            null -> placeViewModel.messageMapFragment.value =
+                "Visualise les lieux et évenements en cliquant sur les icones"
+        }
 
         binding.lifecycleOwner = activity
+
 
         return binding.root
     }
@@ -100,8 +112,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         //init the service map
 
         //get place for create marker
-        getPlaceAndCreateMarker()
-        Log.d("MAP", "On view created")
+        getPlaceForCreateMarker()
+
+        //init infos button
+        onClickInfosButton()
+
+        Log.d("MAP", "On view created + context: ${placeViewModel.isPlaceOrEvent.value.toString()}")
     }
 
     override fun onPause() {
@@ -114,6 +130,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     override fun onDestroy() {
         super.onDestroy()
         mMapView.onDestroy()
+        placeViewModel.isPlaceOrEvent.value = null
         Log.d("MAP", "On destroy")
     }
 
@@ -142,8 +159,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
 
-
-
     // -----                          MAP                            --------
 
 
@@ -160,10 +175,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
 
         placeViewModel.listPlace.observe(this, Observer { listPlace ->
-            var index:Int=0
+            var index: Int = 0
             for (place in listPlace) {
                 val latLng = LatLng(place.lat, place.lng)
-                createMarkerRoad(latLng, place.name, place.uid,index)
+                createMarkerRoad(latLng, place.name, place.uid, index)
                 index += 1
             }
         })
@@ -181,7 +196,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                 locationViewModel.lastLatitute.value!!,
                 locationViewModel.lastLongitude.value!!
             )
-            if(firstMap){
+            if (firstMap) {
 
             }
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 14f))
@@ -190,21 +205,19 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
     }
 
-    private fun getPlaceAndCreateMarker() {
+    private fun getPlaceForCreateMarker() {
         placeViewModel.getPlace(
             locationViewModel.lastLatitute.value!!,
             locationViewModel.lastLongitude.value!!
         )
     }
 
-
-    override fun onInfoWindowClick(marker: Marker?) {
-        Log.d("DEBUG", markerClick.toString())
-        if (markerClick != null) {
-            if (placeViewModel.adressPlace.value != null) {
+    private fun pickAddressForPlace() {
+        if (markerClick != null) {//pick address only on marker click
+            if (placeViewModel.adressPlace.value != null) {//if address is correct
                 view!!.findNavController().navigate(R.id.action_mapFragment_to_createPlaceFragment)
                 Log.d("MAP", "click on infos windows")
-            } else {
+            } else {//address not correct
                 Snackbar.make(
                     requireView(),
                     getString(R.string.complete_address),
@@ -212,51 +225,83 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
                 )
                     .show()
             }
-        }
-
-        if(marker!!.snippet=="Chemin"){
-            placeViewModel.detailPlace.value= placeViewModel.listPlace.value?.get(marker.zIndex.toInt())
-//            view!!.findNavController().navigate(R.id.action_mapFragment_to_detailPlaceFragment)
-            fragmentDetailPlace()
+        } else {// no pick address on marker place or event
+            Snackbar.make(
+                requireView(),
+                getString(R.string.no_choice_lieu),
+                Snackbar.LENGTH_LONG
+            )
+                .show()
         }
     }
 
+    private fun pickPlaceForEvent(marker: Marker?) {
+
+        if (marker!!.snippet == "Chemin") {
+            placeViewModel.placeEvent.value =
+                placeViewModel.listPlace.value?.get(marker.zIndex.toInt())
+
+            placeViewModel.namePlaceEvent.value=placeViewModel.listPlace.value?.get(marker.zIndex.toInt())!!.name
+
+            view!!.findNavController().navigate(R.id.action_mapFragment_to_createEventFragment)
+
+        }
+    }
+
+
+    override fun onInfoWindowClick(marker: Marker?) {
+
+        when (placeViewModel.isPlaceOrEvent.value) {
+            getString(R.string.event) -> pickPlaceForEvent(marker)
+            getString(R.string.place) -> pickAddressForPlace()
+            null -> if (marker!!.snippet == "Chemin") {
+                placeViewModel.detailPlace.value =
+                    placeViewModel.listPlace.value?.get(marker.zIndex.toInt())
+                fragmentDetailPlace()
+            }
+        }
+    }
+
+
     override fun onMarkerClick(marker: Marker?): Boolean {
-        if (markerClick != null) {
+
+        if (markerClick != null) {//remove marker click if click on other marker (place or event)
             markerClick!!.remove()
             markerClick = null
         }
-        Log.d("DEBUG", markerClick.toString())
 
-        return false
+        return false//show info windows
     }
 
 
     override fun onMapClick(latLng: LatLng?) {
-        if (markerClick != null) {
-            markerClick!!.remove()
-        }
+        if (placeViewModel.isPlaceOrEvent.value == getString(R.string.place)) {//create marker only if the context is create place
 
-        createMarker(latLng, getString(R.string.cardview_appui_long))
+            if (markerClick != null) {//delete marker if already draw
+                markerClick!!.remove()
+            }
+
+            createMarker(latLng, getString(R.string.emplacement))//create a new marker
 
 
-        val geocoder: Geocoder = Geocoder(requireContext(), Locale.getDefault())
-        val addresses: List<Address>
+            val geocoder: Geocoder = Geocoder(requireContext(), Locale.getDefault())
+            val addresses: List<Address>
 
-        addresses = geocoder.getFromLocation(
-            latLng!!.latitude,
-            latLng!!.longitude,
-            1
-        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-        if (addresses.isNotEmpty()) {
-            val address =
-                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            Log.d("MAP", address.toString())
-            placeViewModel.adressPlace.value = address.toString()
-            placeViewModel.latPlace.value = latLng!!.latitude
-            placeViewModel.lngPlace.value = latLng!!.longitude
-        } else {
-            placeViewModel.adressPlace.value = null
+            addresses = geocoder.getFromLocation(//get the address of the marker click on map
+                latLng!!.latitude,
+                latLng!!.longitude,
+                1
+            ) // Here 1 represent max location result to returned, by documents
+            if (addresses.isNotEmpty()) {
+                val address =
+                    addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                Log.d("MAP", address.toString())
+                placeViewModel.adressPlace.value = address.toString()
+                placeViewModel.latPlace.value = latLng!!.latitude
+                placeViewModel.lngPlace.value = latLng!!.longitude
+            } else {
+                placeViewModel.adressPlace.value = null
+            }
         }
 
 
@@ -276,7 +321,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
 
-    private fun createMarkerRoad(latLng: LatLng?, titleMarker: String, idPlace: String,index:Int) {
+    private fun createMarkerRoad(
+        latLng: LatLng?,
+        titleMarker: String,
+        idPlace: String,
+        index: Int
+    ) {
         mGoogleMap.addMarker(
             MarkerOptions()
                 .position(latLng!!)
@@ -289,8 +339,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
 
-
-    private fun createMarkerEvent(latLng: LatLng?, titleMarker: String, idPlace: String,index:Int) {
+    private fun createMarkerEvent(
+        latLng: LatLng?,
+        titleMarker: String,
+        idPlace: String,
+        index: Int
+    ) {
         mGoogleMap.addMarker(
             MarkerOptions()
                 .position(latLng!!)
@@ -302,14 +356,27 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         )
     }
 
+    // ------------ ON CLICK BUTTON ------
 
-    private fun fragmentDetailPlace(){
+    private fun onClickInfosButton() {
+        binding.buttonInfos.setOnClickListener {
+            Snackbar.make(
+                requireView(),
+                placeViewModel.messageMapFragment.value!!,
+                Snackbar.LENGTH_LONG
+            )
+                .show()
+        }
+    }
 
-        val detailFragment=DetailPlaceFragment()
-        val fragmentManager=getFragmentManager()
-        val fragmentTransaction=fragmentManager!!.beginTransaction()
 
-        fragmentTransaction.add(R.id.nav_host_fragment,detailFragment).addToBackStack("map")
+    private fun fragmentDetailPlace() {
+
+        val detailFragment = DetailPlaceFragment()
+        val fragmentManager = getFragmentManager()
+        val fragmentTransaction = fragmentManager!!.beginTransaction()
+
+        fragmentTransaction.add(R.id.nav_host_fragment, detailFragment).addToBackStack("map")
         fragmentTransaction.commit()
 
 

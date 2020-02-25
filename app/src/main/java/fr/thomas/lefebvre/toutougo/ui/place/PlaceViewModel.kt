@@ -32,6 +32,24 @@ class PlaceViewModel : ViewModel() {
     val lngPlace = MutableLiveData<Double>()
     val adressPlace = MutableLiveData<String>().apply { value = "" }
 
+    //------------- VARIABLE FOR CREATE EVENT ---------------
+
+    val uidEvent = MutableLiveData<String>()
+    val nameEvent = MutableLiveData<String>()
+    val descriptionEvent = MutableLiveData<String>()
+    val placeEvent = MutableLiveData<Place>()
+    val dateEvent = MutableLiveData<Long>()
+    val hourEvent=MutableLiveData<Int>()
+    val minuteEvent=MutableLiveData<Int>()
+    val maxCustomer = MutableLiveData<String>()
+    val listInt = ArrayList<String>()
+    val namePlaceEvent=MutableLiveData<String>()
+
+    //------------- VARIABLE KNOW IS CREATE PLACE OR EVENT ---------------
+
+    val isPlaceOrEvent=MutableLiveData<String>()
+    val messageMapFragment=MutableLiveData<String>()
+
     //------------- VARIABLE FOR LIST PLACE ---------------
     private val placeHelper = PlaceHelper()
     private val currentUser = FirebaseAuth.getInstance().currentUser
@@ -53,7 +71,21 @@ class PlaceViewModel : ViewModel() {
 
     val listComment = MutableLiveData<ArrayList<Comment>>()
 
+    // -------------------- METHOD FOR SET LIST ------------------------
 
+    init {
+        initListSpinner()
+    }
+
+
+
+    fun initListSpinner() {
+        for (i in 2..10) {//init list age
+            listInt.add(i.toString())
+        }
+
+
+    }
 
     // -------------------- CREATE COMMENT  ------------------------
     fun createComment(likeOrNot: Boolean) {

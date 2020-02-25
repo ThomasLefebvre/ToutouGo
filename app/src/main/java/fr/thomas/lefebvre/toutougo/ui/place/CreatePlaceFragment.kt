@@ -29,7 +29,7 @@ import java.util.*
  */
 class CreatePlaceFragment : Fragment() {
 
-    private lateinit var binding:FragmentCreatePlaceBinding
+    private lateinit var binding: FragmentCreatePlaceBinding
 
     private lateinit var viewModel: PlaceViewModel
 
@@ -40,20 +40,31 @@ class CreatePlaceFragment : Fragment() {
     }
 
 
-// ------------------ LIFE CYCLE METHOD ---------------------
+    // ------------------ LIFE CYCLE METHOD ---------------------
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=DataBindingUtil.inflate(layoutInflater,R.layout.fragment_create_place,container,false)
+        binding = DataBindingUtil.inflate(
+            layoutInflater,
+            R.layout.fragment_create_place,
+            container,
+            false
+        )
 
-    Places.initialize(requireContext(),getString(R.string.map_api_key))
+        Places.initialize(requireContext(), getString(R.string.map_api_key))//INIT PLACE SDK FOR GET ADDRESS
 
 
-    onButtonSelectAddress()
-    onButtonPickAddress()
-    onClickNext()
+
+
+
+
+
+
+        onButtonSelectAddress()
+        onButtonPickAddress()
+        onClickNext()
 
 
 
@@ -61,12 +72,11 @@ class CreatePlaceFragment : Fragment() {
     }
 
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
-        binding.viewModel=viewModel
-        binding.lifecycleOwner=activity
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = activity
     }
 
 
@@ -94,7 +104,7 @@ class CreatePlaceFragment : Fragment() {
             AUTOCOMPLETE_REQUEST -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val place = Autocomplete.getPlaceFromIntent(data!!)
-                    viewModel.adressPlace.value=place.address
+                    viewModel.adressPlace.value = place.address
                     viewModel.latPlace.value = place.latLng!!.latitude
                     viewModel.lngPlace.value = place.latLng!!.longitude
 
@@ -109,19 +119,20 @@ class CreatePlaceFragment : Fragment() {
 
     // ------------------ ON BUTTON CLICk   --------------------------------------
 
-    private fun onButtonSelectAddress(){
+    private fun onButtonSelectAddress() {
         binding.buttonAddAddress.setOnClickListener {
             initAutoCompleteIntent()
         }
     }
 
-    private fun onButtonPickAddress(){
+    private fun onButtonPickAddress() {
         binding.buttonPickAddress.setOnClickListener {
+            viewModel.isPlaceOrEvent.value=getString(R.string.place)
             view!!.findNavController().navigate(R.id.action_createPlaceFragment_to_mapFragment)
         }
     }
 
-    private fun onClickNext(){
+    private fun onClickNext() {
         binding.floatingActionButtonNextPlace.setOnClickListener {
             if (viewModel.checkAllInfosPlace()) {
 
@@ -130,14 +141,16 @@ class CreatePlaceFragment : Fragment() {
 
 
             } else {
-                Snackbar.make(requireView(),getString(R.string.complete_infos), Snackbar.LENGTH_SHORT)
+                Snackbar.make(
+                    requireView(),
+                    getString(R.string.complete_infos),
+                    Snackbar.LENGTH_SHORT
+                )
                     .show()
             }
 
         }
     }
-
-
 
 
 }

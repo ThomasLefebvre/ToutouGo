@@ -18,21 +18,21 @@ import fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardViewModel
 
 class PlaceFragment : Fragment() {
 
-    private lateinit var binding:FragmentPlaceBinding
+    private lateinit var binding: FragmentPlaceBinding
 
     private lateinit var viewModel: PlaceViewModel
 
     private lateinit var viewModelLocation: DashBoardViewModel
 
-    private lateinit var adapter:  PlaceAdapter
+    private lateinit var adapter: PlaceAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_place,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_place, container, false)
 
-        binding.lifecycleOwner=activity
+        binding.lifecycleOwner = activity
 
 
 
@@ -47,17 +47,23 @@ class PlaceFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
 
-        viewModelLocation= ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
+        viewModelLocation = ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 
 
-            viewModel.getPlace(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!)
+        viewModel.getPlace(
+            viewModelLocation.lastLatitute.value!!,
+            viewModelLocation.lastLongitude.value!!
+        )
 
 
 
 
-        adapter= PlaceAdapter(viewModelLocation.lastLatitute.value!!,viewModelLocation.lastLongitude.value!!,PlaceListener {
-     onClickDetailsPlace(it)
-        })
+        adapter = PlaceAdapter(
+            viewModelLocation.lastLatitute.value!!,
+            viewModelLocation.lastLongitude.value!!,
+            PlaceListener {
+                onClickDetailsPlace(it)
+            })
 
         viewModel.listPlace.observe(this, Observer {
             it?.let {
@@ -65,33 +71,22 @@ class PlaceFragment : Fragment() {
             }
         })
 
-        binding.recyclerViewProxCoin.adapter=adapter
+        binding.recyclerViewProxCoin.adapter = adapter
     }
-
-
 
 
     // ---------------- CLICK ON BUTTON -----------------------------
 
-    private fun onClickAddPlace(){
+    private fun onClickAddPlace() {
         binding.buttonAddPlace.setOnClickListener {
             view!!.findNavController().navigate(R.id.actionCreatePlace)
         }
     }
 
-    private fun onClickDetailsPlace(place:fr.thomas.lefebvre.toutougo.database.model.Place){
+    private fun onClickDetailsPlace(place: fr.thomas.lefebvre.toutougo.database.model.Place) {
         viewModel.clickDetailPlace(place)
         view!!.findNavController().navigate(R.id.action_placeFragment_to_detailPlaceFragment)
     }
-
-
-
-
-
-
-
-
-
 
 
 }

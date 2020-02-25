@@ -10,8 +10,6 @@
     <string name="bottom_evenement">Evenements</string>
     <string name="bottom_promeneurs">Promeneurs</string>
     //mapview
-    <string name="cardview_appui_long">Indiquer un lieu</string>
-    <string name="cardview_appui_court">Créer un évenement</string>
 
     <string name="welcome_text">Salut à toi "</string>
     <string name="kg">kg</string>
@@ -53,6 +51,20 @@
     <string name="comment">Commentaires</string>
     <string name="add_comment">Ajoute un commentaire…</string>
     <string name="like_or_not">As-tu aimé ce lieu?</string>
+    <string name="create_event">Créer un évenement</string>
+    <string name="create">Créer</string>
+    <string name="choisir_lieu">Choisir un lieu</string>
+    <string name="emplacement">Indiquer cet emplacement</string>
+    <string name="no_choice_lieu">Vous ne pouvez pas créer un lieu sur un autre lieu</string>
+    <string name="date">Date</string>
+    <string name="heure">Heure</string>
+    <string name="hour">H</string>
+
+
+
+    //No translate
+    <string name="place">Place</string>
+    <string name="event">Event</string>
 
 
     //ALERT MESSAGES

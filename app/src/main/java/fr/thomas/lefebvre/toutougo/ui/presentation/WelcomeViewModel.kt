@@ -52,10 +52,8 @@ class WelcomeViewModel() : ViewModel() {
     // -------------------- VARIABLE FOR LIST      ------------------------
 
     val listInt = ArrayList<String>()
-    val listSexe = ArrayList<String>()
-    val listRace = ArrayList<String>()
     val listIntDog = ArrayList<String>()
-    val listSexeDog = ArrayList<String>()
+
 
     // -------------------- INIT VARIABLES ------------------------
 
@@ -76,22 +74,12 @@ class WelcomeViewModel() : ViewModel() {
         for (i in 18..99) {//init list age
             listInt.add(i.toString())
         }
-        //init list sex
-        listSexe.add("Femme")
-        listSexe.add("Homme")
-
-        //init list race
-        listRace.add("Boxer")
-        listRace.add("Caniche")
-        listRace.add("Berger Allemand")
 
         //init list int dog
         for (i in 0..99) {//init list age
             listIntDog.add(i.toString())
         }
-        //init list sex dog
-        listSexeDog.add("Mâle")
-        listSexeDog.add("Femelle")
+
         Log.d("DEBUG", "init spinner in viewmodel")
     }
 
