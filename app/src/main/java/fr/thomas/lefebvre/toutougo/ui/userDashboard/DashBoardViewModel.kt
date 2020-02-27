@@ -1,14 +1,11 @@
-package fr.thomas.lefebvre.toutougo.ui.dashboard
+package fr.thomas.lefebvre.toutougo.ui.userDashboard
 
-import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import fr.thomas.lefebvre.toutougo.database.helper.DogHelper
-import fr.thomas.lefebvre.toutougo.database.model.User
-import fr.thomas.lefebvre.toutougo.database.helper.UserHelper
 import fr.thomas.lefebvre.toutougo.database.model.Dog
 import kotlinx.coroutines.*
 

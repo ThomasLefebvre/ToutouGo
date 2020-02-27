@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,12 +23,9 @@ import com.google.firebase.storage.StorageReference
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentPhotoPlaceBinding
-import fr.thomas.lefebvre.toutougo.ui.dashboard.DogAdapter
-import fr.thomas.lefebvre.toutougo.ui.dashboard.DogListener
 import fr.thomas.lefebvre.toutougo.ui.edit.EditFragment
 import fr.thomas.lefebvre.toutougo.utils.setBitmapFromView
 import kotlinx.android.synthetic.main.alert_dialog_save.view.*
-import kotlinx.android.synthetic.main.fragment_dog_infos.*
 import kotlinx.android.synthetic.main.fragment_photo_place.*
 import java.io.ByteArrayOutputStream
 

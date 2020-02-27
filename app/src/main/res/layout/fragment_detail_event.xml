@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
             type="fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel" />
 
-
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.placeDetails.DetailPlaceFragment">
+        tools:context=".ui.eventDetails.DetailEventFragment"
+       >
 
         <!-- TODO: Update blank fragment layout -->
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/imageButtonBack"
-            style="@style/Widget.Design.FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_chevron_left_black_24dp" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView7"
@@ -55,18 +43,47 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <com.synnapps.carouselview.CarouselView
-                        android:id="@+id/carouselViewDetailPlacePhoto"
-                        android:layout_width="0dp"
-                        android:layout_height="300dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/chemin"
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/materialCardView"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginEnd="@dimen/small"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/hello_blank_fragment"
+                        app:cardCornerRadius="6dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageViewEvent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            app:error="@{@drawable/ic_users}"
+                            app:imageUrl="@{viewModel.userCreatorPhotoUrl}" />
+
+                        <ImageButton
+                            android:id="@+id/imageButtonInfoCreator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:backgroundTint="@color/fui_transparent"
+                            android:tint="@color/white"
+                            android:src="@drawable/ic_info_black_24dp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <ImageView
+                        android:id="@+id/imageViewEvent"
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{viewModel.detailEvent.photoEvent}"
+                        app:error="@{@drawable/chemin}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                    </com.synnapps.carouselview.CarouselView>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/imageViewMarge"
@@ -74,7 +91,7 @@
                         android:layout_height="50dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/carouselViewDetailPlacePhoto"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewEvent"
                         app:srcCompat="@color/colorPrimaryDark" />
 
                     <TextView
@@ -83,26 +100,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/small"
                         android:layout_marginEnd="@dimen/small"
-                        android:text="@{viewModel.detailPlace.name}"
+                        android:text="@{viewModel.detailEvent.nameEvent}"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/imageViewMarge"
                         app:layout_constraintEnd_toStartOf="@+id/imageButtonNavigationMap"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/carouselViewDetailPlacePhoto" />
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewEvent" />
 
-                    <ImageButton
-                        android:id="@+id/imageButtonNavigationMap"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/small"
-                        android:background="@color/fui_transparent"
-                        android:tint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@+id/carouselViewDetailPlacePhoto"
-                        app:layout_constraintEnd_toEndOf="@+id/imageViewMarge"
-                        app:layout_constraintTop_toBottomOf="@+id/carouselViewDetailPlacePhoto"
-                        app:srcCompat="@drawable/ic_itineraire" />
+
 
                     <TextView
                         android:id="@+id/textViewDescriptionDetail"
@@ -122,21 +129,31 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/small"
                         android:layout_marginTop="@dimen/small"
-                        android:text="@string/address"
+                        android:text="@string/lieu"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                    <TextView
+                        android:id="@+id/textViewDateHour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small"
+                        android:layout_marginTop="@dimen/small"
+                        android:text="@string/date_hours"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
                     <TextView
                         android:id="@+id/textViewComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/small"
-                        android:layout_marginTop="@dimen/small"
-                        android:text="@string/comment"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/participants"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
                     <TextView
                         android:id="@+id/textView6"
@@ -145,7 +162,7 @@
                         android:layout_marginStart="@dimen/small"
                         android:layout_marginTop="@dimen/very_small"
                         android:layout_marginEnd="@dimen/small"
-                        android:text="@{viewModel.detailPlace.description}"
+                        android:text="@{viewModel.detailEvent.descriptionEvent}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHeight_percent="0.2"
                         app:layout_constraintStart_toStartOf="parent"
@@ -158,60 +175,64 @@
                         android:layout_marginStart="@dimen/small"
                         android:layout_marginTop="@dimen/very_small"
                         android:layout_marginEnd="@dimen/small"
-                        android:text="@{viewModel.detailPlace.adress}"
+                        android:text="@{viewModel.detailEvent.namePlaceEvent}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textViewDescriptionAddress" />
 
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutPlace"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/small"
-                        android:layout_marginTop="@dimen/small"
-                        android:layout_marginEnd="@dimen/small"
-                        android:hint="@string/add_comment"
-                        app:helperTextEnabled="true"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewComment">
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:date="@{viewModel.detailEvent.dateEvent}"
+                        app:layout_constraintStart_toEndOf="@+id/textView11"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewDateHour" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/textInputEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@={viewModel.descriptionComment}"
-
-                            />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_add_comment"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/small"
-                        android:layout_marginEnd="@dimen/very_small"
-                        android:text="@string/add_photo"
-                        app:icon="@drawable/ic_add_circle_outline_black_24dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPlace" />
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:hour="@{viewModel.detailEvent.hourEvent}"
+                        app:layout_constraintStart_toEndOf="@+id/textView12"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewDateHour"
+                        app:minute="@{viewModel.detailEvent.minuteEvent}" />
+
+
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view_comment"
+                        android:id="@+id/recycler_view_participants"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/small"
-                        android:layout_marginBottom="64dp"
+                        android:layout_marginBottom="@dimen/very_small"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button_add_comment" />
+                        app:layout_constraintTop_toBottomOf="@+id/textViewComment" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/le"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewDateHour" />
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/à"
+                        app:layout_constraintStart_toEndOf="@+id/textView9"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewDateHour" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -219,6 +240,4 @@
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </layout>

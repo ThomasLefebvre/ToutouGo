@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardViewModel" />
+            type="fr.thomas.lefebvre.toutougo.ui.userDashboard.DashBoardViewModel" />
 
 
         <variable

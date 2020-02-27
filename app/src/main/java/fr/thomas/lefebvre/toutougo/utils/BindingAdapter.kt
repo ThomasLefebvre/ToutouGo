@@ -66,6 +66,7 @@ fun  TextView.setTime(hour:Int?,minute:Int?){
     }
 }
 
+
 @BindingAdapter("likeOrNot")
 fun ImageView.setLike(likeOrNot:Boolean){
     if(likeOrNot){

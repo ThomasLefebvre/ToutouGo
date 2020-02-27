@@ -127,7 +127,7 @@ class CreateEventFragment : Fragment() {
                 cal.set(Calendar.MINUTE,0)
                 cal.set(Calendar.SECOND,0)
                 cal.set(Calendar.MILLISECOND,0)
-                viewModel.dateEvent.value = (cal.timeInMillis)-21600000
+                viewModel.dateEvent.value = (cal.timeInMillis)
             }
 
         binding.buttonAddDate.setOnClickListener {
@@ -190,6 +190,7 @@ class CreateEventFragment : Fragment() {
         mDialog.buttonYes.setOnClickListener {
 
             viewModel.createEvent()
+            viewModel.clearInfosEvent()
             view!!.findNavController().navigate(R.id.action_createEventFragment_to_evenementFragment)
 
 

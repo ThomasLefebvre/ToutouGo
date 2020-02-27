@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import fr.thomas.lefebvre.toutougo.database.helper.CommentHelper
-import fr.thomas.lefebvre.toutougo.database.helper.EventHelper
-import fr.thomas.lefebvre.toutougo.database.helper.PhotoPlaceHelper
-import fr.thomas.lefebvre.toutougo.database.helper.PlaceHelper
+import fr.thomas.lefebvre.toutougo.database.helper.*
 import fr.thomas.lefebvre.toutougo.database.model.*
 import fr.thomas.lefebvre.toutougo.utils.computeDistance
 import fr.thomas.lefebvre.toutougo.utils.hourToMillis
@@ -54,6 +51,15 @@ class PlaceViewModel : ViewModel() {
 
     val listEvent = MutableLiveData<ArrayList<Event>>()
 
+    //------------- VARIABLE FOR DETAILS EVENT ---------------
+    val detailEvent = MutableLiveData<Event>()
+    val userCreatorPhotoUrl=MutableLiveData<String>()
+    val userHelper=UserHelper()
+
+    //------------- VARIABLE FOR DETAILS USER ---------------
+
+    val detailUser=MutableLiveData<String>()
+
     //------------- VARIABLE KNOW IS CREATE PLACE OR EVENT ---------------
 
     val isPlaceOrEvent = MutableLiveData<String>()
@@ -69,7 +75,6 @@ class PlaceViewModel : ViewModel() {
     //------------- VARIABLE FOR DETAILS PLACE ---------------
     val detailPlace = MutableLiveData<Place>()
     val listPhotoPlace = MutableLiveData<ArrayList<PhotoPlace>>()
-    val indexPhoto = MutableLiveData<Int>()
     val photoPlaceHelper = PhotoPlaceHelper()
 
     //------------- VARIABLE FOR COMMENT ---------------
@@ -79,6 +84,29 @@ class PlaceViewModel : ViewModel() {
     val descriptionComment = MutableLiveData<String>()
 
     val listComment = MutableLiveData<ArrayList<Comment>>()
+
+
+
+
+    // -------------------- GET USER FOR EVENT ------------------------
+
+    fun getUserCreator(){
+        uiScope.launch {
+            getUserCreatorFromDatabase()
+        }
+    }
+    private suspend fun getUserCreatorFromDatabase(){
+        withContext(Dispatchers.IO){
+            userHelper.getUserById(detailEvent.value!!.uidCreator).addOnSuccessListener {  documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val user: User? = documentSnapshot.toObject(User::class.java)
+                    userCreatorPhotoUrl.value=user!!.photoUrl
+
+                    Log.d("DEBUG", "load user creator from firestore ${userCreatorPhotoUrl.value}")
+                } }
+        }
+    }
+
 
     // -------------------- GET EVENT FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
     fun getEvent(userLat: Double, userLng: Double) {
@@ -94,6 +122,7 @@ class PlaceViewModel : ViewModel() {
             eventHelper.getAllEvent().addOnSuccessListener { documents ->
                 if (documents.documents.isEmpty()) {
                     Log.d("EVENT", "No event")
+                    listEvent.value=null
                 } else {
                     val list = ArrayList<Event>()
                     for (document in documents) {
@@ -187,6 +216,20 @@ class PlaceViewModel : ViewModel() {
                 &&maxCustomer.value!=null
                 )
     }
+
+    fun clearInfosEvent() {
+
+        nameEvent.value = null
+        descriptionEvent.value = null
+        placeEvent.value = null
+        namePlaceEvent.value=null
+        dateEvent.value = null
+        hourEvent.value = null
+        minuteEvent.value = null
+        maxCustomer.value = null
+    }
+
+
 
     // -------------------- METHOD FOR SET LIST ------------------------
 
@@ -397,7 +440,6 @@ class PlaceViewModel : ViewModel() {
 
                         }
                         listPhotoPlace.value = list
-                        indexPhoto.value = 0
                         Log.d("DEBUG", "YES photos")
                     }
 

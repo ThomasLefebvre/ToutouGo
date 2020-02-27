@@ -1,4 +1,4 @@
-package fr.thomas.lefebvre.toutougo.ui.dashboard
+package fr.thomas.lefebvre.toutougo.ui.userDashboard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

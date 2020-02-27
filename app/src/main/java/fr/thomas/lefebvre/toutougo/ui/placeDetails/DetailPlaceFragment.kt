@@ -80,6 +80,8 @@ class DetailPlaceFragment : Fragment() {
 
         clickOnAddComment()
 
+        onBackButton()
+
 
         return binding.root
     }
@@ -119,9 +121,12 @@ class DetailPlaceFragment : Fragment() {
                 }
 
             }
+    }
 
-
-
+    private fun onBackButton(){
+        binding.imageButtonBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     //-------------ALERT DIALOG----------

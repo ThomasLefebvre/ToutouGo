@@ -15,7 +15,7 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentMapBinding
-import fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardViewModel
+import fr.thomas.lefebvre.toutougo.ui.userDashboard.DashBoardViewModel
 import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
 import android.location.Geocoder
 import android.location.Address
@@ -327,22 +327,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
 
-    private fun createMarkerEvent(
-        latLng: LatLng?,
-        titleMarker: String,
-        idPlace: String,
-        index: Int
-    ) {
-        mGoogleMap.addMarker(
-            MarkerOptions()
-                .position(latLng!!)
-                .title(titleMarker)
-                .snippet("Evenement")
-                .zIndex(index.toFloat())
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.eventmap))
 
-        )
-    }
 
     // ------------ ON CLICK BUTTON ------
 

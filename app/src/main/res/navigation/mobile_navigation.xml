@@ -51,11 +51,18 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_evenementFragment_to_detailEvent"
+            app:destination="@id/detailEvent"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardFragment"
+        android:name="fr.thomas.lefebvre.toutougo.ui.userDashboard.DashBoardFragment"
         android:label="@string/bottom_accueil"
         tools:layout="@layout/fragment_dashboard" >
         <action
@@ -198,6 +205,10 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+    <fragment
+        android:id="@+id/detailEvent"
+        android:name="fr.thomas.lefebvre.toutougo.ui.eventDetails.DetailEventFragment"
+        android:label="DetailEvent" />
 
 
 </navigation>

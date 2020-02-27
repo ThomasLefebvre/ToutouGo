@@ -58,10 +58,16 @@
     <string name="no_choice_lieu">Vous ne pouvez pas créer un lieu sur un autre lieu</string>
     <string name="date">Date</string>
     <string name="heure">Heure</string>
+    <string name="date_hours">Quand ça?</string>
     <string name="hour">H</string>
     <string name="confirmation">Confirmes-tu?</string>
     <string name="participants">Participant(s)</string>
-
+    <string name="lieu">Où ça?</string>
+    <string name="le">le</string>
+    <string name="à">à</string>
+    <string name="organisateur">Organisateur</string>
+    <string name="profil">Profil</string>
+    <string name="chienmaj">Chien(s)</string>
 
 
     //No translate

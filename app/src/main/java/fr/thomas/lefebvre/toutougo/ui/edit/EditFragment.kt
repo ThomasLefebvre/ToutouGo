@@ -22,8 +22,7 @@ import com.google.firebase.storage.StorageReference
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentEditBinding
-import fr.thomas.lefebvre.toutougo.ui.dashboard.DashBoardViewModel
-import fr.thomas.lefebvre.toutougo.ui.presentation.DogInfosFragment
+import fr.thomas.lefebvre.toutougo.ui.userDashboard.DashBoardViewModel
 import fr.thomas.lefebvre.toutougo.utils.setBitmapFromView
 import kotlinx.android.synthetic.main.fragment_dog_infos.*
 import java.io.ByteArrayOutputStream

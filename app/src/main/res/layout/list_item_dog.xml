@@ -11,7 +11,7 @@
 
         <variable
             name="clickListener"
-            type="fr.thomas.lefebvre.toutougo.ui.dashboard.DogListener" />
+            type="fr.thomas.lefebvre.toutougo.ui.userDashboard.DogListener" />
 
     </data>
 

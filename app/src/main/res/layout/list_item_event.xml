@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="le"
+            android:text="@string/le"
             app:layout_constraintStart_toStartOf="@+id/textViewDescriptionPlace"
             app:layout_constraintTop_toBottomOf="@+id/textViewPlaceAddress" />
 
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="à"
+            android:text="@string/à"
             app:layout_constraintStart_toEndOf="@+id/imageButtonDelete"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
