@@ -29,3 +29,13 @@ fun computeDistance(deviceLat: Double, deviceLng: Double, placeLat: Double, plac
     return Math.round(Math.sqrt(distance))
 //    return distance
 }
+
+fun hourToMillis(hours:Int):Long{
+   val hoursMillis:Long= (hours*60*60*1000).toLong()
+    return hoursMillis
+}
+
+fun minuteToMillis(minutes:Int):Long{
+    val minuteMillis:Long= (minutes*60*1000).toLong()
+    return minuteMillis
+}

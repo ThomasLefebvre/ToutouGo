@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import fr.thomas.lefebvre.toutougo.database.helper.CommentHelper
+import fr.thomas.lefebvre.toutougo.database.helper.EventHelper
 import fr.thomas.lefebvre.toutougo.database.helper.PhotoPlaceHelper
 import fr.thomas.lefebvre.toutougo.database.helper.PlaceHelper
-import fr.thomas.lefebvre.toutougo.database.model.Comment
-import fr.thomas.lefebvre.toutougo.database.model.Dog
-import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
-import fr.thomas.lefebvre.toutougo.database.model.Place
+import fr.thomas.lefebvre.toutougo.database.model.*
 import fr.thomas.lefebvre.toutougo.utils.computeDistance
+import fr.thomas.lefebvre.toutougo.utils.hourToMillis
+import fr.thomas.lefebvre.toutougo.utils.minuteToMillis
 import kotlinx.coroutines.*
 
 class PlaceViewModel : ViewModel() {
@@ -39,16 +39,25 @@ class PlaceViewModel : ViewModel() {
     val descriptionEvent = MutableLiveData<String>()
     val placeEvent = MutableLiveData<Place>()
     val dateEvent = MutableLiveData<Long>()
-    val hourEvent=MutableLiveData<Int>()
-    val minuteEvent=MutableLiveData<Int>()
+    val hourEvent = MutableLiveData<Int>()
+    val minuteEvent = MutableLiveData<Int>()
     val maxCustomer = MutableLiveData<String>()
+    val uidCreator =
+        MutableLiveData<String>().apply { value = FirebaseAuth.getInstance().currentUser!!.uid }
+    val namePlaceEvent = MutableLiveData<String>()
+
     val listInt = ArrayList<String>()
-    val namePlaceEvent=MutableLiveData<String>()
+    val eventHelper = EventHelper()
+
+
+    //------------- VARIABLE FOR LIST EVENT ---------------
+
+    val listEvent = MutableLiveData<ArrayList<Event>>()
 
     //------------- VARIABLE KNOW IS CREATE PLACE OR EVENT ---------------
 
-    val isPlaceOrEvent=MutableLiveData<String>()
-    val messageMapFragment=MutableLiveData<String>()
+    val isPlaceOrEvent = MutableLiveData<String>()
+    val messageMapFragment = MutableLiveData<String>()
 
     //------------- VARIABLE FOR LIST PLACE ---------------
     private val placeHelper = PlaceHelper()
@@ -71,12 +80,119 @@ class PlaceViewModel : ViewModel() {
 
     val listComment = MutableLiveData<ArrayList<Comment>>()
 
+    // -------------------- GET EVENT FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
+    fun getEvent(userLat: Double, userLng: Double) {
+        uiScope.launch {
+            getEventFromFireStore(userLat, userLng)
+
+
+        }
+    }
+
+    private suspend fun getEventFromFireStore(userLat: Double, userLng: Double) {
+        withContext(Dispatchers.IO) {
+            eventHelper.getAllEvent().addOnSuccessListener { documents ->
+                if (documents.documents.isEmpty()) {
+                    Log.d("EVENT", "No event")
+                } else {
+                    val list = ArrayList<Event>()
+                    for (document in documents) {
+
+                        var event = document.toObject(Event::class.java)
+                        event = Event(
+                            event.uidEvent,
+                            event.nameEvent,
+                            event.descriptionEvent,
+                            event.dateEvent,
+                            event.hourEvent,
+                            event.minuteEvent,
+                            event.numberCustomer,
+                            event.maxCustomer,
+                            event.namePlaceEvent,
+                            event.latPlace,
+                            event.lngPlace,
+                            computeDistance(userLat, userLng, event.latPlace, event.lngPlace),
+                            event.uidPlaceEvent,
+                            event.uidCreator,
+                            event.photoEvent
+                        )
+                        if((event.dateEvent+ hourToMillis(event.hourEvent)+ minuteToMillis(event.minuteEvent))>System.currentTimeMillis()){//check if event is actually
+                            Log.d("TIME",event.nameEvent)
+                            Log.d("TIME",("date event: " +(event.dateEvent+ hourToMillis(event.hourEvent)+ minuteToMillis(event.minuteEvent)).toString()))
+                            Log.d("TIME",System.currentTimeMillis().toString())
+                            list.add(event)
+                        }
+
+
+
+                    }
+                    list.sortWith(Comparator<Event> { p1, p2 ->
+                        when {
+                            p1!!.distance > p2!!.distance -> 1
+                            p1.distance == p2.distance -> 0
+                            else -> -1
+                        }
+                    })
+
+                    listEvent.value = list
+                    Log.d("EVENT", "YES event")
+                }
+
+            }
+        }
+    }
+
+
+    // -------------------- CREATE EVENT  ------------------------
+    fun createEvent() {
+        uidEvent.value = placeEvent.value!!.uid + System.currentTimeMillis().toString()
+
+        val event = Event(
+            uidEvent.value!!,
+            nameEvent.value!!,
+            descriptionEvent.value!!,
+            dateEvent.value!!,
+            hourEvent.value!!,
+            minuteEvent.value!!,
+            1,
+            maxCustomer.value!!.toInt(),
+            namePlaceEvent.value!!,
+            placeEvent.value!!.lat,
+            placeEvent.value!!.lng,
+            0,
+            placeEvent.value!!.uid,
+            uidCreator.value!!,
+            placeEvent.value!!.photoUrlMain
+
+            )
+        uiScope.launch {
+            createEventInDatabase(event)
+        }
+    }
+
+
+    private suspend fun createEventInDatabase(event: Event) {
+        withContext(Dispatchers.IO) {
+            eventHelper.createEvent(event)
+        }
+    }
+
+
+    fun checkAllInfosEvent(): Boolean {
+        return (placeEvent.value != null
+                &&dateEvent.value!=null
+                &&hourEvent.value!=null
+                &&nameEvent.value!=null
+                &&descriptionEvent.value!=null
+                &&maxCustomer.value!=null
+                )
+    }
+
     // -------------------- METHOD FOR SET LIST ------------------------
 
     init {
         initListSpinner()
     }
-
 
 
     fun initListSpinner() {
@@ -120,7 +236,7 @@ class PlaceViewModel : ViewModel() {
 
     // -------------------- GET COMMENT FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
     fun getComment() {
-        listComment.value=null
+        listComment.value = null
         uiScope.launch {
             getCommentFromFireStore()
 
@@ -248,7 +364,6 @@ class PlaceViewModel : ViewModel() {
             }
         }
     }
-
 
 
     // -------------------- CLICK ON DETAIL PLACE  ------------------------

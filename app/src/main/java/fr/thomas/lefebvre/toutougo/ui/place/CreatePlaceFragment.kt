@@ -22,6 +22,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentCreatePlaceBinding
+import kotlinx.android.synthetic.main.alert_dialog_save.view.*
 import java.util.*
 
 /**
@@ -53,13 +54,10 @@ class CreatePlaceFragment : Fragment() {
             false
         )
 
-        Places.initialize(requireContext(), getString(R.string.map_api_key))//INIT PLACE SDK FOR GET ADDRESS
-
-
-
-
-
-
+        Places.initialize(
+            requireContext(),
+            getString(R.string.map_api_key)
+        )//INIT PLACE SDK FOR GET ADDRESS
 
 
         onButtonSelectAddress()
@@ -127,7 +125,7 @@ class CreatePlaceFragment : Fragment() {
 
     private fun onButtonPickAddress() {
         binding.buttonPickAddress.setOnClickListener {
-            viewModel.isPlaceOrEvent.value=getString(R.string.place)
+            viewModel.isPlaceOrEvent.value = getString(R.string.place)
             view!!.findNavController().navigate(R.id.action_createPlaceFragment_to_mapFragment)
         }
     }
@@ -136,9 +134,7 @@ class CreatePlaceFragment : Fragment() {
         binding.floatingActionButtonNextPlace.setOnClickListener {
             if (viewModel.checkAllInfosPlace()) {
 
-                viewModel.createPlace()
-                view!!.findNavController().navigate(R.id.actionPhotoPlace)
-
+                alertDialogConfirm()
 
             } else {
                 Snackbar.make(
@@ -150,6 +146,29 @@ class CreatePlaceFragment : Fragment() {
             }
 
         }
+    }
+
+    //-------------ALERT DIALOG CONFIRM----------
+
+    private fun alertDialogConfirm() {
+
+        val mDialog = LayoutInflater.from(requireContext())
+            .inflate(R.layout.alert_dialog_save, null)
+        val mBuilder = AlertDialog.Builder(requireContext())
+            .setView(mDialog)
+        val mAlertDialog = mBuilder.show()
+        mDialog.buttonYes.setOnClickListener {
+
+            viewModel.createPlace()
+            view!!.findNavController().navigate(R.id.actionPhotoPlace)
+            mAlertDialog.dismiss()
+        }
+
+        mDialog.buttonNo.setOnClickListener {
+
+            mAlertDialog.dismiss()
+        }
+
     }
 
 

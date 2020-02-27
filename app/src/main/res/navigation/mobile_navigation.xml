@@ -41,7 +41,7 @@
 
     <fragment
         android:id="@+id/evenementFragment"
-        android:name="fr.thomas.lefebvre.toutougo.ui.evenement.EventFragment"
+        android:name="fr.thomas.lefebvre.toutougo.ui.event.EventFragment"
         android:label="@string/bottom_evenement"
         tools:layout="@layout/fragment_event" >
         <action
@@ -168,7 +168,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailPlaceFragment"
-        android:name="fr.thomas.lefebvre.toutougo.ui.detailPlace.DetailPlaceFragment"
+        android:name="fr.thomas.lefebvre.toutougo.ui.placeDetails.DetailPlaceFragment"
         android:label="DetailPlaceFragment" >
         <action
             android:id="@+id/action_detailPlaceFragment_to_placeFragment"
@@ -180,12 +180,19 @@
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
-        android:name="fr.thomas.lefebvre.toutougo.ui.evenement.CreateEventFragment"
+        android:name="fr.thomas.lefebvre.toutougo.ui.event.CreateEventFragment"
         android:label="fragment_create_event"
         tools:layout="@layout/fragment_create_event" >
         <action
             android:id="@+id/action_createEventFragment_to_mapFragment"
             app:destination="@id/mapFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_createEventFragment_to_evenementFragment"
+            app:destination="@id/evenementFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"

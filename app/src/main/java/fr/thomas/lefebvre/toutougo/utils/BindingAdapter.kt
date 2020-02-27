@@ -29,6 +29,14 @@ fun loadImageFromListPhotoPlace(view: ImageView, listPhotoPlace: ArrayList<Photo
 
 }
 
+@BindingAdapter("participant")
+fun TextView.setParticipants(participants:Int){
+    val sb=java.lang.StringBuilder()
+    sb.append(participants)
+    sb.append(" "+context.getString(R.string.participants))
+    text=sb.toString()
+}
+
 @BindingAdapter("date")
 fun TextView.setDateSting(date:Long){
     if(date>0){

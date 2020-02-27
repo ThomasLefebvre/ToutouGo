@@ -1,4 +1,4 @@
-package fr.thomas.lefebvre.toutougo.ui.detailPlace
+package fr.thomas.lefebvre.toutougo.ui.placeDetails
 
 
 import android.app.AlertDialog
@@ -22,7 +22,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import com.synnapps.carouselview.CarouselView
 import com.synnapps.carouselview.ImageListener
-import fr.thomas.lefebvre.toutougo.ui.place.PhotoPlaceViewModel
 import kotlinx.android.synthetic.main.alert_dialog_confirm.view.*
 
 

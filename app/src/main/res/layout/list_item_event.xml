@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="event"
+            type="fr.thomas.lefebvre.toutougo.database.model.Event" />
+
+        <variable
+            name="clickListener"
+            type="fr.thomas.lefebvre.toutougo.ui.event.EventListener" />
+
+        <variable
+            name="latitude"
+            type="Double" />
+        <variable
+            name="longitude"
+            type="Double" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView4"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="@dimen/very_small"
+            android:layout_marginEnd="@dimen/very_small"
+            android:layout_marginBottom="@dimen/very_small"
+            app:cardCornerRadius="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                error="@{@drawable/chemin}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{event.photoEvent}" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/textViewNamePlace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/very_small"
+            android:layout_marginTop="@dimen/very_small"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:date="@{event.dateEvent}"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPlaceAddress" />
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/very_small"
+            android:layout_marginTop="@dimen/very_small"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:hour="@{event.hourEvent}"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:minute="@{event.minuteEvent}" />
+
+        <TextView
+            android:id="@+id/textViewDescriptionPlace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:maxLines="1"
+            app:participant="@{event.numberCustomer}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonDelete"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonDelete" />
+
+        <TextView
+            android:id="@+id/textViewPlaceAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:maxLines="3"
+            android:text="@{event.namePlaceEvent}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:layout_constraintEnd_toStartOf="@+id/materialCardView4"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonDelete"
+            app:layout_constraintTop_toTopOf="@+id/materialCardView4" />
+
+
+        <ImageButton
+            android:id="@+id/imageButtonDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fui_transparent"
+            android:onClick="@{() -> clickListener.onClick(event)}"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/materialCardView4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/materialCardView4"
+            app:srcCompat="@drawable/ic_info_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="le"
+            app:layout_constraintStart_toStartOf="@+id/textViewDescriptionPlace"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPlaceAddress" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="à"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonDelete"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

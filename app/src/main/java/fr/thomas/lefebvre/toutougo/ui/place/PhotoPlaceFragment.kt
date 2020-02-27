@@ -28,6 +28,7 @@ import fr.thomas.lefebvre.toutougo.ui.dashboard.DogAdapter
 import fr.thomas.lefebvre.toutougo.ui.dashboard.DogListener
 import fr.thomas.lefebvre.toutougo.ui.edit.EditFragment
 import fr.thomas.lefebvre.toutougo.utils.setBitmapFromView
+import kotlinx.android.synthetic.main.alert_dialog_save.view.*
 import kotlinx.android.synthetic.main.fragment_dog_infos.*
 import kotlinx.android.synthetic.main.fragment_photo_place.*
 import java.io.ByteArrayOutputStream
@@ -131,15 +132,40 @@ class PhotoPlaceFragment : Fragment() {
     private fun onClickSave(){
         binding.floatingActionButtonSavePlace.setOnClickListener {
             if (viewModelPhoto.listPhotoPlace.value!=null){
-                viewModelPhoto.updatePhotoMainPlace()
-                viewModel.clearPlaceAfterSave()
-                Snackbar.make(requireView(), getString(R.string.place_delais), Snackbar.LENGTH_LONG).show()
-                view!!.findNavController().navigate(R.id.action_photoPlaceFragment_to_placeFragment)
+              alertDialogConfirm()
 
             }
             else{
                 Snackbar.make(requireView(), getString(R.string.alert_photo_place_create), Snackbar.LENGTH_LONG).show()
             }
+        }
+
+    }
+
+    //-------------ALERT DIALOG CONFIRM----------
+
+    private fun alertDialogConfirm() {
+
+        val mDialog = LayoutInflater.from(requireContext())
+            .inflate(R.layout.alert_dialog_save, null)
+        val mBuilder = android.app.AlertDialog.Builder(requireContext())
+            .setView(mDialog)
+        val mAlertDialog = mBuilder.show()
+        mDialog.buttonYes.setOnClickListener {
+
+            viewModelPhoto.updatePhotoMainPlace()
+            viewModel.clearPlaceAfterSave()
+            Snackbar.make(requireView(), getString(R.string.place_delais), Snackbar.LENGTH_LONG).show()
+            view!!.findNavController().navigate(R.id.action_photoPlaceFragment_to_placeFragment)
+
+
+            mAlertDialog.dismiss()
+        }
+        mDialog.buttonNo.setOnClickListener {
+
+
+            mAlertDialog.dismiss()
+
         }
 
     }

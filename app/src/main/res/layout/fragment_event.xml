@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.evenement.EventFragment">
+        tools:context=".ui.event.EventFragment">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView5"

@@ -1,4 +1,4 @@
-package fr.thomas.lefebvre.toutougo.ui.detailPlace
+package fr.thomas.lefebvre.toutougo.ui.placeDetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,13 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import fr.thomas.lefebvre.toutougo.database.model.Comment
-import fr.thomas.lefebvre.toutougo.database.model.Dog
-import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
-import fr.thomas.lefebvre.toutougo.database.model.Place
 import fr.thomas.lefebvre.toutougo.databinding.ListItemCommentBinding
-import fr.thomas.lefebvre.toutougo.databinding.ListItemDogBinding
-import fr.thomas.lefebvre.toutougo.databinding.ListItemPhotoPlaceBinding
-import fr.thomas.lefebvre.toutougo.databinding.ListItemPlaceBinding
 
 class CommentAdapter() : ListAdapter<Comment, CommentAdapter.ViewHolder>(CommentDiffCallback()) {
 
