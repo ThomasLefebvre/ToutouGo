@@ -446,5 +446,10 @@ class PlaceViewModel : ViewModel() {
                 }
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
 }
 

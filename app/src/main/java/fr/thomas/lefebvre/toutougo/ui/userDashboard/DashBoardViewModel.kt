@@ -151,5 +151,10 @@ class DashBoardViewModel : ViewModel() {
         Log.d("LOCATION", lastLatitute.value.toString() + " " + lastLongitude.value.toString())
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
+
 
 }

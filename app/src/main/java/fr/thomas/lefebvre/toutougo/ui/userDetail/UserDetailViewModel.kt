@@ -57,6 +57,11 @@ class UserDetailViewModel() : ViewModel() {
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
 
 
 

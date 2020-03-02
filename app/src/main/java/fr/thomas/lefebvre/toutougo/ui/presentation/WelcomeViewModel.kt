@@ -210,4 +210,9 @@ class WelcomeViewModel() : ViewModel() {
                 && descriptionDog.value != null
                 && raceDog.value != null)
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 }
