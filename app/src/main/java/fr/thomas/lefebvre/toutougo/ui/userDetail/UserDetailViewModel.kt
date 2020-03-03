@@ -23,15 +23,24 @@ class UserDetailViewModel() : ViewModel() {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private val userHelper=UserHelper()
+    private val dogHelper=DogHelper()
 
     // -------------------- VARIABLE FOR USER ------------------------
 
     val userDetail=MutableLiveData<User>()
     val ageUser=MutableLiveData<String>()
+    val currentUserUid=FirebaseAuth.getInstance().currentUser!!.uid
+
+    // -------------------- VARIABLE FOR DOG ------------------------
+
+    val listDog = MutableLiveData<ArrayList<Dog>>()
 
     // -------------------- METHOD FOR GET USER ------------------------
 
-
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 
     //GET USER
     fun getUserDetail(uidUser:String) {
@@ -57,13 +66,39 @@ class UserDetailViewModel() : ViewModel() {
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
+
+
+
+
+    // -------------------- METHOD FOR GET DOG ------------------------
+
+    fun getDogUser(uidUser: String) {
+        uiScope.launch {
+            getDodUserFromUserFireStore(uidUser)
+        }
     }
 
+    private suspend fun getDodUserFromUserFireStore(uidUser: String) {
+        withContext(Dispatchers.IO) {
+            dogHelper.getAllDogUser(uidUser).addOnSuccessListener { documents ->
+                if (documents.documents.isEmpty()) {
+                    Log.d("DEBUG", "No dogs")
+                } else {
+                    val list = ArrayList<Dog>()
+                    for (document in documents) {
+                        val dogFirebase = document.toObject(Dog::class.java)
+                        list.add(dogFirebase)
+
+                    }
+                    listDog.value = list
+                    Log.d("DEBUG", listDog.value!![0].height.toString())
 
 
+                }
+
+            }
+        }
+    }
 
 
 }

@@ -21,13 +21,16 @@ fun loadImage(view: ImageView, url: String?, error: Drawable) {
     Picasso.get().load(url).error(error).into(view)
 }
 
-@BindingAdapter("listPhotoPlace", "error","index")
-fun loadImageFromListPhotoPlace(view: ImageView, listPhotoPlace: ArrayList<PhotoPlace>?, error: Drawable,index:Int) {
-    if (listPhotoPlace!=null){
-        Picasso.get().load(listPhotoPlace[index].photoUrl).error(error).into(view)
+@BindingAdapter("idCurrentUser","idUserDog")
+fun ImageButton.setVisibility(idCurrentUser:String,idUserDog:String){
+    if(idCurrentUser==idUserDog){
+        visibility=View.VISIBLE
     }
-
+    else{
+        visibility=View.GONE
+    }
 }
+
 
 @BindingAdapter("participant")
 fun TextView.setParticipants(participants:Int){

@@ -229,7 +229,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
             placeViewModel.placeEvent.value =
                 placeViewModel.listPlace.value?.get(marker.zIndex.toInt())
 
-            placeViewModel.namePlaceEvent.value=placeViewModel.listPlace.value?.get(marker.zIndex.toInt())!!.name
+            placeViewModel.namePlaceEvent.value =
+                placeViewModel.listPlace.value?.get(marker.zIndex.toInt())!!.name
 
             view!!.findNavController().navigate(R.id.action_mapFragment_to_createEventFragment)
 
@@ -327,8 +328,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
 
-
-
     // ------------ ON CLICK BUTTON ------
 
     private fun onClickInfosButton() {
@@ -349,7 +348,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         val fragmentManager = getFragmentManager()
         val fragmentTransaction = fragmentManager!!.beginTransaction()
 
-        fragmentTransaction.add(R.id.nav_host_fragment, detailFragment).addToBackStack("map")
+        fragmentTransaction.setCustomAnimations(
+            R.anim.enter_from_right,
+            R.anim.exit_to_left,
+            R.anim.enter_from_left,
+            R.anim.exit_to_right
+        )
+            .add(R.id.nav_host_fragment, detailFragment)
+            .addToBackStack("map")
         fragmentTransaction.commit()
 
 

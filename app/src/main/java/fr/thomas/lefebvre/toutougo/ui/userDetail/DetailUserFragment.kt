@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentDetailUserBinding
 import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
+import fr.thomas.lefebvre.toutougo.ui.userDashboard.DogAdapter
+import fr.thomas.lefebvre.toutougo.ui.userDashboard.DogListener
 
 /**
  * A simple [Fragment] subclass.
@@ -24,6 +27,8 @@ class DetailUserFragment : Fragment() {
     private lateinit var viewModel:UserDetailViewModel
 
     private lateinit var viewModelPlace:PlaceViewModel
+
+    private lateinit var adapter: DogAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +45,19 @@ class DetailUserFragment : Fragment() {
         binding.lifecycleOwner=this
 
         viewModel.getUserDetail(viewModelPlace.detailUser.value!!)
+
+        viewModel.getDogUser(viewModelPlace.detailUser.value!!)
+
+        adapter = DogAdapter(DogListener { dog ->
+
+        },viewModel.currentUserUid)
+        binding.recyclerViewUserDetailDog.adapter = adapter
+
+        viewModel.listDog.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
 
         onClickBack()
         return binding.root

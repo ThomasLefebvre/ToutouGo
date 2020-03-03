@@ -21,19 +21,20 @@ import fr.thomas.lefebvre.toutougo.ui.userDetail.DetailUserFragment
  */
 class DetailEventFragment : Fragment() {
 
-    private lateinit var binding:FragmentDetailEventBinding
+    private lateinit var binding: FragmentDetailEventBinding
 
-    private lateinit var viewModel:PlaceViewModel
+    private lateinit var viewModel: PlaceViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_detail_event,container,false)
-        viewModel=ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_detail_event, container, false)
+        viewModel = ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
 
-        binding.viewModel=viewModel
+        binding.viewModel = viewModel
 
         Log.d("DEBUG", "load user creator from firestore ${viewModel.userCreatorPhotoUrl.value}")
 
@@ -52,20 +53,12 @@ class DetailEventFragment : Fragment() {
 
     //--------------- ON CLICK BUTTON ------------------
 
-    fun clicDetailsCreator(){
+    fun clicDetailsCreator() {
         binding.imageButtonInfoCreator.setOnClickListener {
-            viewModel.detailUser.value=viewModel.detailEvent.value!!.uidCreator
+            viewModel.detailUser.value = viewModel.detailEvent.value!!.uidCreator
             fragmentDetailUser()
         }
     }
-
-
-
-
-
-
-
-
 
 
     //--------------FRAGMENT DETAIL USER---------------
@@ -75,10 +68,15 @@ class DetailEventFragment : Fragment() {
         val fragmentManager = getFragmentManager()
         val fragmentTransaction = fragmentManager!!.beginTransaction()
 
-        fragmentTransaction.add(R.id.nav_host_fragment, detailFragment).
-            addToBackStack("detailUser")
+        fragmentTransaction.setCustomAnimations(
+            R.anim.enter_from_right,
+            R.anim.exit_to_left,
+            R.anim.enter_from_left,
+            R.anim.exit_to_right
+        )
+            .add(R.id.nav_host_fragment, detailFragment)
+            .addToBackStack("detailUser")
         fragmentTransaction.commit()
-
 
     }
 }

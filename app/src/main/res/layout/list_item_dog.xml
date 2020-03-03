@@ -12,11 +12,13 @@
         <variable
             name="clickListener"
             type="fr.thomas.lefebvre.toutougo.ui.userDashboard.DogListener" />
-
+        <variable
+            name="idCurrentUser"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
@@ -40,15 +42,15 @@
             android:id="@+id/textViewNameDog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
             android:gravity="start"
             android:maxLength="20"
             android:maxLines="1"
             android:text="@{dog.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintEnd_toEndOf="@+id/imageButtonDelete"
-            app:layout_constraintStart_toStartOf="@+id/materialCardView4"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView4" />
+            app:layout_constraintStart_toEndOf="@+id/materialCardView4"
+            app:layout_constraintTop_toTopOf="@+id/materialCardView4" />
 
         <TextView
             android:id="@+id/textViewRaceDog"
@@ -98,23 +100,37 @@
             android:backgroundTint="@color/fui_transparent"
             android:onClick="@{() -> clickListener.onClick(dog)}"
             android:tint="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="@+id/materialCardView4"
+            app:idCurrentUser="@{idCurrentUser}"
+            app:idUserDog="@{dog.uidUser}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/materialCardView4"
-            app:layout_constraintTop_toTopOf="@+id/materialCardView4"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAgeDog"
             app:srcCompat="@drawable/ic_edit_black_36dp" />
 
         <TextView
             android:id="@+id/textViewSex"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@{dog.sexe}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textViewHeightDog"
             app:layout_constraintTop_toBottomOf="@+id/textViewRaceDog" />
+
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@{dog.description}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonDelete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView4" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

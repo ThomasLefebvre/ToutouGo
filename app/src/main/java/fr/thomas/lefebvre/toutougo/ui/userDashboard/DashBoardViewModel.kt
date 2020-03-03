@@ -17,6 +17,7 @@ class DashBoardViewModel : ViewModel() {
 
 
     private val currentUser = FirebaseAuth.getInstance().currentUser
+    val currentUserUid=FirebaseAuth.getInstance().currentUser!!.uid
 
 
     // -------------------- VARIABLE FOR DOG INFOS ------------------------

@@ -11,10 +11,13 @@ import android.content.DialogInterface
 import android.location.LocationManager
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProviders
 import fr.thomas.lefebvre.toutougo.R
 
 
 class MainActivity : AppCompatActivity() {
+
+
 
 
 
@@ -24,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
-       
+
+
 
 
 

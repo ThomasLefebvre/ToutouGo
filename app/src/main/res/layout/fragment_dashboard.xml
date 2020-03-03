@@ -22,6 +22,10 @@
     </data>
 
 
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -232,7 +236,6 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="@dimen/small"
                         android:layout_marginBottom="@dimen/small"
-                        android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -246,7 +249,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+</androidx.core.widget.NestedScrollView>
 
 
 
