@@ -2,6 +2,7 @@ package fr.thomas.lefebvre.toutougo.ui.edit
 
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -22,8 +23,10 @@ import com.google.firebase.storage.StorageReference
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentEditBinding
+import fr.thomas.lefebvre.toutougo.ui.presentation.WelcomeViewModel
 import fr.thomas.lefebvre.toutougo.ui.userDashboard.DashBoardViewModel
 import fr.thomas.lefebvre.toutougo.utils.setBitmapFromView
+import kotlinx.android.synthetic.main.alert_dialog_save.view.*
 import kotlinx.android.synthetic.main.fragment_dog_infos.*
 import java.io.ByteArrayOutputStream
 
@@ -33,6 +36,8 @@ import java.io.ByteArrayOutputStream
 class EditFragment : Fragment() {
 
     lateinit var viewModel: DashBoardViewModel
+
+    private lateinit var mViewModelWelcome: WelcomeViewModel
 
     lateinit var binding: FragmentEditBinding
 
@@ -53,12 +58,15 @@ class EditFragment : Fragment() {
     ): View? {
         viewModel = ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 
+        mViewModelWelcome=ViewModelProviders.of(activity!!).get(WelcomeViewModel::class.java)
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit, container, false)
 
-        Log.d("DEBUG",viewModel.refPhoto.value!!)
+        Log.d("DEBUG", viewModel.refPhoto.value!!)
 
         onClickAddPhoto()
         onClickNext()
+        onClickDelete()
 
         firebaseStore = FirebaseStorage.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
@@ -67,6 +75,7 @@ class EditFragment : Fragment() {
         binding.lifecycleOwner = this
         return binding.root
     }
+
 
     override fun onResume() {
         setSpinnerInt()
@@ -114,7 +123,6 @@ class EditFragment : Fragment() {
                     uploadPhoto()
 
 
-
                 }
             }
         }
@@ -137,14 +145,13 @@ class EditFragment : Fragment() {
 
     private fun uploadPhoto() {
         if (filePath != null) {
-            val ref:StorageReference
-            val refPhoto=viewModel.refPhoto.value.toString()
-            if (refPhoto!=""){
-                 ref =
+            val ref: StorageReference
+            val refPhoto = viewModel.refPhoto.value.toString()
+            if (refPhoto != "") {
+                ref =
                     storageReference!!.child(pathStringDog + refPhoto)
-            }
-            else{
-                 ref =
+            } else {
+                ref =
                     storageReference!!.child(pathStringDog + System.currentTimeMillis().toString())
             }
 
@@ -165,8 +172,6 @@ class EditFragment : Fragment() {
                 if (task.isSuccessful) {
                     viewModel.photoDogUrl.value = task.result.toString()
                     viewModel.updatePhotoDog()
-
-
 
 
                 } else {
@@ -191,7 +196,6 @@ class EditFragment : Fragment() {
             if (viewModel.checkAllInfosDog()) {
 
 
-
                 viewModel.updateDog()//update dog in database firestore
                 view!!.findNavController()
                     .navigate(R.id.action_editFragment_to_welcomeFragment)
@@ -207,5 +211,37 @@ class EditFragment : Fragment() {
         }
     }
 
+    private fun onClickDelete() {
+        binding.floatingActionButtonDelete.setOnClickListener {
+            alertDialogConfirm()
+        }
+    }
 
+    //------------------ ALERTE DIALOG ----------------------
+
+
+    private fun alertDialogConfirm() {
+
+        val mDialog = LayoutInflater.from(requireContext())
+            .inflate(R.layout.alert_dialog_save, null)
+        val mBuilder = AlertDialog.Builder(requireContext())
+            .setView(mDialog)
+        val mAlertDialog = mBuilder.show()
+        mDialog.buttonYes.setOnClickListener {
+
+            viewModel.deleteDog()
+            mViewModelWelcome.updateNumberDogUserLess()
+
+            view!!.findNavController()
+                .navigate(R.id.action_editFragment_to_welcomeFragment)
+            mAlertDialog.dismiss()
+        }
+        mDialog.buttonNo.setOnClickListener {
+
+
+            mAlertDialog.dismiss()
+
+        }
+
+    }
 }

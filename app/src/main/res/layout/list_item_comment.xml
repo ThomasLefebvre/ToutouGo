@@ -19,19 +19,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small"
+            android:layout_marginTop="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:date="@{comment.date}"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewLikeComment"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageViewLikeComment"
             android:layout_width="25dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="@dimen/small"
+            android:layout_height="25dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageButton"
             app:likeOrNot="@{comment.likeOrNot}"
             app:srcCompat="@drawable/ic_like" />
 
@@ -61,6 +61,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewBodyComment" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/fui_transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewDateComment"
+            app:layout_constraintStart_toEndOf="@+id/textViewDateComment"
+            app:layout_constraintTop_toTopOf="@+id/textViewDateComment"
+            app:srcCompat="@drawable/ic_delete_black_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

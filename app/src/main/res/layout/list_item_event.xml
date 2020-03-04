@@ -89,13 +89,14 @@
             android:id="@+id/textViewPlaceAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:gravity="start"
             android:maxLines="3"
             android:text="@{event.namePlaceEvent}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintEnd_toStartOf="@+id/materialCardView4"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageButtonDelete"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/materialCardView4" />
 
 

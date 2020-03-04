@@ -171,6 +171,21 @@ class WelcomeViewModel() : ViewModel() {
         }
     }
 
+    //UPDATE NUMBER DOG OF USER
+    fun updateNumberDogUserLess() {
+        uiScope.launch {
+            updateNumberDogUserInDatabaseLess()
+        }
+    }
+
+    private suspend fun updateNumberDogUserInDatabaseLess() {
+        withContext(Dispatchers.IO) {
+            userHelper.updateNumberDogUser(currentUser.uid, numberDog.value!! -1)
+                .addOnSuccessListener { Log.d("DEBUG", "DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Log.d("DEBUG", "Error updating document", e) }
+        }
+    }
+
 
 // -------------------- METHOD FOR DOGS INFOS ------------------------
 
@@ -178,7 +193,7 @@ class WelcomeViewModel() : ViewModel() {
     fun createDog() {
 
         val dog = Dog(
-            currentUser.uid + numberDog.value.toString(),
+            currentUser.uid + System.currentTimeMillis().toString(),
             nameDog.value!!,
             heightDog.value!!.toInt(),
             ageDog.value!!.toInt(),

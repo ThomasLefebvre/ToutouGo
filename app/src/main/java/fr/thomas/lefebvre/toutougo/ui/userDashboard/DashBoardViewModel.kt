@@ -36,6 +36,7 @@ class DashBoardViewModel : ViewModel() {
     val refPhoto = MutableLiveData<String>()
 
 
+
     // -------------------- VARIABLE LOCATION ------------------------
 
 
@@ -98,6 +99,19 @@ class DashBoardViewModel : ViewModel() {
     private suspend fun createDogInDatabase(dog: Dog) {
         withContext(Dispatchers.IO) {
             dogHelper.createDog(dog)
+        }
+    }
+
+    //DELETE DOG
+    fun deleteDog() {
+        uiScope.launch {
+            deleteDogInDatabase(uidDog.value!!)
+        }
+    }
+
+    private suspend fun deleteDogInDatabase(uidDog: String) {
+        withContext(Dispatchers.IO) {
+            dogHelper.deleteDog(uidDog)
         }
     }
 

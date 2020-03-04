@@ -36,6 +36,12 @@ class CommentHelper {
     }
 
 
+    // ----------DELETE COMMENT ---------
+    fun deleteComment(uidComment: String):Task<Void>{
+        return getCollection().document(uidComment).delete()
+    }
+
+
 
 
 }
