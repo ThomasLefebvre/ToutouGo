@@ -6,5 +6,6 @@ data class Comment(
     val body:String="",
     val likeOrNot:Boolean?=null,
     val nameUser:String="",
-    val uidPlace:String=""
+    val uidPlace:String="",
+    val uidUser:String=""
 )

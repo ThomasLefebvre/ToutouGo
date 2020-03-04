@@ -32,6 +32,17 @@ fun ImageButton.setVisibility(idCurrentUser:String,idUserDog:String){
 }
 
 
+@BindingAdapter("idCurrentUser","idUserComment")
+fun ImageButton.setVisibilityComment(idCurrentUser:String,idUserDog:String){
+    if(idCurrentUser==idUserDog){
+        visibility=View.VISIBLE
+    }
+    else{
+        visibility=View.GONE
+    }
+}
+
+
 @BindingAdapter("participant")
 fun TextView.setParticipants(participants:Int){
     val sb=java.lang.StringBuilder()

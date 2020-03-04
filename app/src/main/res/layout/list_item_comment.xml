@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
             name="comment"
             type="fr.thomas.lefebvre.toutougo.database.model.Comment" />
+
+        <variable
+            name="clickListener"
+            type="fr.thomas.lefebvre.toutougo.ui.placeDetails.CommentListener" />
+        <variable
+            name="idCurrentUser"
+            type="String" />
 
     </data>
 
@@ -68,6 +74,9 @@
             android:layout_height="25dp"
             android:layout_marginStart="16dp"
             android:backgroundTint="@color/fui_transparent"
+            app:idUserComment="@{comment.uidUser}"
+            app:idCurrentUser="@{idCurrentUser}"
+            android:onClick="@{()->clickListener.onClick(comment)}"
             app:layout_constraintBottom_toBottomOf="@+id/textViewDateComment"
             app:layout_constraintStart_toEndOf="@+id/textViewDateComment"
             app:layout_constraintTop_toTopOf="@+id/textViewDateComment"

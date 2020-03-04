@@ -6,13 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import fr.thomas.lefebvre.toutougo.database.model.Comment
+import fr.thomas.lefebvre.toutougo.database.model.Dog
 import fr.thomas.lefebvre.toutougo.databinding.ListItemCommentBinding
+import fr.thomas.lefebvre.toutougo.ui.userDashboard.DogListener
 
-class CommentAdapter() : ListAdapter<Comment, CommentAdapter.ViewHolder>(CommentDiffCallback()) {
+class CommentAdapter(val clickListener: CommentListener, val idCurrentUser:String): ListAdapter<Comment, CommentAdapter.ViewHolder>(CommentDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(getItem(position))
+        holder.bind(getItem(position),clickListener,idCurrentUser)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,8 +23,10 @@ class CommentAdapter() : ListAdapter<Comment, CommentAdapter.ViewHolder>(Comment
 
     class ViewHolder private constructor(val binding: ListItemCommentBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: Comment) {
+        fun bind(item: Comment,clickListener: CommentListener,idCurrentUser: String) {
             binding.comment = item
+            binding.clickListener=clickListener
+            binding.idCurrentUser=idCurrentUser
             binding.executePendingBindings()
         }
 
@@ -49,5 +53,10 @@ class CommentDiffCallback : DiffUtil.ItemCallback<Comment>() {
     }
 
 
+}
+
+
+class CommentListener(val clickListener: (commentId: Comment) -> Unit) {
+    fun onClick(comment: Comment) = clickListener(comment)
 }
 

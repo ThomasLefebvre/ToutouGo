@@ -256,7 +256,8 @@ class PlaceViewModel : ViewModel() {
             descriptionComment.value!!,
             likeOrNot,
             currentUser!!.displayName!!,
-            detailPlace.value!!.uid
+            detailPlace.value!!.uid,
+            currentUser.uid
 
         )
         uiScope.launch {
@@ -268,6 +269,18 @@ class PlaceViewModel : ViewModel() {
     private suspend fun createCommentInDatabase(comment: Comment) {
         withContext(Dispatchers.IO) {
             commentHelper.createComment(comment)
+        }
+    }
+
+    fun deleteComment(uidComment:String){
+        uiScope.launch {
+            deleteCommentDataBase(uidComment)
+        }
+    }
+
+    private suspend fun deleteCommentDataBase(uidComment: String) {
+        withContext(Dispatchers.IO){
+            commentHelper.deleteComment(uidComment)
         }
     }
 
