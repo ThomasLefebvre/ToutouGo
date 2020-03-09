@@ -2,7 +2,6 @@ package fr.thomas.lefebvre.toutougo.ui.userDetail
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentDetailUserBinding
-import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
+import fr.thomas.lefebvre.toutougo.ui.place.MainViewModel
 import fr.thomas.lefebvre.toutougo.ui.userDashboard.DogAdapter
 import fr.thomas.lefebvre.toutougo.ui.userDashboard.DogListener
 
@@ -26,7 +25,7 @@ class DetailUserFragment : Fragment() {
 
     private lateinit var viewModel:UserDetailViewModel
 
-    private lateinit var viewModelPlace:PlaceViewModel
+    private lateinit var viewModelPlace:MainViewModel
 
     private lateinit var adapter: DogAdapter
 
@@ -38,7 +37,7 @@ class DetailUserFragment : Fragment() {
         binding=DataBindingUtil.inflate(inflater,R.layout.fragment_detail_user,container,false)
         viewModel=ViewModelProviders.of(this).get(UserDetailViewModel::class.java)
 
-        viewModelPlace=ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+        viewModelPlace=ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
         binding.viewModel=viewModel
 

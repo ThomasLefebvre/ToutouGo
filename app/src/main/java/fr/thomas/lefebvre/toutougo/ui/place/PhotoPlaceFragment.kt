@@ -36,7 +36,7 @@ class PhotoPlaceFragment : Fragment() {
 
     private lateinit var binding: FragmentPhotoPlaceBinding
 
-    private lateinit var viewModel: PlaceViewModel
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var viewModelPhoto: PhotoPlaceViewModel
 
@@ -71,7 +71,7 @@ class PhotoPlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
         viewModelPhoto = ViewModelProviders.of(this).get(PhotoPlaceViewModel::class.java)
         binding.lifecycleOwner = activity

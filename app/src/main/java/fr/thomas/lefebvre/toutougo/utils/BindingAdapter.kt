@@ -7,13 +7,13 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import fr.thomas.lefebvre.toutougo.R
-import fr.thomas.lefebvre.toutougo.database.model.PhotoPlace
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 
 @BindingAdapter("imageUrl", "error")
@@ -28,6 +28,16 @@ fun ImageButton.setVisibility(idCurrentUser:String,idUserDog:String){
     }
     else{
         visibility=View.GONE
+    }
+}
+
+@BindingAdapter("idCurrentUser","idCreatorUser")
+fun MaterialButton.setVisibilityButton(idCurrentUser:String,idCreatorUser:String?){
+    if(idCurrentUser==idCreatorUser){
+        visibility=View.GONE
+    }
+    else{
+        visibility=View.VISIBLE
     }
 }
 

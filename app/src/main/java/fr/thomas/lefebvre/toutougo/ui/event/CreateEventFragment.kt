@@ -18,8 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentCreateEventBinding
-import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
-import kotlinx.android.synthetic.main.alert_dialog_confirm.view.*
+import fr.thomas.lefebvre.toutougo.ui.place.MainViewModel
 import kotlinx.android.synthetic.main.alert_dialog_save.view.*
 import java.util.*
 
@@ -30,7 +29,7 @@ class CreateEventFragment : Fragment() {
 
 
     private lateinit var binding: FragmentCreateEventBinding
-    private lateinit var viewModel: PlaceViewModel
+    private lateinit var viewModel: MainViewModel
 
 
     var cal = Calendar.getInstance()
@@ -43,7 +42,7 @@ class CreateEventFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_create_event, container, false)
 
-        viewModel = ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
         binding.lifecycleOwner = activity
 

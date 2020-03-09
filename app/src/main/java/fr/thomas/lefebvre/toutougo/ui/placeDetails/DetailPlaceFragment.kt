@@ -13,11 +13,10 @@ import androidx.lifecycle.ViewModelProviders
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentDetailPlaceBinding
-import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
+import fr.thomas.lefebvre.toutougo.ui.place.MainViewModel
 import android.content.Intent
 import android.net.Uri
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -34,7 +33,7 @@ import kotlinx.android.synthetic.main.alert_dialog_save.view.*
  */
 class DetailPlaceFragment : Fragment() {
 
-    private lateinit var viewModel: PlaceViewModel
+    private lateinit var viewModel: MainViewModel
     private lateinit var viewModelDashBord: DashBoardViewModel
     private lateinit var binding: FragmentDetailPlaceBinding
 
@@ -44,7 +43,7 @@ class DetailPlaceFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
         viewModelDashBord = ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 

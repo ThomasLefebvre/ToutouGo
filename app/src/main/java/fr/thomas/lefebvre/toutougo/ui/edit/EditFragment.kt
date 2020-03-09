@@ -146,7 +146,14 @@ class EditFragment : Fragment() {
     private fun uploadPhoto() {
         if (filePath != null) {
             val ref: StorageReference
-            val refPhoto = viewModel.refPhoto.value.toString()
+            val refPhoto:String
+            if(viewModel.refPhoto.value!="noPhoto"){
+                 refPhoto = viewModel.refPhoto.value.toString()
+            }
+            else{
+                refPhoto=viewModel.currentUserUid+System.currentTimeMillis().toString()
+            }
+
             if (refPhoto != "") {
                 ref =
                     storageReference!!.child(pathStringDog + refPhoto)

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.QuerySnapshot
 import fr.thomas.lefebvre.toutougo.database.helper.*
 import fr.thomas.lefebvre.toutougo.database.model.*
 import fr.thomas.lefebvre.toutougo.utils.computeDistance
@@ -11,7 +12,7 @@ import fr.thomas.lefebvre.toutougo.utils.hourToMillis
 import fr.thomas.lefebvre.toutougo.utils.minuteToMillis
 import kotlinx.coroutines.*
 
-class PlaceViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
 
     //------------- VARIABLE FOR COROUTINES ------------------
@@ -53,12 +54,20 @@ class PlaceViewModel : ViewModel() {
 
     //------------- VARIABLE FOR DETAILS EVENT ---------------
     val detailEvent = MutableLiveData<Event>()
-    val userCreatorPhotoUrl=MutableLiveData<String>()
-    val userHelper=UserHelper()
+    val userCreatorPhotoUrl = MutableLiveData<String>()
+    val userCreatorUid = MutableLiveData<String>()
+    val userHelper = UserHelper()
 
     //------------- VARIABLE FOR DETAILS USER ---------------
 
-    val detailUser=MutableLiveData<String>()
+    val detailUser = MutableLiveData<String>()
+
+
+    //------------- VARIABLE FOR PARTICIPATION ---------------
+
+    val participationHelper = ParticipationHelper()
+    val currentUserIsParticipe = MutableLiveData<Boolean>()
+    val listParticipation=MutableLiveData<ArrayList<Participation>>()
 
     //------------- VARIABLE KNOW IS CREATE PLACE OR EVENT ---------------
 
@@ -86,24 +95,29 @@ class PlaceViewModel : ViewModel() {
     val listComment = MutableLiveData<ArrayList<Comment>>()
 
 
-
-
     // -------------------- GET USER FOR EVENT ------------------------
 
-    fun getUserCreator(){
+    fun getUserCreator() {
         uiScope.launch {
             getUserCreatorFromDatabase()
         }
     }
-    private suspend fun getUserCreatorFromDatabase(){
-        withContext(Dispatchers.IO){
-            userHelper.getUserById(detailEvent.value!!.uidCreator).addOnSuccessListener {  documentSnapshot ->
-                if (documentSnapshot.exists()) {
-                    val user: User? = documentSnapshot.toObject(User::class.java)
-                    userCreatorPhotoUrl.value=user!!.photoUrl
 
-                    Log.d("DEBUG", "load user creator from firestore ${userCreatorPhotoUrl.value}")
-                } }
+    private suspend fun getUserCreatorFromDatabase() {
+        withContext(Dispatchers.IO) {
+            userHelper.getUserById(detailEvent.value!!.uidCreator)
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val user: User? = documentSnapshot.toObject(User::class.java)
+                        userCreatorPhotoUrl.value = user!!.photoUrl
+                        userCreatorUid.value = user.uid
+
+                        Log.d(
+                            "DEBUG",
+                            "load user creator from firestore ${userCreatorPhotoUrl.value}"
+                        )
+                    }
+                }
         }
     }
 
@@ -122,7 +136,7 @@ class PlaceViewModel : ViewModel() {
             eventHelper.getAllEvent().addOnSuccessListener { documents ->
                 if (documents.documents.isEmpty()) {
                     Log.d("EVENT", "No event")
-                    listEvent.value=null
+                    listEvent.value = null
                 } else {
                     val list = ArrayList<Event>()
                     for (document in documents) {
@@ -145,13 +159,17 @@ class PlaceViewModel : ViewModel() {
                             event.uidCreator,
                             event.photoEvent
                         )
-                        if((event.dateEvent+ hourToMillis(event.hourEvent)+ minuteToMillis(event.minuteEvent))>System.currentTimeMillis()){//check if event is actually
-                            Log.d("TIME",event.nameEvent)
-                            Log.d("TIME",("date event: " +(event.dateEvent+ hourToMillis(event.hourEvent)+ minuteToMillis(event.minuteEvent)).toString()))
-                            Log.d("TIME",System.currentTimeMillis().toString())
+                        if ((event.dateEvent + hourToMillis(event.hourEvent) + minuteToMillis(event.minuteEvent)) > System.currentTimeMillis()) {//check if event is actually
+                            Log.d("TIME", event.nameEvent)
+                            Log.d(
+                                "TIME",
+                                ("date event: " + (event.dateEvent + hourToMillis(event.hourEvent) + minuteToMillis(
+                                    event.minuteEvent
+                                )).toString())
+                            )
+                            Log.d("TIME", System.currentTimeMillis().toString())
                             list.add(event)
                         }
-
 
 
                     }
@@ -193,7 +211,7 @@ class PlaceViewModel : ViewModel() {
             uidCreator.value!!,
             placeEvent.value!!.photoUrlMain
 
-            )
+        )
         uiScope.launch {
             createEventInDatabase(event)
         }
@@ -207,28 +225,69 @@ class PlaceViewModel : ViewModel() {
     }
 
 
-    fun checkAllInfosEvent(): Boolean {
+    fun checkAllInfosEvent(): Boolean {//check if all edit text is completed for create event
         return (placeEvent.value != null
-                &&dateEvent.value!=null
-                &&hourEvent.value!=null
-                &&nameEvent.value!=null
-                &&descriptionEvent.value!=null
-                &&maxCustomer.value!=null
+                && dateEvent.value != null
+                && hourEvent.value != null
+                && nameEvent.value != null
+                && descriptionEvent.value != null
+                && maxCustomer.value != null
                 )
     }
 
-    fun clearInfosEvent() {
+    fun clearInfosEvent() {//clear edit text info after creation event
 
         nameEvent.value = null
         descriptionEvent.value = null
         placeEvent.value = null
-        namePlaceEvent.value=null
+        namePlaceEvent.value = null
         dateEvent.value = null
         hourEvent.value = null
         minuteEvent.value = null
         maxCustomer.value = null
     }
 
+
+    // -------------------- UPDATE EVENT NUMBER USER  ------------------------
+    fun updateNumberUserEvent() {
+
+        uiScope.launch {
+            updateNumberUserEventInDatabase()
+        }
+    }
+
+
+    private suspend fun updateNumberUserEventInDatabase() {
+        withContext(Dispatchers.IO) {
+            eventHelper.updateNumberCustomer(
+                detailEvent.value!!.uidEvent,
+                detailEvent.value!!.numberCustomer + 1
+            )
+        }
+    }
+
+    fun getParticipationCurrentUser() {
+
+        uiScope.launch {
+            getParticipationCurrentUserInDatabase()
+        }
+    }
+
+
+    private suspend fun getParticipationCurrentUserInDatabase() {
+        withContext(Dispatchers.IO) {
+            participationHelper.getParticipationById(currentUser!!.uid + detailEvent.value!!.uidEvent)
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        Log.d("DEBUG", "Participe already")
+                        currentUserIsParticipe.value = true
+                    } else {
+                        Log.d("DEBUG", "Participation is empty")
+                        currentUserIsParticipe.value = false
+                    }
+                }
+        }
+    }
 
 
     // -------------------- METHOD FOR SET LIST ------------------------
@@ -272,14 +331,14 @@ class PlaceViewModel : ViewModel() {
         }
     }
 
-    fun deleteComment(uidComment:String){
+    fun deleteComment(uidComment: String) {
         uiScope.launch {
             deleteCommentDataBase(uidComment)
         }
     }
 
     private suspend fun deleteCommentDataBase(uidComment: String) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             commentHelper.deleteComment(uidComment)
         }
     }
@@ -310,7 +369,7 @@ class PlaceViewModel : ViewModel() {
                         val list = ArrayList<Comment>()
                         for (document in documents) {
 
-                            var comment = document.toObject(Comment::class.java)
+                            val comment = document.toObject(Comment::class.java)
                             list.add(comment)
 
                         }
@@ -463,6 +522,66 @@ class PlaceViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         job.cancel()
+    }
+
+
+    // -------------------- CREATE PARTICIPATION  ------------------------
+    fun createParticipation(userPhotoUrl: String) {
+
+
+        val participation = Participation(
+            currentUser!!.uid + detailEvent.value!!.uidEvent,
+            detailEvent.value!!.uidEvent,
+            currentUser.uid,
+            userPhotoUrl
+
+
+        )
+        uiScope.launch {
+            createParticipationInDatabase(participation)
+        }
+    }
+
+
+    private suspend fun createParticipationInDatabase(participation: Participation) {
+        withContext(Dispatchers.IO) {
+            participationHelper.createParticipation(participation)
+        }
+    }
+
+    // -------------------- GET PARTICIPATION BY EVENT ID ------------------------
+
+    fun getParticipationOfEvent() {
+        uiScope.launch {
+            getParticipationOfEventInDatabase()
+             }
+    }
+
+    private suspend fun getParticipationOfEventInDatabase() {
+        withContext(Dispatchers.IO) {
+            participationHelper.getAllParticipationByIdEvent(detailEvent.value!!.uidEvent)//get all participants of details event
+                .addOnSuccessListener { documents ->
+                    if (documents.documents.isEmpty()) {//else is empty = no participants
+                        listParticipation.value = null
+                        Log.d("DEBUG", "No participant")
+                    } else {
+                        val list = ArrayList<Participation>()//create empty list
+                        for (document in documents) {
+                            val participation = document.toObject(Participation::class.java)//add participant in list
+                            list.add(participation)
+
+
+                        }
+                        listParticipation.value = list//init value of mutable live data list of participant
+                        Log.d("DEBUG", "Yes participant")
+                    }
+
+                }
+                .addOnFailureListener {
+
+                    Log.d("DEBUG", "Failure get participation: ${it.message}")
+                }
+        }
     }
 }
 

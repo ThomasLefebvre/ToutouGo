@@ -13,11 +13,11 @@ import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.database.model.Event
 import fr.thomas.lefebvre.toutougo.databinding.FragmentEventBinding
 import fr.thomas.lefebvre.toutougo.ui.userDashboard.DashBoardViewModel
-import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
+import fr.thomas.lefebvre.toutougo.ui.place.MainViewModel
 
 class EventFragment : Fragment() {
 
-    private lateinit var viewModel: PlaceViewModel
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var viewModelLocation:DashBoardViewModel
 
@@ -31,7 +31,7 @@ class EventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel =
-            ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+            ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
         viewModelLocation=ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 

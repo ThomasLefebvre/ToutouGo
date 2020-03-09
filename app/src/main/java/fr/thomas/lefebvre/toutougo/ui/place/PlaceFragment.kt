@@ -19,7 +19,7 @@ class PlaceFragment : Fragment() {
 
     private lateinit var binding: FragmentPlaceBinding
 
-    private lateinit var viewModel: PlaceViewModel
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var viewModelLocation: DashBoardViewModel
 
@@ -44,7 +44,7 @@ class PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
         viewModelLocation = ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 

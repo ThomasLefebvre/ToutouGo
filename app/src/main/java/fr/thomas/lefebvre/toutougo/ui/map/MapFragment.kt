@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.*
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentMapBinding
 import fr.thomas.lefebvre.toutougo.ui.userDashboard.DashBoardViewModel
-import fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel
+import fr.thomas.lefebvre.toutougo.ui.place.MainViewModel
 import android.location.Geocoder
 import android.location.Address
 import com.google.android.material.snackbar.Snackbar
@@ -31,7 +31,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     // -----                          VARIABLES                            --------
     private lateinit var locationViewModel: DashBoardViewModel
 
-    private lateinit var placeViewModel: PlaceViewModel
+    private lateinit var placeViewModel: MainViewModel
 
     private lateinit var binding: FragmentMapBinding
 
@@ -62,7 +62,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
             ViewModelProviders.of(activity!!).get(DashBoardViewModel::class.java)
 
         placeViewModel =//init location view model
-            ViewModelProviders.of(activity!!).get(PlaceViewModel::class.java)
+            ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
         //init view with data binding
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)

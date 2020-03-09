@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="fr.thomas.lefebvre.toutougo.ui.place.PlaceViewModel" />
+            type="fr.thomas.lefebvre.toutougo.ui.place.MainViewModel" />
 
     </data>
 
@@ -16,7 +16,7 @@
         tools:context=".ui.eventDetails.DetailEventFragment"
        >
 
-        <!-- TODO: Update blank fragment layout -->
+
 
 
         <com.google.android.material.card.MaterialCardView
@@ -109,6 +109,20 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageViewEvent" />
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_rejoin_event"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/rejoin_event"
+                        app:idCurrentUser="@{viewModel.uidCreator}"
+                        app:idCreatorUser="@{viewModel.userCreatorUid}"
+                        app:icon="@drawable/ic_event"
+                        app:iconSize="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewMarge" />
 
 
                     <TextView
@@ -116,12 +130,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/small"
-                        android:layout_marginTop="@dimen/small"
-                        android:text="@string/description"
+                        android:layout_marginTop="8dp"
 
+                        android:text="@string/description"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageViewMarge" />
+                        app:layout_constraintTop_toBottomOf="@+id/button_rejoin_event" />
 
                     <TextView
                         android:id="@+id/textViewDescriptionAddress"
@@ -209,6 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/very_small"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

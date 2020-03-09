@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "141087493283-q1nnon0vkdokfdn1vn3iri1j9gl8uig6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.thomas.lefebvre.toutougo",
+            "certificate_hash": "50c5dec6b1847c360d153b1b85834aad1dc2d637"
+          }
+        },
+        {
           "client_id": "141087493283-025majedicdu05vabnfc9p9pgbr4blot.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
