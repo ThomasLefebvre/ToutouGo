@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.messaging.FirebaseMessagingService
 
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.database.model.Participation
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.alert_dialog_save.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class DetailEventFragment : Fragment() {
+class DetailEventFragment : Fragment(){
 
     private lateinit var binding: FragmentDetailEventBinding
 
