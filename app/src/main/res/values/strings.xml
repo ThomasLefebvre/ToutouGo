@@ -36,7 +36,7 @@
     <string name="ans">ans</string>
     <string name="nochien">Ajoute un chien</string>
     <string name="coins_sympas">Les coins sympas</string>
-    <string name="proximite">A proximité</string>
+    <string name="proximite">A proximité (20km)</string>
     <string name="add_place">Ajoute un lieu</string>
     <string name="search_place">Recherche un lieu</string>
     <string name="add_address">Selectionne une adresse</string>

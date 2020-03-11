@@ -79,6 +79,7 @@ class MainViewModel : ViewModel() {
     private val currentUser = FirebaseAuth.getInstance().currentUser
 
     val listPlace = MutableLiveData<ArrayList<Place>>()
+    val listPlaceMap = MutableLiveData<ArrayList<Place>>()
 
 
     //------------- VARIABLE FOR DETAILS PLACE ---------------
@@ -168,15 +169,18 @@ class MainViewModel : ViewModel() {
                                 )).toString())
                             )
                             Log.d("TIME", System.currentTimeMillis().toString())
-                            list.add(event)
+                            if(event.distance<20000){
+                                list.add(event)
+                            }
+
                         }
 
 
                     }
                     list.sortWith(Comparator<Event> { p1, p2 ->
                         when {
-                            p1!!.distance > p2!!.distance -> 1
-                            p1.distance == p2.distance -> 0
+                            p1!!.dateEvent > p2!!.dateEvent -> 1
+                            p1.dateEvent == p2.dateEvent -> 0
                             else -> -1
                         }
                     })
@@ -446,6 +450,7 @@ class MainViewModel : ViewModel() {
                     Log.d("DEBUG", "No places")
                 } else {
                     val list = ArrayList<Place>()
+                    val listMap = ArrayList<Place>()
                     for (document in documents) {
 
                         var place = document.toObject(Place::class.java)
@@ -460,8 +465,11 @@ class MainViewModel : ViewModel() {
                             place.onLine,
                             place.photoUrlMain
                         )
-
-                        list.add(place)
+                        if (place.distance<20000){
+                            list.add(place)
+                        }
+                        listMap.add(place)
+                        Log.d("DISTANCE",place.distance.toString())
 
                     }
                     list.sortWith(Comparator<Place> { p1, p2 ->
@@ -473,6 +481,7 @@ class MainViewModel : ViewModel() {
                     })
 
                     listPlace.value = list
+                    listPlaceMap.value=listMap
                     Log.d("DEBUG", "YES places")
                 }
 

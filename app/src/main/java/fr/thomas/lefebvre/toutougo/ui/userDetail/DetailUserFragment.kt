@@ -49,7 +49,7 @@ class DetailUserFragment : Fragment() {
 
         adapter = DogAdapter(DogListener { dog ->
 
-        },viewModel.currentUserUid)
+        },false)
         binding.recyclerViewUserDetailDog.adapter = adapter
 
         viewModel.listDog.observe(viewLifecycleOwner, Observer {

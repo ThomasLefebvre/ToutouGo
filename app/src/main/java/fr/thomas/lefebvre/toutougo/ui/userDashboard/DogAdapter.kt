@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.thomas.lefebvre.toutougo.database.model.Dog
 import fr.thomas.lefebvre.toutougo.databinding.ListItemDogBinding
 
-class DogAdapter(val clickListener: DogListener,val idCurrentUser:String) : ListAdapter<Dog, DogAdapter.ViewHolder>(DogDiffCallback()) {
+class DogAdapter(val clickListener: DogListener,val isVisible:Boolean) : ListAdapter<Dog, DogAdapter.ViewHolder>(DogDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(getItem(position),clickListener,idCurrentUser)
+        holder.bind(getItem(position),clickListener,isVisible)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,10 +21,10 @@ class DogAdapter(val clickListener: DogListener,val idCurrentUser:String) : List
 
     class ViewHolder private constructor(val binding: ListItemDogBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: Dog,clickListener: DogListener,idCurrentUser: String) {
+        fun bind(item: Dog,clickListener: DogListener,isVisible: Boolean) {
             binding.dog = item
             binding.clickListener = clickListener
-            binding.idCurrentUser=idCurrentUser
+            binding.isVisible=isVisible
             binding.executePendingBindings()
         }
 

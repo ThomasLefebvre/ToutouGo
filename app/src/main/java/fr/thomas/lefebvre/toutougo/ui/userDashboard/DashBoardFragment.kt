@@ -61,7 +61,7 @@ class DashBoardFragment : Fragment() {
 
         adapter = DogAdapter(DogListener { dog ->
             launchEditFragment(dog)
-        },mViewModel.currentUserUid)
+        },true)
         binding.dogList.adapter = adapter
 
         mViewModel.listDog.observe(viewLifecycleOwner, Observer {

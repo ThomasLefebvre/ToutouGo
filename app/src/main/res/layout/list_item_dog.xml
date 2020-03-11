@@ -12,9 +12,10 @@
         <variable
             name="clickListener"
             type="fr.thomas.lefebvre.toutougo.ui.userDashboard.DogListener" />
+
         <variable
-            name="idCurrentUser"
-            type="String" />
+            name="isVisible"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,8 +101,7 @@
             android:backgroundTint="@color/fui_transparent"
             android:onClick="@{() -> clickListener.onClick(dog)}"
             android:tint="@color/colorPrimary"
-            app:idCurrentUser="@{idCurrentUser}"
-            app:idUserCompare="@{dog.uidUser}"
+            app:activity="@{isVisible}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewAgeDog"
             app:srcCompat="@drawable/ic_edit_black_36dp" />

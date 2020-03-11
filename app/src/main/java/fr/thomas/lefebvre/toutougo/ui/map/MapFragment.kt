@@ -162,7 +162,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         mGoogleMap.setOnMarkerClickListener(this)
 
 
-        placeViewModel.listPlace.observe(this, Observer { listPlace ->
+        placeViewModel.listPlaceMap.observe(this, Observer { listPlace ->
             var index: Int = 0
             for (place in listPlace) {
                 val latLng = LatLng(place.lat, place.lng)
@@ -224,17 +224,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
     private fun pickPlaceForEvent(marker: Marker?) {
-
-        if (marker!!.snippet == "Chemin") {
             placeViewModel.placeEvent.value =
-                placeViewModel.listPlace.value?.get(marker.zIndex.toInt())
+                placeViewModel.listPlaceMap.value?.get(marker!!.zIndex.toInt())
 
             placeViewModel.namePlaceEvent.value =
-                placeViewModel.listPlace.value?.get(marker.zIndex.toInt())!!.name
+                placeViewModel.listPlaceMap.value?.get(marker!!.zIndex.toInt())!!.name
 
             view!!.findNavController().navigate(R.id.action_mapFragment_to_createEventFragment)
-
-        }
     }
 
 
@@ -243,11 +239,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         when (placeViewModel.isPlaceOrEvent.value) {
             getString(R.string.event) -> pickPlaceForEvent(marker)
             getString(R.string.place) -> pickAddressForPlace()
-            null -> if (marker!!.snippet == "Chemin") {
+            null ->{
                 placeViewModel.detailPlace.value =
-                    placeViewModel.listPlace.value?.get(marker.zIndex.toInt())
+                    placeViewModel.listPlaceMap.value?.get(marker!!.zIndex.toInt())
                 fragmentDetailPlace()
             }
+
         }
     }
 
@@ -320,7 +317,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
             MarkerOptions()
                 .position(latLng!!)
                 .title(titleMarker)
-                .snippet("Chemin")
                 .zIndex(index.toFloat())
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.parc))
 

@@ -136,6 +136,8 @@ fun TextView.setDoubleToString(distance: Double) {
    text= setDistanceToString(distance)
 }
 
+        //-------------------VISIBILITY---------------
+
 @BindingAdapter("activity")
 fun setVisibility(view: View,activity: Boolean) {
     view.visibility = setVisibilityView(activity)
