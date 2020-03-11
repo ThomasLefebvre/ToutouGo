@@ -74,7 +74,7 @@
             android:layout_height="25dp"
             android:layout_marginStart="16dp"
             android:backgroundTint="@color/fui_transparent"
-            app:idUserComment="@{comment.uidUser}"
+            app:idUserCompare="@{comment.uidUser}"
             app:idCurrentUser="@{idCurrentUser}"
             android:onClick="@{()->clickListener.onClick(comment)}"
             app:layout_constraintBottom_toBottomOf="@+id/textViewDateComment"

@@ -21,36 +21,6 @@ fun loadImage(view: ImageView, url: String?, error: Drawable) {
     Picasso.get().load(url).error(error).into(view)
 }
 
-@BindingAdapter("idCurrentUser","idUserDog")
-fun ImageButton.setVisibility(idCurrentUser:String,idUserDog:String){
-    if(idCurrentUser==idUserDog){
-        visibility=View.VISIBLE
-    }
-    else{
-        visibility=View.GONE
-    }
-}
-
-@BindingAdapter("idCurrentUser","idCreatorUser")
-fun MaterialButton.setVisibilityButton(idCurrentUser:String,idCreatorUser:String?){
-    if(idCurrentUser==idCreatorUser){
-        visibility=View.GONE
-    }
-    else{
-        visibility=View.VISIBLE
-    }
-}
-
-
-@BindingAdapter("idCurrentUser","idUserComment")
-fun ImageButton.setVisibilityComment(idCurrentUser:String,idUserDog:String){
-    if(idCurrentUser==idUserDog){
-        visibility=View.VISIBLE
-    }
-    else{
-        visibility=View.GONE
-    }
-}
 
 
 @BindingAdapter("participant")
@@ -64,30 +34,17 @@ fun TextView.setParticipants(participants:Int){
 @BindingAdapter("date")
 fun TextView.setDateSting(date:Long){
     if(date>0){
-        val dateLong= Date(date)
-        val sdf=SimpleDateFormat("dd/MM/yyyy")
-        text = sdf.format(dateLong)
+        text = setDateToString(date)
     }
 
 }
 
 @BindingAdapter("hour","minute")
 fun  TextView.setTime(hour:Int?,minute:Int?){
-    if(hour!=null){
-        val sb=java.lang.StringBuilder()
-        sb.append(hour.toString())
-        sb.append(context.getString(R.string.hour))
-        if (minute != null) {
-            if(minute<10){
-                sb.append("0$minute")
-            }else{
-                sb.append(minute.toString())
-            }
-        }
-        text=sb.toString()
+if(hour!=null){
+    text= setTimeToString(hour!!,minute!!,context)
+}
 
-
-    }
 }
 
 
@@ -172,26 +129,33 @@ fun TextView.setHeight(height: Int?) {
 
 }
 
-@BindingAdapter("activity")
-fun FloatingActionButton.setVisibility(activity: Boolean) {
-    if (activity) {
-        visibility = View.VISIBLE
-    } else {
-        visibility = View.GONE
-    }
-
-}
 
 
 @BindingAdapter("distance")
 fun TextView.setDoubleToString(distance: Double) {
-    val distanceInt = distance.toInt()
-    if (distanceInt < 9999) {
-        text = distanceInt.toString() + "m"
-    } else {
-        text = (distanceInt / 1000).toString() + "km"
-    }
+   text= setDistanceToString(distance)
 }
+
+@BindingAdapter("activity")
+fun setVisibility(view: View,activity: Boolean) {
+    view.visibility = setVisibilityView(activity)
+}
+
+
+@BindingAdapter("idCurrentUser","idUserCompare")
+fun setVisibility(view: View,idCurrentUser:String,idUserCompare:String){
+    val boolean=idCurrentUser==idUserCompare
+    view.visibility= setVisibilityView(boolean)
+}
+
+@BindingAdapter("idCurrentUser","idCreatorUser")
+fun MaterialButton.setVisibilityButton(idCurrentUser:String,idCreatorUser:String?){
+    val boolean=idCurrentUser!=idCreatorUser
+    visibility= setVisibilityView(boolean)
+
+}
+
+
 
 
 

@@ -101,7 +101,7 @@
             android:onClick="@{() -> clickListener.onClick(dog)}"
             android:tint="@color/colorPrimary"
             app:idCurrentUser="@{idCurrentUser}"
-            app:idUserDog="@{dog.uidUser}"
+            app:idUserCompare="@{dog.uidUser}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewAgeDog"
             app:srcCompat="@drawable/ic_edit_black_36dp" />
