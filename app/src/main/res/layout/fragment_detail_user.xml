@@ -78,7 +78,7 @@
                         android:minHeight="200dp"
                         app:cardCornerRadius="6dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewNameDetailPlace">
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewMarge">
 
                         <ImageView
                             error="@{@drawable/ic_users}"

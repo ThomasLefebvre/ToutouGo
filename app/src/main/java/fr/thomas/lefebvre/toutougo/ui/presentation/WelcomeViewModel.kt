@@ -1,11 +1,15 @@
 package fr.thomas.lefebvre.toutougo.ui.presentation
 
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.database.helper.DogHelper
@@ -36,6 +40,9 @@ class WelcomeViewModel() : ViewModel() {
     val descriptionUser = MutableLiveData<String>()
     val photoUserUrl = MutableLiveData<String>().apply { value = "noPhoto" }
 
+    // -------------------- VARIABLE FOR DELETE AND LOG OUT USER ------------------------
+
+    val isDelete=MutableLiveData<Boolean>().apply { value=false }
 
     // -------------------- VARIABLE FOR DOGS INFOS ------------------------
 
@@ -65,6 +72,42 @@ class WelcomeViewModel() : ViewModel() {
         initListSpinner()
 
     }
+
+    // -------------------- METHOD FOR DELETE ACCOUNT ------------------------
+
+
+    fun deleteAccount(context:Context) {
+
+           uiScope.launch {
+               deleteAccountInDatabase(context)
+           }
+
+
+    }
+
+    private suspend fun deleteAccountInDatabase(context: Context ) {
+        withContext(Dispatchers.IO) {
+            userHelper.deleteUser(currentUser.uid)
+                .addOnSuccessListener {
+
+                    AuthUI.getInstance().delete(context)
+                        .addOnCompleteListener {
+
+                         isDelete.value=true
+
+                        }
+                        .addOnFailureListener { e ->
+
+
+                        }
+                }
+                .addOnFailureListener {
+
+                }
+        }
+    }
+
+    // -------------------- METHOD FOR LOG OUT ACCOUNT ------------------------
 
     // -------------------- METHOD FOR SET LIST ------------------------
 

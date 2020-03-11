@@ -171,6 +171,18 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_edit_black_36dp" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonToolsUser"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginEnd="@dimen/small"
+                        android:backgroundTint="@color/fui_transparent"
+                        android:tint="@color/colorPrimary"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageButtonEditProfil"
+                        app:layout_constraintEnd_toStartOf="@+id/imageButtonEditProfil"
+                        app:layout_constraintTop_toTopOf="@+id/imageButtonEditProfil"
+                        app:srcCompat="@drawable/ic_settings_black_24dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>

@@ -71,6 +71,9 @@
     <string name="rejoin_event">Participer</string>
     <string name="event_completed">Cet événement est complet, créer ton propre événement et invites tes amis.</string>
     <string name="particpe_of_event">Vous participer déjà à cet événement.</string>
+    <string name="parametres">Paramétres</string>
+    <string name="log_out">Se déconnecter</string>
+    <string name="delete_account">Supprimer son compte</string>
 
 
     //No translate

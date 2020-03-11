@@ -72,6 +72,7 @@ class DashBoardFragment : Fragment() {
 
         buttonAddDog()
         buttonEditProfil()
+        buttonSettingUser()
 
 
 
@@ -142,6 +143,13 @@ class DashBoardFragment : Fragment() {
     private fun buttonEditProfil(){
         binding.imageButtonEditProfil.setOnClickListener {
             view!!.findNavController().navigate(R.id.actionEdit)}}
+
+
+    private fun buttonSettingUser(){
+        binding.imageButtonToolsUser.setOnClickListener {
+            view!!.findNavController().navigate(R.id.action_welcomeFragment_to_toolsUserFragment)
+        }
+    }
 
 
     // ----               REQUEST PERMISSION RESULTS             -----
