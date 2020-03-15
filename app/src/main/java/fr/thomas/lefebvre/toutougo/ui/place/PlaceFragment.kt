@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.databinding.FragmentPlaceBinding
 import fr.thomas.lefebvre.toutougo.ui.userDashboard.DashBoardViewModel
@@ -67,6 +68,14 @@ class PlaceFragment : Fragment() {
         viewModel.listPlace.observe(this, Observer {
             it?.let {
                 adapter.submitList(it)
+            }
+            if (it.size == 0) {//if no place less 20km
+                Snackbar.make(
+                    requireView(),
+                    getString(R.string.no_place),
+                    Snackbar.LENGTH_LONG
+                )
+                    .show()
             }
         })
 

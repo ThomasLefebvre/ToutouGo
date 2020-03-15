@@ -42,7 +42,7 @@ fun TextView.setDateSting(date:Long){
 @BindingAdapter("hour","minute")
 fun  TextView.setTime(hour:Int?,minute:Int?){
 if(hour!=null){
-    text= setTimeToString(hour!!,minute!!,context)
+    text= setTimeToString(hour!!,minute!!)
 }
 
 }

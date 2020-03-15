@@ -100,7 +100,7 @@ class MainViewModel : ViewModel() {
 
     fun getUserCreator() {
         uiScope.launch {
-            getUserCreatorFromDatabase()
+            getUserCreatorFromDatabase()//launch co routine
         }
     }
 
@@ -126,7 +126,7 @@ class MainViewModel : ViewModel() {
     // -------------------- GET EVENT FROM FIRESTORE FOR RECYCLER VIEW  ------------------------
     fun getEvent(userLat: Double, userLng: Double) {
         uiScope.launch {
-            getEventFromFireStore(userLat, userLng)
+            getEventFromFireStore(userLat, userLng)//launch co routine
 
 
         }
@@ -142,7 +142,7 @@ class MainViewModel : ViewModel() {
                     val list = ArrayList<Event>()
                     for (document in documents) {
 
-                        var event = document.toObject(Event::class.java)
+                        var event = document.toObject(Event::class.java)//create event with distance between user location
                         event = Event(
                             event.uidEvent,
                             event.nameEvent,
@@ -155,12 +155,12 @@ class MainViewModel : ViewModel() {
                             event.namePlaceEvent,
                             event.latPlace,
                             event.lngPlace,
-                            computeDistance(userLat, userLng, event.latPlace, event.lngPlace),
+                            computeDistance(userLat, userLng, event.latPlace, event.lngPlace),//calculate distance with user location
                             event.uidPlaceEvent,
                             event.uidCreator,
                             event.photoEvent
                         )
-                        if ((event.dateEvent + hourToMillis(event.hourEvent) + minuteToMillis(event.minuteEvent)) > System.currentTimeMillis()) {//check if event is actually
+                        if ((event.dateEvent + hourToMillis(event.hourEvent) + minuteToMillis(event.minuteEvent)) > System.currentTimeMillis()) {//check if event is actuallycalculerthrough
                             Log.d("TIME", event.nameEvent)
                             Log.d(
                                 "TIME",
@@ -177,7 +177,7 @@ class MainViewModel : ViewModel() {
 
 
                     }
-                    list.sortWith(Comparator<Event> { p1, p2 ->
+                    list.sortWith(Comparator<Event> { p1, p2 ->//sort list by date
                         when {
                             p1!!.dateEvent > p2!!.dateEvent -> 1
                             p1.dateEvent == p2.dateEvent -> 0
@@ -217,7 +217,7 @@ class MainViewModel : ViewModel() {
 
         )
         uiScope.launch {
-            createEventInDatabase(event)
+            createEventInDatabase(event)//launch co routine
         }
     }
 
@@ -256,7 +256,7 @@ class MainViewModel : ViewModel() {
     fun updateNumberUserEvent() {
 
         uiScope.launch {
-            updateNumberUserEventInDatabase()
+            updateNumberUserEventInDatabase()//launch co routine
         }
     }
 
@@ -273,7 +273,7 @@ class MainViewModel : ViewModel() {
     fun getParticipationCurrentUser() {
 
         uiScope.launch {
-            getParticipationCurrentUserInDatabase()
+            getParticipationCurrentUserInDatabase()//launch co routine
         }
     }
 
@@ -324,7 +324,7 @@ class MainViewModel : ViewModel() {
 
         )
         uiScope.launch {
-            createCommentInDatabase(comment)
+            createCommentInDatabase(comment)//launch co routine
         }
     }
 
@@ -337,7 +337,7 @@ class MainViewModel : ViewModel() {
 
     fun deleteComment(uidComment: String) {
         uiScope.launch {
-            deleteCommentDataBase(uidComment)
+            deleteCommentDataBase(uidComment)//launch co routine
         }
     }
 

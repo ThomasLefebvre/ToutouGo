@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
 
-        FirebaseInstanceId.getInstance().instanceId
+        FirebaseInstanceId.getInstance().instanceId//get the token key for cloud function and fcm
             .addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
                     Log.w("TOKEN", "getInstanceId failed", task.exception)
@@ -52,10 +52,6 @@ class MainActivity : AppCompatActivity() {
 
         //Add to Activity
         FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
-
-
-
-
 
         navView.setupWithNavController(navController)
 

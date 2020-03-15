@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.database.model.Event
 import fr.thomas.lefebvre.toutougo.databinding.FragmentEventBinding
@@ -45,7 +46,7 @@ class EventFragment : Fragment() {
     }
 
     override fun onResume() {
-        viewModel.getEvent(
+        viewModel.getEvent(//get event for display in recycler view
             viewModelLocation.lastLatitute.value!!,
             viewModelLocation.lastLongitude.value!!
         )
@@ -55,7 +56,7 @@ class EventFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = EventAdapter(
+        adapter = EventAdapter(//init adapter with location view from view model
             viewModelLocation.lastLatitute.value!!,
             viewModelLocation.lastLongitude.value!!,
             EventListener {
@@ -64,9 +65,17 @@ class EventFragment : Fragment() {
 
         binding.recyclerViewProxEvent.adapter = adapter
 
-        viewModel.listEvent.observe(this, Observer {
+        viewModel.listEvent.observe(this, Observer {//observe list of fragment
 
-                adapter.submitList(it)
+                adapter.submitList(it)//submit list of adapter for display
+            if (it.size == 0) {//if no event less 20km
+                Snackbar.make(//alert dialog alert for no event proximity
+                    requireView(),
+                    getString(R.string.no_event),
+                    Snackbar.LENGTH_LONG
+                )
+                    .show()
+            }
 
         })
 

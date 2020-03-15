@@ -16,30 +16,30 @@ class EventHelper {
         return FirebaseFirestore.getInstance().collection(COLLECTION_NAME)
     }
 
-    // ---- CREATE PLACE ----
+    // ---- CREATE EVENT ----
     fun createEvent(event:Event):Task<Void>{
         return getEventsCollection().document(event.uidEvent).set(event)
     }
 
-    // ---- GET PLACE BY ID ----
+    // ---- GET EVENT BY ID ----
     fun getEventById(uid: String): Task<DocumentSnapshot> {
         return getEventsCollection().document(uid).get()
     }
 
-    // ---- DELETE PLACE BY ID ----
+    // ---- DELETE EVENT BY ID ----
 
     fun deleteEvent(uid: String): Task<Void> {
         return getEventsCollection().document(uid).delete()
     }
 
 
-    // ---- GET ALL PLACES ----
+    // ---- GET ALL EVENT ----
     fun getAllEvent():Task<QuerySnapshot>{
         return getEventsCollection().orderBy("dateEvent",Query.Direction.ASCENDING).get()
     }
 
 
-    // ---- UPDATE USER ----
+    // ---- UPDATE EVENT ----
     fun updateNumberCustomer(uid: String,numberCustomer:Int): Task<Void> {
         return getEventsCollection().document(uid).update("numberCustomer",numberCustomer)
     }

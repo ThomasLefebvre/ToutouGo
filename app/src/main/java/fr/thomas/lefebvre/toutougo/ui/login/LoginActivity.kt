@@ -26,9 +26,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        listProvider = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
+        listProvider = arrayListOf(//create list of method connexion
+            AuthUI.IdpConfig.EmailBuilder().build(),//email connexion
+            AuthUI.IdpConfig.GoogleBuilder().build()//google connexion
         )
         if (currentUser== null) {
             signInOptions()
@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun signInOptions() {
             Log.d("LOGIN","Current user is nul")
-            startActivityForResult(
+            startActivityForResult(//init intent login with Firebase UI Auth
                 AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setTheme(R.style.AppTheme)
@@ -58,11 +58,11 @@ class LoginActivity : AppCompatActivity() {
             userHelper.getUserById(currentUser!!.uid).addOnSuccessListener { documentSnapshot ->
                 if(!documentSnapshot.exists()){
                     Log.d("LOGIN","Create User no exist")
-                    startActivity(Intent(this, WelcomeActivity::class.java))
+                    startActivity(Intent(this, WelcomeActivity::class.java))//if is the fist connexion, launch welcome activity
                     finish()
                 }
                 else{
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))//if no the first connexion, launch main activity
                     finish()
                     Log.d("LOGIN","Document snapshot exist")
                 }
@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
 
     // --- ACTIVITY LOGIN RESULT---
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {//result of login activity
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             CODE_LOGIN -> if (resultCode == Activity.RESULT_OK) {

@@ -10,14 +10,14 @@ import java.util.*
 
 
 fun setDateToString(date: Long): String {
-    val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+    val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE)
     return simpleDateFormat.format(date)
 }
 
-fun setTimeToString(hour: Int, minute: Int,context: Context): String {
+fun setTimeToString(hour: Int, minute: Int): String {
     val sb = java.lang.StringBuilder()
     sb.append(hour.toString())
-    sb.append(context.getString(R.string.hour))
+    sb.append("H")
     if (minute < 10) {
         sb.append("0$minute")
     } else {

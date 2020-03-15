@@ -14,8 +14,6 @@
     <string name="welcome_text">Salut à toi "</string>
     <string name="kg">kg</string>
     <string name="welcome_text_two">", bienvenue sur ToutouGo. Avant de commencer l\'aventure, nous avons besoin de quelques informations."</string>
-    <string name="valid_text">Nous voila fin prêts pour l\'aventure.</string>
-    <string name="valid_text_suite"> va pouvoir faire de superbes ballades avec plein d\'autres amis.</string>
     <string name="your_dog">Ton chien</string>
     <string name="name_toutou">Quel est son nom?</string>
     <string name="dog_height">Quel est son poids?</string>
@@ -23,7 +21,6 @@
     <string name="dog_type">Mâle ou Femelle?</string>
     <string name="description">Description</string>
     <string name="name">Nom</string>
-    <string name="description_text">Parle nous de lui, son caractère, ce qu\il aime, etc…</string>
     <string name="radio_male">Mâle</string>
     <string name="radio_femelle">Femelle</string>
     <string name="add_photo">Ajouter</string>
@@ -74,12 +71,19 @@
     <string name="parametres">Paramétres</string>
     <string name="log_out">Se déconnecter</string>
     <string name="delete_account">Supprimer son compte</string>
+    <string name="visualise">Visualise les lieux sympas en cliquant sur les icones.</string>
+    <string name="map_create_event">Clic sur le lieu ou tu veux créer l\'événement.</string>
+    <string name="map_create_place">Clic sur la carte pour indiquer l\'emplacement du lieu à créer.</string>
+    <string name="no_place">Aucun lieu prés de chez toi, n\'hesites pas à en ajouter un.</string>
+    <string name="no_event">Aucun événement prés de chez toi, n\'hesites pas à en créer un.</string>
 
 
     //No translate
     <string name="place">Place</string>
     <string name="event">Event</string>
     <string name="msg_token_fmt">msg</string>
+
+
 
 
     //ALERT MESSAGES
@@ -120,6 +124,7 @@
         <item>Bouvier bernois</item>
         <item>Border collie</item>
         <item>Boxer</item>
+        <item>Brack de vemar</item>
         <item>Bulldog anglais</item>
         <item>Bullmastiff</item>
         <item>Cane corso</item>

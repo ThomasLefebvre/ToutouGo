@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.snackbar.Snackbar
 import fr.thomas.lefebvre.toutougo.R
 import fr.thomas.lefebvre.toutougo.database.model.Dog
 import fr.thomas.lefebvre.toutougo.databinding.FragmentDashboardBinding
@@ -88,7 +89,7 @@ class DashBoardFragment : Fragment() {
 
 
 
-    private fun launchEditFragment(dog: Dog) {
+    private fun launchEditFragment(dog: Dog) {//launch edit fragment with dog info
         mViewModel.uidDog.value=dog.uid
         mViewModel.nameDog.value=dog.name
         mViewModel.heightDog.value=dog.height.toString()
@@ -104,7 +105,7 @@ class DashBoardFragment : Fragment() {
         view!!.findNavController().navigate(R.id.actionEditDog)
     }
 
-    private fun setUpLocation() {
+    private fun setUpLocation() {//set up location for services apk
         mViewModel.setLocation(48.8,2.33)
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),//check the permission location
@@ -124,7 +125,6 @@ class DashBoardFragment : Fragment() {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
 
             }
-
 
         }
 

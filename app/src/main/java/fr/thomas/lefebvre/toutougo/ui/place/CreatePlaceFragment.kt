@@ -88,7 +88,7 @@ class CreatePlaceFragment : Fragment() {
         val intentAutocomplete =
             Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
                 .build(requireContext())
-        startActivityForResult(intentAutocomplete, AUTOCOMPLETE_REQUEST)
+        startActivityForResult(intentAutocomplete, AUTOCOMPLETE_REQUEST)//init auto complete and start activity for result
     }
 
 
@@ -100,10 +100,10 @@ class CreatePlaceFragment : Fragment() {
 
             AUTOCOMPLETE_REQUEST -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    val place = Autocomplete.getPlaceFromIntent(data!!)
-                    viewModel.adressPlace.value = place.address
-                    viewModel.latPlace.value = place.latLng!!.latitude
-                    viewModel.lngPlace.value = place.latLng!!.longitude
+                    val place = Autocomplete.getPlaceFromIntent(data!!)//get result of auto complete
+                    viewModel.adressPlace.value = place.address//get address
+                    viewModel.latPlace.value = place.latLng!!.latitude//get lat
+                    viewModel.lngPlace.value = place.latLng!!.longitude//get lng
 
                 } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {//if error in request
                     val status = Autocomplete.getStatusFromIntent(data!!)

@@ -41,7 +41,7 @@ class PlaceHelper {
     }
 
 
-    // ---- UPDATE USER ----
+    // ---- UPDATE PHOTO ----
     fun updatePhotoPlaceIcone(uid: String,photoUrlMain:String): Task<Void> {
         return getPlacesCollection().document(uid).update("photoUrlMain",photoUrlMain)
     }

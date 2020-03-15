@@ -67,8 +67,8 @@ class DetailEventFragment : Fragment(){
         })
         binding.recyclerViewParticipants.adapter=adapterParticpant
 
-        viewModel.listParticipation.observe(this, Observer { participants->
-            adapterParticpant.submitList(participants)
+        viewModel.listParticipation.observe(this, Observer { participants->//observe list participant for display
+            adapterParticpant.submitList(participants)//submit list of participants
 
         })
 
@@ -82,8 +82,8 @@ class DetailEventFragment : Fragment(){
     }
 
     override fun onDestroy() {
-        viewModel.listParticipation.value=null
-        viewModel.userCreatorPhotoUrl.value=null
+        viewModel.listParticipation.value=null//clear list
+        viewModel.userCreatorPhotoUrl.value=null//clear creator
         super.onDestroy()
     }
 
@@ -103,7 +103,7 @@ class DetailEventFragment : Fragment(){
 
     private fun clickRejoinEvent() {
         binding.buttonRejoinEvent.setOnClickListener {
-            if (viewModel.currentUserIsParticipe.value == true) {
+            if (viewModel.currentUserIsParticipe.value == true) {//if user already particip event
                 Snackbar.make(
                     requireView(),
                     getString(R.string.particpe_of_event),
@@ -120,7 +120,7 @@ class DetailEventFragment : Fragment(){
 
     //--------------FRAGMENT DETAIL USER---------------
 
-    private fun fragmentDetailUser() {
+    private fun fragmentDetailUser() {//init fragment details
 
         val detailFragment = DetailUserFragment()
         val fragmentManager = getFragmentManager()
@@ -166,8 +166,8 @@ class DetailEventFragment : Fragment(){
 
 
             viewModel.createParticipation(viewModelWelcome.photoUserUrl.value!!)//create participation if click on confirm
-            viewModel.updateNumberUserEvent()
-            viewModel.getParticipationOfEvent()
+            viewModel.updateNumberUserEvent()//update number user
+            viewModel.getParticipationOfEvent()//get new list
 
             mAlertDialog.dismiss()
         }

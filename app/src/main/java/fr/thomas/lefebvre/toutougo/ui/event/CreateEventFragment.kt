@@ -97,10 +97,10 @@ class CreateEventFragment : Fragment() {
 
     private fun onClickSave() {
         binding.floatingActionButtonSaveEvent.setOnClickListener {
-            if(viewModel.checkAllInfosEvent()){
-                alertDialogConfirm()
+            if(viewModel.checkAllInfosEvent()){//if all info completed
+                alertDialogConfirm()//launch alert dialog confirm
             } else {
-                Snackbar.make(
+                Snackbar.make(//snack bar alert
                     requireView(),
                     getString(R.string.complete_infos),
                     Snackbar.LENGTH_SHORT
@@ -116,7 +116,7 @@ class CreateEventFragment : Fragment() {
 
     private fun onClickDatePicker() {
 
-        val dateListener =
+        val dateListener =//init date picker
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, monthOfYear)
@@ -126,7 +126,7 @@ class CreateEventFragment : Fragment() {
                 cal.set(Calendar.MINUTE,0)
                 cal.set(Calendar.SECOND,0)
                 cal.set(Calendar.MILLISECOND,0)
-                viewModel.dateEvent.value = (cal.timeInMillis)
+                viewModel.dateEvent.value = (cal.timeInMillis)//get date pick
             }
 
         binding.buttonAddDate.setOnClickListener {
@@ -145,12 +145,12 @@ class CreateEventFragment : Fragment() {
 
     private fun onClickTimePicker() {
 
-        val timeListener =
+        val timeListener =//init time picker
             TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 cal.set(Calendar.MINUTE, minute)
-                viewModel.hourEvent.value = hourOfDay
-                viewModel.minuteEvent.value = minute
+                viewModel.hourEvent.value = hourOfDay//get hour pick
+                viewModel.minuteEvent.value = minute//get minute pick
 
 
             }
@@ -168,7 +168,7 @@ class CreateEventFragment : Fragment() {
 
     //  ---------           SET SPINNER LIST AND ADAPTER          --------------
 
-    private fun setSpinnerInt() {
+    private fun setSpinnerInt() {//init spinner for max customer
 
         val adapter =
             ArrayAdapter<String>(requireContext(), R.layout.dropdown_menu, viewModel.listInt)
@@ -179,7 +179,7 @@ class CreateEventFragment : Fragment() {
 
     //-------------ALERT DIALOG CONFIRM----------
 
-    private fun alertDialogConfirm() {
+    private fun alertDialogConfirm() {//init alert dialog for create event
 
         val mDialog = LayoutInflater.from(requireContext())
             .inflate(R.layout.alert_dialog_save, null)
@@ -188,17 +188,17 @@ class CreateEventFragment : Fragment() {
         val mAlertDialog = mBuilder.show()
         mDialog.buttonYes.setOnClickListener {
 
-            viewModel.createEvent()
-            viewModel.clearInfosEvent()
-            view!!.findNavController().navigate(R.id.action_createEventFragment_to_evenementFragment)
+            viewModel.createEvent()//create event
+            viewModel.clearInfosEvent()//clear infos for next creation
+            view!!.findNavController().navigate(R.id.action_createEventFragment_to_evenementFragment)//navigate to event fragment
 
 
-            mAlertDialog.dismiss()
+            mAlertDialog.dismiss()//dismiss alert dialog
         }
         mDialog.buttonNo.setOnClickListener {
 
 
-            mAlertDialog.dismiss()
+            mAlertDialog.dismiss()//dismiss alert dialog
 
         }
 

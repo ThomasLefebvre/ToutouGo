@@ -81,11 +81,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
         when (placeViewModel.isPlaceOrEvent.value) {
             getString(R.string.event) -> placeViewModel.messageMapFragment.value =
-                "Clic sur le lieu ou tu veux créer ton événement"
+               getString(R.string.map_create_event)
             getString(R.string.place) -> placeViewModel.messageMapFragment.value =
-                "Clic sur la carte pour indiquer l'emplacement du lieu à créer."
+                getString(R.string.map_create_place)
             null -> placeViewModel.messageMapFragment.value =
-                "Visualise les lieux et évenements en cliquant sur les icones"
+            getString(R.string.visualise)
         }
 
         binding.lifecycleOwner = activity
@@ -162,7 +162,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         mGoogleMap.setOnMarkerClickListener(this)
 
 
-        placeViewModel.listPlaceMap.observe(this, Observer { listPlace ->
+        placeViewModel.listPlaceMap.observe(this, Observer { listPlace ->//observe list place and create marker
             var index: Int = 0
             for (place in listPlace) {
                 val latLng = LatLng(place.lat, place.lng)
@@ -180,15 +180,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
             mGoogleMap.uiSettings.isMyLocationButtonEnabled = true//enable button location
             mGoogleMap.isMyLocationEnabled = true//enable location service
             Log.d("MAP", locationViewModel.lastLatitute.value.toString())
-            val currentLatLng = LatLng(
+            val currentLatLng = LatLng(//init user position
                 locationViewModel.lastLatitute.value!!,
                 locationViewModel.lastLongitude.value!!
             )
-            if (firstMap) {
 
-            }
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 14f))
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 14f))//move camera to user location
         }
+
         Log.d("MAP", locationViewModel.lastLatitute.value.toString())
 
     }
@@ -204,7 +203,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
         if (markerClick != null) {//pick address only on marker click
             if (placeViewModel.adressPlace.value != null) {//if address is correct
                 view!!.findNavController().navigate(R.id.action_mapFragment_to_createPlaceFragment)
-                Log.d("MAP", "click on infos windows")
             } else {//address not correct
                 Snackbar.make(
                     requireView(),
@@ -307,7 +305,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
 
-    private fun createMarkerRoad(
+    private fun createMarkerRoad(//create marker road
         latLng: LatLng?,
         titleMarker: String,
         idPlace: String,
@@ -326,7 +324,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
 
     // ------------ ON CLICK BUTTON ------
 
-    private fun onClickInfosButton() {
+    private fun onClickInfosButton() {//click info button
         binding.buttonInfos.setOnClickListener {
             Snackbar.make(
                 requireView(),
@@ -338,7 +336,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnInfoWindowClickL
     }
 
 
-    private fun fragmentDetailPlace() {
+    private fun fragmentDetailPlace() {//init fragment details
 
         val detailFragment = DetailPlaceFragment()
         val fragmentManager = getFragmentManager()
