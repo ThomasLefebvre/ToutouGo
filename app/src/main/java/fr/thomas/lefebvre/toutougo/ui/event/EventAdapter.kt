@@ -40,6 +40,8 @@ class EventAdapter(val lat:Double,val long:Double,val clickListener: EventListen
     }
 }
 
+// TEST CODE
+
 
 class EventDiffCallback : DiffUtil.ItemCallback<Event>() {
 
